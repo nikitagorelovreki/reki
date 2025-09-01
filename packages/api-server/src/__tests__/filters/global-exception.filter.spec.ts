@@ -6,7 +6,7 @@ import {
   NotFoundError, 
   AuthenticationError,
   DomainError,
-} from '@reki/domain';
+} from '@cuis/domain';
 
 describe('GlobalExceptionFilter', () => {
   let filter: GlobalExceptionFilter;

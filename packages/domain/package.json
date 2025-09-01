@@ -1,7 +1,7 @@
 {
-  "name": "@reki/domain",
+  "name": "@cuis/domain",
   "version": "0.1.0",
-  "description": "Domain models and business logic for REKI",
+  "description": "Domain models and business logic for CUIS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

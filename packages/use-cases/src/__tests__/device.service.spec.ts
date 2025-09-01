@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { DeviceService } from '../services/device.service';
-import { Device, DeviceRepositoryPort, DeviceStatus, PaginationOptions } from '@reki/domain';
+import { Device, DeviceRepositoryPort, DeviceStatus, PaginationOptions } from '@cuis/domain';
 
 describe('DeviceService', () => {
   let service: DeviceService;

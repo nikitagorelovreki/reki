@@ -21,7 +21,7 @@ async function prompt(question) {
 }
 
 async function createPackage() {
-  console.log('\n===== REKI Package Generator =====\n');
+  console.log('\n===== CUIS Package Generator =====\n');
   
   const packageName = await prompt('Enter package name (e.g., "notifications"): ');
   if (!packageName || packageName.trim() === '') {
@@ -30,7 +30,7 @@ async function createPackage() {
     return;
   }
   
-  const fullName = `@reki/${packageName}`;
+  const fullName = `@cuis/${packageName}`;
   const description = await prompt('Enter package description: ');
   const packageDir = path.join(PACKAGES_DIR, packageName);
   
@@ -50,7 +50,7 @@ async function createPackage() {
   const packageJson = {
     name: fullName,
     version: '0.1.0',
-    description: description || `${packageName} module for REKI`,
+    description: description || `${packageName} module for CUIS`,
     main: 'dist/index.js',
     types: 'dist/index.d.ts',
     scripts: {
@@ -80,16 +80,16 @@ async function createPackage() {
   // Ask about dependencies
   console.log('\nSelect dependencies (y/n):');
   
-  if (await prompt('Include @reki/domain? (y/n): ') === 'y') {
-    packageJson.dependencies['@reki/domain'] = '^0.1.0';
+  if (await prompt('Include @cuis/domain? (y/n): ') === 'y') {
+    packageJson.dependencies['@cuis/domain'] = '^0.1.0';
   }
   
-  if (await prompt('Include @reki/use-cases? (y/n): ') === 'y') {
-    packageJson.dependencies['@reki/use-cases'] = '^0.1.0';
+  if (await prompt('Include @cuis/use-cases? (y/n): ') === 'y') {
+    packageJson.dependencies['@cuis/use-cases'] = '^0.1.0';
   }
   
-  if (await prompt('Include @reki/persistence? (y/n): ') === 'y') {
-    packageJson.dependencies['@reki/persistence'] = '^0.1.0';
+  if (await prompt('Include @cuis/persistence? (y/n): ') === 'y') {
+    packageJson.dependencies['@cuis/persistence'] = '^0.1.0';
   }
   
   if (await prompt('Include NestJS? (y/n): ') === 'y') {

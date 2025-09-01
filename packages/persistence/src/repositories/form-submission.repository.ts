@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FormSubmission, FormSubmissionRepositoryPort, PaginatedResult, PaginationOptions } from '@reki/domain';
+import { FormSubmission, FormSubmissionRepositoryPort, PaginatedResult, PaginationOptions } from '@cuis/domain';
 import { DatabaseService } from '../database/database.service';
 import { objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
 

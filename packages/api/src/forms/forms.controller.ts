@@ -19,8 +19,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FormService } from '@reki/use-cases';
-import { FormStatus, FormType } from '@reki/domain';
+import { FormService } from '@cuis/use-cases';
+import { FormStatus, FormType } from '@cuis/domain';
 import { defaultForms } from './seed/default-forms';
 import { CreateFormDto, FormResponseDto, UpdateFormDto } from './dto/form.dto';
 import { convertDtoTypes } from '../common/dto-converter';

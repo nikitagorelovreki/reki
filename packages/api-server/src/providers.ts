@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
-import { CLIENT_REPOSITORY, DEVICE_REPOSITORY } from '@reki/domain';
-import { ClientRepository, DeviceRepository } from '@reki/persistence';
+import { CLIENT_REPOSITORY, DEVICE_REPOSITORY } from '@cuis/domain';
+import { ClientRepository, DeviceRepository } from '@cuis/persistence';
 
 // Providers для связывания портов с их реализациями
 export const providers: Provider[] = [

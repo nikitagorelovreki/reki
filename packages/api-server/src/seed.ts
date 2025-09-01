@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { ClientService, DeviceService, FormEntryService, FormService } from '@reki/use-cases';
-import { ClientStatus, DeviceStatus, FormEntryStatus, FormStatus, FormType } from '@reki/domain';
+import { ClientService, DeviceService, FormEntryService, FormService } from '@cuis/use-cases';
+import { ClientStatus, DeviceStatus, FormEntryStatus, FormStatus, FormType } from '@cuis/domain';
 import { defaultForms } from '../../../packages/api/src/forms/seed/default-forms';
 
 async function bootstrap() {

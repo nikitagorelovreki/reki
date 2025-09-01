@@ -1,6 +1,6 @@
 import { DeviceRepository } from '../repositories/device.repository';
 import { DatabaseService } from '../database/database.service';
-import { Device, DeviceStatus } from '@reki/domain';
+import { Device, DeviceStatus } from '@cuis/domain';
 
 describe('DeviceRepository', () => {
   let repository: DeviceRepository;

@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FormEntryService } from '@reki/use-cases';
+import { FormEntryService } from '@cuis/use-cases';
 import { 
   CreateFormSubmissionDto, 
   FormSubmissionResponseDto, 
   ImportFlowerFormDto,
   UpdateFormSubmissionDto
 } from './dto/form-submission.dto';
-import { FormSubmission, PaginationOptions } from '@reki/domain';
+import { FormSubmission, PaginationOptions } from '@cuis/domain';
 
 @ApiTags('form-submissions')
 @Controller('form-submissions')

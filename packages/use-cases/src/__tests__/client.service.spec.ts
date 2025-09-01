@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { ClientService } from '../services/client.service';
-import { Client, ClientRepositoryPort, ClientStatus, PaginationOptions } from '@reki/domain';
+import { Client, ClientRepositoryPort, ClientStatus, PaginationOptions } from '@cuis/domain';
 
 describe('ClientService', () => {
   let service: ClientService;

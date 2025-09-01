@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
-import { FormEntryStatus } from '@reki/domain';
+import { FormEntryStatus } from '@cuis/domain';
 
 /**
  * DTO для создания заполнения формы

@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { FormService } from '../services/form.service';
-import { FormModel, FormStatus, FormType, IFormRepository, PaginationOptions } from '@reki/domain';
+import { FormModel, FormStatus, FormType, IFormRepository, PaginationOptions } from '@cuis/domain';
 
 describe('FormService', () => {
   let service: FormService;

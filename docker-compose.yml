@@ -3,9 +3,9 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-reki}
-      POSTGRES_USER: ${POSTGRES_USER:-reki}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-reki}
+      POSTGRES_DB: ${POSTGRES_DB:-cuis}
+      POSTGRES_USER: ${POSTGRES_USER:-cuis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cuis}
     ports:
       - "5432:5432"
     volumes:

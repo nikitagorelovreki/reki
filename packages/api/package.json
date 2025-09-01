@@ -1,7 +1,7 @@
 {
-  "name": "@reki/api",
+  "name": "@cuis/api",
   "version": "0.1.0",
-  "description": "API controllers and DTOs for REKI",
+  "description": "API controllers and DTOs for CUIS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,8 +17,8 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@reki/domain": "^0.1.0",
-    "@reki/use-cases": "^0.1.0",
+    "@cuis/domain": "^0.1.0",
+    "@cuis/use-cases": "^0.1.0",
     "class-validator": "^0.14.0",
     "class-transformer": "^0.5.1"
   },

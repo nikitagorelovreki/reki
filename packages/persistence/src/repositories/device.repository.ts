@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Device, DeviceRepositoryPort, DeviceStatus, PaginatedResult, PaginationOptions } from '@reki/domain';
+import { Device, DeviceRepositoryPort, DeviceStatus, PaginatedResult, PaginationOptions } from '@cuis/domain';
 import { DatabaseService } from '../database/database.service';
 import { objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
 
