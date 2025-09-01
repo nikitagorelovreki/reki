@@ -1,7 +1,7 @@
 {
-  "name": "@cuis/use-cases",
+  "name": "@reki/use-cases",
   "version": "0.1.0",
-  "description": "Business use cases and service implementations for CUIS",
+  "description": "Business use cases and service implementations for REKI",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,7 +17,7 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@cuis/domain": "^0.1.0",
+    "@reki/domain": "^0.1.0",
     "uuid": "^9.0.0"
   },
   "peerDependencies": {
@@ -40,18 +40,27 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "roots": ["<rootDir>/src"],
-    "testMatch": ["**/__tests__/**/*.ts", "**/*.spec.ts", "**/*.test.ts"],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.ts",
+      "**/*.spec.ts",
+      "**/*.test.ts"
+    ],
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.d.ts",
       "!src/index.ts"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
   }
 }

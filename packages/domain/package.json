@@ -1,7 +1,7 @@
 {
-  "name": "@cuis/domain",
+  "name": "@reki/domain",
   "version": "0.1.0",
-  "description": "Domain models and business logic for CUIS",
+  "description": "Domain models and business logic for REKI",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -30,8 +30,14 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "roots": ["<rootDir>/src"],
-    "testMatch": ["**/__tests__/**/*.ts", "**/*.spec.ts", "**/*.test.ts"],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.ts",
+      "**/*.spec.ts",
+      "**/*.test.ts"
+    ],
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
@@ -41,6 +47,10 @@
       "!src/index.ts"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "cuis-monorepo",
+  "name": "reki-monorepo",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -16,31 +16,25 @@
     "type-check": "turbo run type-check",
     "test": "turbo run test",
     "clean": "turbo run clean",
-    
     "lint:root": "eslint . --fix",
     "format:root": "prettier --write .",
     "format:check:root": "prettier --check .",
-    
-    "api:dev": "turbo run dev --filter=@cuis/api-server",
-    "api:build": "turbo run build --filter=@cuis/api-server",
+    "api:dev": "turbo run dev --filter=@reki/api-server",
+    "api:build": "turbo run build --filter=@reki/api-server",
     "api:start": "node packages/api-server/dist/main.js",
-    "api:lint": "turbo run lint --filter=@cuis/api-server",
-    "api:format": "turbo run format --filter=@cuis/api-server",
-    
-    "frontend:dev": "turbo run dev --filter=@cuis/frontend",
-    "frontend:build": "turbo run build --filter=@cuis/frontend",
-    "frontend:lint": "turbo run lint --filter=@cuis/frontend",
-    "frontend:format": "turbo run format --filter=@cuis/frontend",
-    
+    "api:lint": "turbo run lint --filter=@reki/api-server",
+    "api:format": "turbo run format --filter=@reki/api-server",
+    "frontend:dev": "turbo run dev --filter=@reki/frontend",
+    "frontend:build": "turbo run build --filter=@reki/frontend",
+    "frontend:lint": "turbo run lint --filter=@reki/frontend",
+    "frontend:format": "turbo run format --filter=@reki/frontend",
     "packages:build": "turbo run build --filter=./packages/*",
     "packages:dev": "turbo run dev --filter=./packages/*",
     "packages:lint": "turbo run lint --filter=./packages/*",
     "packages:format": "turbo run format --filter=./packages/*",
     "packages:test": "turbo run test --filter=./packages/*",
     "test": "turbo run test",
-    
     "create:package": "node scripts/create-package.js",
-    
     "prepare": "husky install || true"
   },
   "devDependencies": {
