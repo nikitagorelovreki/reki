@@ -20,7 +20,16 @@ export class ClientsService {
   ) {}
 
   async create(createClientDto: CreateClientDto): Promise<ClientResponseDto> {
+    // Формируем fullName из firstName, lastName и middleName
+    const nameParts = [
+      createClientDto.lastName,
+      createClientDto.firstName,
+      createClientDto.middleName,
+    ].filter(Boolean);
+    const fullName = nameParts.join(' ');
+
     const client = new Client({
+      fullName,
       firstName: createClientDto.firstName,
       lastName: createClientDto.lastName,
       middleName: createClientDto.middleName,
@@ -215,6 +224,16 @@ export class ClientsService {
       updateData.status = updateClientDto.status;
     if (updateClientDto.clinicId !== undefined)
       updateData.clinicId = updateClientDto.clinicId;
+
+    // Формируем fullName из firstName, lastName и middleName
+    const firstName = updateData.firstName || client.firstName;
+    const lastName = updateData.lastName || client.lastName;
+    const middleName = updateData.middleName || client.middleName;
+
+    if (firstName || lastName || middleName) {
+      const nameParts = [lastName, firstName, middleName].filter(Boolean);
+      updateData.fullName = nameParts.join(' ');
+    }
 
     // Обновляем контакты
     if (
