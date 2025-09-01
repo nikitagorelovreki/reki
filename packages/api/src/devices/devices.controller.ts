@@ -17,8 +17,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { DeviceService } from '@cuis/use-cases';
-import { DeviceStatus } from '@cuis/domain';
+import { DeviceService } from '@reki/use-cases';
+import { DeviceStatus } from '@reki/domain';
 import { CreateDeviceDto, DeviceResponseDto, UpdateDeviceDto } from './dto/device.dto';
 import { convertDtoTypes } from '../common/dto-converter';
 

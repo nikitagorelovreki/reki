@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FormEntryService } from '@cuis/use-cases';
+import { FormEntryService } from '@reki/use-cases';
 import { 
   CreateFormSubmissionDto, 
   FormSubmissionResponseDto, 
   ImportFlowerFormDto,
   UpdateFormSubmissionDto
 } from './dto/form-submission.dto';
-import { FormSubmission, PaginationOptions } from '@cuis/domain';
+import { FormEntryModel, PaginationOptions } from '@reki/domain';
 
 @ApiTags('form-submissions')
 @Controller('form-submissions')
@@ -17,20 +17,20 @@ export class FormSubmissionsController {
   @Post()
   @ApiOperation({ summary: 'Create a new form submission' })
   @ApiResponse({ status: 201, description: 'The form submission has been successfully created.', type: FormSubmissionResponseDto })
-  async create(@Body() createSubmissionDto: CreateFormSubmissionDto): Promise<FormSubmission> {
+  async create(@Body() createSubmissionDto: CreateFormSubmissionDto): Promise<FormEntryModel> {
     const result = await this.submissionService.createFormEntry({
       formId: createSubmissionDto.formId,
       patientId: createSubmissionDto.clientId,
       data: createSubmissionDto.data || {},
       createdBy: createSubmissionDto.therapistName
     });
-    return result as any;
+    return result;
   }
 
   @Post('import')
   @ApiOperation({ summary: 'Import form data from Flower Form' })
   @ApiResponse({ status: 201, description: 'The form data has been successfully imported.', type: FormSubmissionResponseDto })
-  async importFlowerForm(@Body() importDto: ImportFlowerFormDto): Promise<any> {
+  async importFlowerForm(@Body() _importDto: ImportFlowerFormDto): Promise<unknown> {
     // TODO: Fix this method - temporarily simplified
     return { message: 'Method under development' };
   }
@@ -102,7 +102,7 @@ export class FormSubmissionsController {
   @ApiResponse({ status: 200, description: 'Return form submissions by client and form', type: [FormSubmissionResponseDto] })
   async findByClientAndForm(
     @Param('clientId') clientId: string,
-    @Param('formId') formId: string,
+    @Param('_formId') _formId: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
@@ -123,10 +123,10 @@ export class FormSubmissionsController {
   async findLatestByClientAndForm(
     @Param('clientId') clientId: string,
     @Param('formId') formId: string,
-  ): Promise<FormSubmission | null> {
+  ): Promise<FormEntryModel | null> {
     // TODO: Implement latest query - for now get by patient
     const entries = await this.submissionService.getFormEntriesByPatientId(clientId, { limit: 1, sortOrder: 'desc' });
-    return (entries.data[0] as any) || null;
+    return (entries.data[0] as FormEntryModel) || null;
   }
 
   @Get(':id')
@@ -134,9 +134,9 @@ export class FormSubmissionsController {
   @ApiParam({ name: 'id', description: 'Form Submission ID' })
   @ApiResponse({ status: 200, description: 'Return the form submission', type: FormSubmissionResponseDto })
   @ApiResponse({ status: 404, description: 'Form submission not found' })
-  async findOne(@Param('id') id: string): Promise<FormSubmission> {
+  async findOne(@Param('id') id: string): Promise<FormEntryModel> {
     const result = await this.submissionService.getFormEntryById(id);
-    return result as any;
+    return result;
   }
 
   @Put(':id')
@@ -147,14 +147,13 @@ export class FormSubmissionsController {
   async update(
     @Param('id') id: string,
     @Body() updateSubmissionDto: UpdateFormSubmissionDto,
-  ): Promise<FormSubmission> {
-    const updateData: Partial<FormSubmission> = {
-      ...updateSubmissionDto,
-      submissionDate: updateSubmissionDto.submissionDate ? new Date(updateSubmissionDto.submissionDate) : undefined
+  ): Promise<FormEntryModel> {
+    const updateData: Partial<FormEntryModel> = {
+      ...updateSubmissionDto
     };
     
     const result = await this.submissionService.updateFormEntry(id, updateData);
-    return result as any;
+    return result;
   }
 
   @Delete(':id')

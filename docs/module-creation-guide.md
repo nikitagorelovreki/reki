@@ -1,6 +1,6 @@
 # Module Creation Guide
 
-This guide explains how to create new modules in the CUIS (Cosyma Unified Info-System) codebase, following the established clean architecture patterns.
+This guide explains how to create new modules in the Reki codebase, following the established clean architecture patterns.
 
 ## Overview
 
@@ -162,7 +162,7 @@ export * from './ports/patient-repository.port';
 **Pattern 1: Interface Implementation** (Device/Client pattern)
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { Patient, PatientStatus, PatientRepositoryPort, PaginationOptions, PaginatedResult } from '@cuis/domain';
+import { Patient, PatientStatus, PatientRepositoryPort, PaginationOptions, PaginatedResult } from '@reki/domain';
 import { DatabaseService } from '../database/database.service';
 import { objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
 
@@ -214,7 +214,7 @@ export class PatientRepository implements PatientRepositoryPort {
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
-import { Patient, PatientStatus, IPatientRepository, PaginationOptions, PaginatedResult } from '@cuis/domain';
+import { Patient, PatientStatus, IPatientRepository, PaginationOptions, PaginatedResult } from '@reki/domain';
 import { DatabaseService } from '../database/database.service';
 import { objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
 
@@ -282,7 +282,7 @@ import {
   PaginationOptions, 
   PaginatedResult,
   PATIENT_REPOSITORY
-} from '@cuis/domain';
+} from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -346,7 +346,7 @@ import {
   IPatientRepository,
   PaginationOptions, 
   PaginatedResult
-} from '@cuis/domain';
+} from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -559,7 +559,7 @@ import {
   HttpStatus
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
-import { PatientService } from '@cuis/use-cases';
+import { PatientService } from '@reki/use-cases';
 import { CreatePatientDto, UpdatePatientDto, PatientResponseDto } from './dto/patient.dto';
 
 @ApiTags('patients')
@@ -652,8 +652,8 @@ PatientsModule,
 1. Update `packages/api-server/src/providers.ts`:
 ```typescript
 // Add to imports
-import { PATIENT_REPOSITORY } from '@cuis/domain';
-import { PatientRepository } from '@cuis/persistence';
+import { PATIENT_REPOSITORY } from '@reki/domain';
+import { PatientRepository } from '@reki/persistence';
 
 // Add to providers array
 {
@@ -830,7 +830,7 @@ All controllers should:
 When creating a new module, ensure proper dependency management:
 
 1. **Domain package**: Add any new dependencies to `packages/domain/package.json`
-2. **Cross-package imports**: Use the `@cuis/{package}` namespace
+2. **Cross-package imports**: Use the `@reki/{package}` namespace
 3. **TypeScript configuration**: Each package has its own `tsconfig.json`
 
 ## Testing Your Module
@@ -847,7 +847,7 @@ After creating your module:
 
 ### Common Issues
 
-1. **Import errors**: Ensure you're using the correct `@cuis/{package}` imports
+1. **Import errors**: Ensure you're using the correct `@reki/{package}` imports
 2. **Dependency injection**: For Pattern 1, verify tokens are properly configured in `packages/api-server/src/providers.ts`
 3. **Database errors**: Check table names and field mappings in repository
 4. **Validation errors**: Ensure DTOs have proper decorators

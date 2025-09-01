@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
@@ -26,7 +26,7 @@ async function bootstrap() {
   // Swagger setup
   const config = new DocumentBuilder()
     .setTitle('CUIS API')
-    .setDescription('Cosyma Unified Info-System API Documentation')
+    .setDescription('Reki Medical Device Management System API Documentation')
     .setVersion('0.9.0')
     .addBearerAuth()
     .addTag('devices', 'Device management')

@@ -1,5 +1,5 @@
 # CUIS User Guide
-## Cosyma Unified Info-System - Control Panel
+## Reki Medical Device Management System - Control Panel
 
 ### Table of Contents
 1. [Overview](#overview)
@@ -17,7 +17,7 @@
 
 ## Overview
 
-CUIS (Cosyma Unified Info-System) is a comprehensive control panel designed for healthcare facilities to manage medical devices, patients (clients), and assessment forms. The system helps streamline operations by providing a centralized platform for tracking equipment, managing patient information, and conducting standardized assessments.
+Reki is a comprehensive control panel designed for healthcare facilities to manage medical devices, patients (clients), and assessment forms. The system helps streamline operations by providing a centralized platform for tracking equipment, managing patient information, and conducting standardized assessments.
 
 ### Key Features
 - **Device Management**: Track medical devices across different locations and statuses

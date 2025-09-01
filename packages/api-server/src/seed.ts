@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { ClientService, DeviceService, FormEntryService, FormService } from '@cuis/use-cases';
-import { ClientStatus, DeviceStatus, FormEntryStatus, FormStatus, FormType } from '@cuis/domain';
+import { ClientService, DeviceService, FormEntryService, FormService } from '@reki/use-cases';
+import { ClientStatus, DeviceStatus, FormStatus, FormType } from '@reki/domain';
 import { defaultForms } from '../../../packages/api/src/forms/seed/default-forms';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const logger = new Logger('Seed');
   logger.log('Starting database seed...');
 
@@ -83,7 +83,7 @@ async function bootstrap() {
       if (lfkForm) {
         for (let i = 0; i < 3; i++) {
           const client = clients[i % clients.length];
-          const entry = await formEntryService.createFormEntry({
+          const _entry = await formEntryService.createFormEntry({
             formId: lfkForm.id,
             patientId: client.id,
             createdBy: 'Доктор Иванов',
@@ -112,7 +112,7 @@ async function bootstrap() {
       if (fimForm) {
         for (let i = 0; i < 3; i++) {
           const client = clients[i % clients.length];
-          const entry = await formEntryService.createFormEntry({
+          const _entry = await formEntryService.createFormEntry({
             formId: fimForm.id,
             patientId: client.id,
             createdBy: 'Доктор Петров',

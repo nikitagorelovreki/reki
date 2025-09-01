@@ -1,7 +1,7 @@
 {
-  "name": "@cuis/persistence",
+  "name": "@reki/persistence",
   "version": "0.1.0",
-  "description": "Data persistence layer for CUIS",
+      "description": "Data persistence layer for Reki",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,7 +17,7 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@cuis/domain": "^0.1.0",
+    "@reki/domain": "^0.1.0",
     "knex": "^3.1.0",
     "pg": "^8.11.0"
   },

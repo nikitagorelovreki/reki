@@ -172,8 +172,8 @@ import { Injectable } from '@nestjs/common';
 import { Button, Card } from 'antd';
 
 // 2. Internal packages (monorepo)
-import { User, UserStatus } from '@cuis/domain';
-import { UserService } from '@cuis/use-cases';
+import { User, UserStatus } from '@reki/domain';
+import { UserService } from '@reki/use-cases';
 
 // 3. Relative imports
 import { UserCard } from './UserCard';
@@ -187,7 +187,7 @@ import type { UserProps } from '../types';
 ```typescript
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'antd';
-import type { User } from '@cuis/domain';
+import type { User } from '@reki/domain';
 
 interface UserCardProps {
   user: User;

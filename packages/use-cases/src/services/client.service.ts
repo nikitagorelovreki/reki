@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { 
   Client, 
-  ClientRepositoryPort, 
   ClientStatus, 
-  PaginatedResult, 
-  PaginationOptions 
-} from '@cuis/domain';
+  ClientRepositoryPort, 
+  PaginationOptions, 
+  PaginatedResult 
+} from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FormEntryModel, FormEntryStatus, IFormEntryRepository, PaginatedResult, PaginationOptions } from '@cuis/domain';
+import { FormEntryModel, FormEntryStatus, IFormEntryRepository, PaginatedResult, PaginationOptions } from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

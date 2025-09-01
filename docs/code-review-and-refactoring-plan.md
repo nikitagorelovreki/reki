@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document presents a comprehensive code review of the Reki (CUIS - Cosyma Unified Info-System) project and provides a structured refactoring plan. The review is organized into three main phases:
+This document presents a comprehensive code review of the Reki project and provides a structured refactoring plan. The review is organized into three main phases:
 
 1. System Design Review
 2. Architecture Review

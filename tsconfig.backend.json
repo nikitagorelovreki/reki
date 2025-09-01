@@ -31,14 +31,14 @@
     // Paths for backend packages
     "baseUrl": ".",
     "paths": {
-      "@cuis/domain": ["./packages/domain/src"],
-      "@cuis/domain/*": ["./packages/domain/src/*"],
-      "@cuis/persistence": ["./packages/persistence/src"],
-      "@cuis/persistence/*": ["./packages/persistence/src/*"],
-      "@cuis/use-cases": ["./packages/use-cases/src"],
-      "@cuis/use-cases/*": ["./packages/use-cases/src/*"],
-      "@cuis/api": ["./packages/api/src"],
-      "@cuis/api/*": ["./packages/api/src/*"]
+          "@reki/domain": ["./packages/domain/src"],
+    "@reki/domain/*": ["./packages/domain/src/*"],
+    "@reki/persistence": ["./packages/persistence/src"],
+    "@reki/persistence/*": ["./packages/persistence/src/*"],
+    "@reki/use-cases": ["./packages/use-cases/src"],
+    "@reki/use-cases/*": ["./packages/use-cases/src/*"],
+    "@reki/api": ["./packages/api/src"],
+    "@reki/api/*": ["./packages/api/src/*"]
     }
   },
   "include": [

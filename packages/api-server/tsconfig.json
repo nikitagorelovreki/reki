@@ -18,10 +18,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@cuis/domain": ["../../packages/domain/src"],
-      "@cuis/persistence": ["../../packages/persistence/src"],
-      "@cuis/use-cases": ["../../packages/use-cases/src"],
-      "@cuis/api": ["../../packages/api/src"]
+          "@reki/domain": ["../../packages/domain/src"],
+    "@reki/persistence": ["../../packages/persistence/src"],
+    "@reki/use-cases": ["../../packages/use-cases/src"],
+    "@reki/api": ["../../packages/api/src"]
     }
   }
 }

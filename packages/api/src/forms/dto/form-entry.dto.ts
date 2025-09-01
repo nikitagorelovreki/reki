@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsObject, IsOptional, IsString, IsUUID } from 'class-validator';
-import { FormEntryStatus } from '@cuis/domain';
+import { IsEnum, IsNumber, IsObject, IsOptional, IsUUID } from 'class-validator';
+import { FormEntryStatus } from '@reki/domain';
 
 /**
  * DTO для создания заполнения формы
@@ -57,7 +57,7 @@ export class CreateFormEntryDto {
   })
   @IsObject()
   @IsOptional()
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 
   @ApiPropertyOptional({
     description: 'Оценка/баллы',
@@ -91,7 +91,7 @@ export class UpdateFormEntryDto {
   })
   @IsObject()
   @IsOptional()
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 
   @ApiPropertyOptional({
     description: 'Оценка/баллы',
@@ -115,7 +115,7 @@ export class SaveFormDataDto {
     },
   })
   @IsObject()
-  data!: Record<string, any>;
+  data!: Record<string, unknown>;
 }
 
 /**
@@ -167,7 +167,7 @@ export class FormEntryResponseDto {
       symptoms: ['головная боль', 'тошнота', 'головокружение'],
     },
   })
-  data!: Record<string, any>;
+  data!: Record<string, unknown>;
 
   @ApiPropertyOptional({
     description: 'Оценка/баллы',

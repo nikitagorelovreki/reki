@@ -61,8 +61,8 @@ This is a TypeScript monorepo with the following packages:
    import { Injectable } from '@nestjs/common';
 
    // 2. Internal packages (from other workspace packages)
-   import { Device, DeviceStatus } from '@cuis/domain';
-   import { DeviceService } from '@cuis/use-cases';
+   import { Device, DeviceStatus } from '@reki/domain';
+import { DeviceService } from '@reki/use-cases';
 
    // 3. Relative imports
    import { DeviceCard } from './DeviceCard';

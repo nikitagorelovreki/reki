@@ -1,4 +1,4 @@
-# CUIS - Cosyma Unified Info-System
+# Reki - Medical Device Management System
 
 Модульная система для управления устройствами, клиентами и сервисными заявками.
 

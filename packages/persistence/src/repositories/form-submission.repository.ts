@@ -1,47 +1,53 @@
 import { Injectable } from '@nestjs/common';
-import { FormSubmission, FormSubmissionRepositoryPort, PaginatedResult, PaginationOptions } from '@cuis/domain';
+import { FormEntryModel, IFormEntryRepository, PaginatedResult, PaginationOptions, FormEntryStatus } from '@reki/domain';
 import { DatabaseService } from '../database/database.service';
 import { objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
+import { Knex } from 'knex';
 
 @Injectable()
-export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
-  private readonly tableName = 'form_submissions';
+export class FormSubmissionRepository implements IFormEntryRepository {
+  private readonly tableName = 'form_entries';
   private readonly fieldMappings: Record<string, string> = {
     formId: 'form_id',
-    clientId: 'client_id',
-    therapistId: 'therapist_id',
-    therapistName: 'therapist_name',
-    submissionDate: 'submission_date',
+    patientId: 'patient_id',
+    deviceId: 'device_id',
+    clinicId: 'clinic_id',
+    status: 'status',
+    data: 'data',
+    score: 'score',
+    completedAt: 'completed_at',
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    createdBy: 'created_by',
+    updatedBy: 'updated_by',
   };
 
   constructor(private readonly db: DatabaseService) {}
 
-  async createSubmission(submission: FormSubmission): Promise<FormSubmission> {
-    const dbData = objectCamelToSnake(submission, this.fieldMappings);
+  async create(formEntry: FormEntryModel, trx?: Knex.Transaction): Promise<FormEntryModel> {
+    const dbData = objectCamelToSnake(formEntry, this.fieldMappings);
     
     // Ensure data is properly serialized as JSON
     if (dbData.data && typeof dbData.data === 'object') {
       dbData.data = JSON.stringify(dbData.data);
     }
     
-    const [result] = await this.db.knex(this.tableName)
-      .insert(dbData)
-      .returning('*');
+    const query = this.db.knex(this.tableName).insert(dbData).returning('*');
+    if (trx) query.transacting(trx);
     
-    return this.mapToSubmission(result);
+    const [result] = await query;
+    return this.mapToFormEntry(result);
   }
 
-  async findSubmissionById(id: string): Promise<FormSubmission | null> {
-    const result = await this.db.knex(this.tableName)
-      .where({ id })
-      .first();
+  async findById(id: string, trx?: Knex.Transaction): Promise<FormEntryModel | null> {
+    const query = this.db.knex(this.tableName).where({ id }).first();
+    if (trx) query.transacting(trx);
     
-    return result ? this.mapToSubmission(result) : null;
+    const result = await query;
+    return result ? this.mapToFormEntry(result) : null;
   }
 
-  async findAllSubmissions(options: PaginationOptions = {}): Promise<PaginatedResult<FormSubmission>> {
+  async findAll(options: PaginationOptions = {}, trx?: Knex.Transaction): Promise<PaginatedResult<FormEntryModel>> {
     const { page = 1, limit = 10, sortBy = 'created_at', sortOrder = 'desc' } = options;
     const offset = (page - 1) * limit;
     
@@ -52,8 +58,11 @@ export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
       .orderBy(dbSortField, sortOrder)
       .limit(limit)
       .offset(offset);
+    
+    if (trx) query.transacting(trx);
 
     const countQuery = this.db.knex(this.tableName).count('* as count');
+    if (trx) countQuery.transacting(trx);
 
     const [records, [{ count }]] = await Promise.all([query, countQuery]);
 
@@ -61,57 +70,63 @@ export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
     const totalPages = Math.ceil(total / limit);
 
     return {
-      data: records.map(record => this.mapToSubmission(record)),
+      data: records.map(record => this.mapToFormEntry(record)),
       pagination: { page, limit, total, totalPages },
     };
   }
 
-  async updateSubmission(id: string, submissionData: Partial<FormSubmission>): Promise<FormSubmission> {
-    const dbData = objectCamelToSnake(submissionData, this.fieldMappings);
+  async update(id: string, formEntry: Partial<FormEntryModel>, trx?: Knex.Transaction): Promise<FormEntryModel> {
+    const dbData = objectCamelToSnake(formEntry, this.fieldMappings);
     
     // Ensure data is properly serialized as JSON
     if (dbData.data && typeof dbData.data === 'object') {
       dbData.data = JSON.stringify(dbData.data);
     }
     
-    const [result] = await this.db.knex(this.tableName)
+    const query = this.db.knex(this.tableName)
       .where({ id })
       .update({ ...dbData, updated_at: new Date() })
       .returning('*');
     
+    if (trx) query.transacting(trx);
+    
+    const [result] = await query;
+    
     if (!result) {
-      throw new Error(`Form submission with ID ${id} not found`);
+      throw new Error(`Form entry with ID ${id} not found`);
     }
     
-    return this.mapToSubmission(result);
+    return this.mapToFormEntry(result);
   }
 
-  async deleteSubmission(id: string): Promise<void> {
-    const result = await this.db.knex(this.tableName)
-      .where({ id })
-      .del();
+  async delete(id: string, trx?: Knex.Transaction): Promise<boolean> {
+    const query = this.db.knex(this.tableName).where({ id }).del();
+    if (trx) query.transacting(trx);
     
-    if (result === 0) {
-      throw new Error(`Form submission with ID ${id} not found`);
-    }
+    const result = await query;
+    return result > 0;
   }
 
-  async findSubmissionsByClient(clientId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormSubmission>> {
+  async findByPatientId(patientId: string, options: PaginationOptions = {}, trx?: Knex.Transaction): Promise<PaginatedResult<FormEntryModel>> {
     const { page = 1, limit = 10, sortBy = 'created_at', sortOrder = 'desc' } = options;
     const offset = (page - 1) * limit;
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
     const query = this.db.knex(this.tableName)
-      .where({ client_id: clientId })
+      .where({ patient_id: patientId })
       .select('*')
       .orderBy(dbSortField, sortOrder)
       .limit(limit)
       .offset(offset);
+    
+    if (trx) query.transacting(trx);
 
     const countQuery = this.db.knex(this.tableName)
-      .where({ client_id: clientId })
+      .where({ patient_id: patientId })
       .count('* as count');
+    
+    if (trx) countQuery.transacting(trx);
 
     const [records, [{ count }]] = await Promise.all([query, countQuery]);
 
@@ -119,12 +134,12 @@ export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
     const totalPages = Math.ceil(total / limit);
 
     return {
-      data: records.map(record => this.mapToSubmission(record)),
+      data: records.map(record => this.mapToFormEntry(record)),
       pagination: { page, limit, total, totalPages },
     };
   }
 
-  async findSubmissionsByForm(formId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormSubmission>> {
+  async findByFormId(formId: string, options: PaginationOptions = {}, trx?: Knex.Transaction): Promise<PaginatedResult<FormEntryModel>> {
     const { page = 1, limit = 10, sortBy = 'created_at', sortOrder = 'desc' } = options;
     const offset = (page - 1) * limit;
     
@@ -136,10 +151,14 @@ export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
       .orderBy(dbSortField, sortOrder)
       .limit(limit)
       .offset(offset);
+    
+    if (trx) query.transacting(trx);
 
     const countQuery = this.db.knex(this.tableName)
       .where({ form_id: formId })
       .count('* as count');
+    
+    if (trx) countQuery.transacting(trx);
 
     const [records, [{ count }]] = await Promise.all([query, countQuery]);
 
@@ -147,33 +166,31 @@ export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
     const totalPages = Math.ceil(total / limit);
 
     return {
-      data: records.map(record => this.mapToSubmission(record)),
+      data: records.map(record => this.mapToFormEntry(record)),
       pagination: { page, limit, total, totalPages },
     };
   }
 
-  async findSubmissionsByClientAndForm(clientId: string, formId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormSubmission>> {
+  async findByDeviceId(deviceId: string, options: PaginationOptions = {}, trx?: Knex.Transaction): Promise<PaginatedResult<FormEntryModel>> {
     const { page = 1, limit = 10, sortBy = 'created_at', sortOrder = 'desc' } = options;
     const offset = (page - 1) * limit;
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
     const query = this.db.knex(this.tableName)
-      .where({ 
-        client_id: clientId,
-        form_id: formId 
-      })
+      .where({ device_id: deviceId })
       .select('*')
       .orderBy(dbSortField, sortOrder)
       .limit(limit)
       .offset(offset);
+    
+    if (trx) query.transacting(trx);
 
     const countQuery = this.db.knex(this.tableName)
-      .where({ 
-        client_id: clientId,
-        form_id: formId 
-      })
+      .where({ device_id: deviceId })
       .count('* as count');
+    
+    if (trx) countQuery.transacting(trx);
 
     const [records, [{ count }]] = await Promise.all([query, countQuery]);
 
@@ -181,39 +198,87 @@ export class FormSubmissionRepository implements FormSubmissionRepositoryPort {
     const totalPages = Math.ceil(total / limit);
 
     return {
-      data: records.map(record => this.mapToSubmission(record)),
+      data: records.map(record => this.mapToFormEntry(record)),
       pagination: { page, limit, total, totalPages },
     };
   }
 
-  async findLatestSubmissionByClientAndForm(clientId: string, formId: string): Promise<FormSubmission | null> {
-    const result = await this.db.knex(this.tableName)
-      .where({ 
-        client_id: clientId,
-        form_id: formId 
-      })
-      .orderBy('submission_date', 'desc')
-      .first();
+  async findByClinicId(clinicId: string, options: PaginationOptions = {}, trx?: Knex.Transaction): Promise<PaginatedResult<FormEntryModel>> {
+    const { page = 1, limit = 10, sortBy = 'created_at', sortOrder = 'desc' } = options;
+    const offset = (page - 1) * limit;
     
-    return result ? this.mapToSubmission(result) : null;
+    const dbSortField = this.fieldMappings[sortBy] || sortBy;
+
+    const query = this.db.knex(this.tableName)
+      .where({ clinic_id: clinicId })
+      .select('*')
+      .orderBy(dbSortField, sortOrder)
+      .limit(limit)
+      .offset(offset);
+    
+    if (trx) query.transacting(trx);
+
+    const countQuery = this.db.knex(this.tableName)
+      .where({ clinic_id: clinicId })
+      .count('* as count');
+    
+    if (trx) countQuery.transacting(trx);
+
+    const [records, [{ count }]] = await Promise.all([query, countQuery]);
+
+    const total = parseInt(count as string, 10);
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: records.map(record => this.mapToFormEntry(record)),
+      pagination: { page, limit, total, totalPages },
+    };
   }
 
-  getSubmissionQueryBuilder() {
-    return this.db.knex(this.tableName);
+  async findByStatus(status: FormEntryStatus, options: PaginationOptions = {}, trx?: Knex.Transaction): Promise<PaginatedResult<FormEntryModel>> {
+    const { page = 1, limit = 10, sortBy = 'created_at', sortOrder = 'desc' } = options;
+    const offset = (page - 1) * limit;
+    
+    const dbSortField = this.fieldMappings[sortBy] || sortBy;
+
+    const query = this.db.knex(this.tableName)
+      .where({ status })
+      .select('*')
+      .orderBy(dbSortField, sortOrder)
+      .limit(limit)
+      .offset(offset);
+    
+    if (trx) query.transacting(trx);
+
+    const countQuery = this.db.knex(this.tableName)
+      .where({ status })
+      .count('* as count');
+    
+    if (trx) countQuery.transacting(trx);
+
+    const [records, [{ count }]] = await Promise.all([query, countQuery]);
+
+    const total = parseInt(count as string, 10);
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: records.map(record => this.mapToFormEntry(record)),
+      pagination: { page, limit, total, totalPages },
+    };
   }
 
-  private mapToSubmission(data: any): FormSubmission {
-    const submissionData = objectSnakeToCamel(data, this.fieldMappings);
+  private mapToFormEntry(data: any): FormEntryModel {
+    const entryData = objectSnakeToCamel(data, this.fieldMappings);
     
     // Parse JSON data if it's a string
-    if (submissionData.data && typeof submissionData.data === 'string') {
+    if (entryData.data && typeof entryData.data === 'string') {
       try {
-        submissionData.data = JSON.parse(submissionData.data);
+        entryData.data = JSON.parse(entryData.data);
       } catch (e) {
         console.error('Error parsing JSON data:', e);
       }
     }
     
-    return new FormSubmission(submissionData);
+    return new FormEntryModel(entryData);
   }
 }

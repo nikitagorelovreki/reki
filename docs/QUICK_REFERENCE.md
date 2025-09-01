@@ -1,8 +1,8 @@
-# CUIS Quick Reference Guide
+# Reki Quick Reference Guide
 ## Cosyma Unified Info-System - Краткое руководство
 
 ### 🚀 Quick Start
-1. **Login** → Navigate to CUIS URL → Enter credentials
+1. **Login** → Navigate to Reki URL → Enter credentials
 2. **Dashboard** → Overview of system status and recent activity
 3. **Navigate** → Use sidebar to access different sections
 

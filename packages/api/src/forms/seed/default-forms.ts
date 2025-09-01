@@ -1,4 +1,4 @@
-import { FormStatus, FormType } from '@cuis/domain';
+import { FormStatus, FormType } from '@reki/domain';
 
 export const defaultForms = [
   {

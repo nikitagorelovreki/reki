@@ -1,6 +1,6 @@
-# CUIS Documentation Hub
+# Reki Documentation Hub
 
-Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified Info-System). This documentation covers all aspects of the system architecture, development practices, and implementation details.
+Welcome to the comprehensive developer documentation for Reki Medical Device Management System. This documentation covers all aspects of the system architecture, development practices, and implementation details.
 
 > **[🔙 Назад к главной странице проекта](../README.md)** | **[🏠 Project Overview](../README.md)**
 
@@ -30,7 +30,7 @@ Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified In
 
 ## 🏗️ System Overview
 
-CUIS is a modular medical device and patient management system built with:
+Reki is a comprehensive healthcare management platform that provides:
 
 - **Clean Architecture** principles
 - **Domain-Driven Design** (DDD) patterns  
@@ -78,7 +78,7 @@ CUIS is a modular medical device and patient management system built with:
 
 ### Package Architecture
 ```
-@cuis/
+@reki/
 ├── domain          # Core business logic (entities, interfaces)
 ├── persistence     # Data access layer (repositories, database)
 ├── use-cases       # Application services (business workflows)

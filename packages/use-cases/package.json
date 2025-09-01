@@ -1,7 +1,7 @@
 {
-  "name": "@cuis/use-cases",
+  "name": "@reki/use-cases",
   "version": "0.1.0",
-  "description": "Business use cases and service implementations for CUIS",
+      "description": "Business use cases and service implementations for Reki",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,7 +17,7 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@cuis/domain": "^0.1.0",
+    "@reki/domain": "^0.1.0",
     "uuid": "^9.0.0"
   },
   "peerDependencies": {
