@@ -1,5 +1,5 @@
 import { Client, ClientStatus } from '../models/client.model';
-import { PaginationOptions, PaginatedResult } from './device-repository.port';
+import { PaginatedResult, PaginationOptions } from './device-repository.port';
 
 export interface ClientRepositoryPort {
   // Базовые CRUD операции

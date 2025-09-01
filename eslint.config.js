@@ -25,11 +25,9 @@ export default tseslint.config([
   // Base configuration for all TypeScript files
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-    ],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     languageOptions: {
+      parser: tseslint.parser,
       ecmaVersion: 2022,
       sourceType: 'module',
       globals: {
@@ -51,8 +49,7 @@ export default tseslint.config([
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-empty-function': 'warn',
-      '@typescript-eslint/prefer-const': 'error',
-      '@typescript-eslint/no-var-requires': 'error',
+      'prefer-const': 'error',
 
       // Import/export rules
       'no-duplicate-imports': 'error',
@@ -73,12 +70,11 @@ export default tseslint.config([
       'no-var': 'error',
 
       // Formatting (handled by Prettier but good to have as backup)
-      'semi': ['error', 'always'],
-      'quotes': ['error', 'single', { avoidEscape: true }],
-      'comma-dangle': ['error', 'es5'],
+      semi: ['error', 'always'],
+      quotes: ['error', 'single', { avoidEscape: true }],
 
       // Best practices
-      'eqeqeq': ['error', 'always'],
+      eqeqeq: ['error', 'always'],
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error',
@@ -90,9 +86,7 @@ export default tseslint.config([
   // Frontend (React) specific configuration
   {
     files: ['packages/frontend/**/*.{ts,tsx}'],
-    extends: [
-      ...tseslint.configs.recommended,
-    ],
+    extends: [...tseslint.configs.recommended],
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
@@ -132,7 +126,12 @@ export default tseslint.config([
 
   // Backend (NestJS) specific configuration
   {
-    files: ['packages/api-server/**/*.ts', 'packages/use-cases/**/*.ts', 'packages/persistence/**/*.ts', 'packages/api/**/*.ts'],
+    files: [
+      'packages/api-server/**/*.ts',
+      'packages/use-cases/**/*.ts',
+      'packages/persistence/**/*.ts',
+      'packages/api/**/*.ts',
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -170,8 +169,8 @@ export default tseslint.config([
       '@typescript-eslint/explicit-module-boundary-types': 'error',
       'no-console': 'error',
 
-      // Ensure immutability patterns
-      '@typescript-eslint/prefer-readonly': 'warn',
+      // Ensure immutability patterns (requires type information)
+      // '@typescript-eslint/prefer-readonly': 'warn',
     },
   },
 
@@ -197,7 +196,6 @@ export default tseslint.config([
     files: ['**/*.config.{js,ts}', '**/vite.config.ts', '**/nest-cli.json'],
     rules: {
       // More relaxed rules for config files
-      '@typescript-eslint/no-var-requires': 'off',
       'no-console': 'off',
     },
   },

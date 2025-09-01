@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEnum, IsObject, IsInt, Min } from 'class-validator';
+import { IsEnum, IsInt, IsObject, IsOptional, IsString, Min } from 'class-validator';
 import { FormStatus, FormType } from '@cuis/domain';
 
 /**

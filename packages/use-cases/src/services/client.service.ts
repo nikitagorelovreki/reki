@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { 
   Client, 
-  ClientStatus, 
   ClientRepositoryPort, 
-  PaginationOptions, 
-  PaginatedResult 
+  ClientStatus, 
+  PaginatedResult, 
+  PaginationOptions 
 } from '@cuis/domain';
 import { v4 as uuidv4 } from 'uuid';
 

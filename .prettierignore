@@ -68,3 +68,10 @@ docs/generated/
 
 # PDF and other documents
 *.pdf
+
+# HTML files with potential syntax issues
+**/flower-form/**
+Flower Form/**
+
+# Special files
+.cursorrules

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // TypeScript and JavaScript files
   '*.{js,jsx,ts,tsx}': [
     'eslint --fix',
