@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Knex } from 'knex';
 import { DatabaseService } from '../database/database.service';
 import { FormEntryModel, FormEntryStatus, IFormEntryRepository, PaginatedResult, PaginationOptions } from '@cuis/domain';
-import { objectCamelToSnake, objectSnakeToCamel, camelToSnake } from '../utils/case-converter';
+import { camelToSnake, objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
 
 @Injectable()
 export class FormEntryRepository implements IFormEntryRepository {

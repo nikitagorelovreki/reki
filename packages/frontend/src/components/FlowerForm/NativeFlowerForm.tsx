@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Tabs, Spin, Alert, Button, Space, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Card, Space, Spin, Tabs, Typography } from 'antd';
 import { getFormsByType } from '../../api/forms';
 import LFKExamForm from './LFKExamForm';
 import FIMForm from './FIMForm';
@@ -58,7 +58,7 @@ const NativeFlowerForm: React.FC<NativeFlowerFormProps> = ({
     if (loading) {
       return (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '50px 0' }}>
-          <Spin size="large" tip="Загрузка формы..." />
+          <Spin size='large' tip='Загрузка формы...' />
         </div>
       );
     }
@@ -66,9 +66,9 @@ const NativeFlowerForm: React.FC<NativeFlowerFormProps> = ({
     if (error) {
       return (
         <Alert
-          message="Ошибка"
+          message='Ошибка'
           description={error}
-          type="error"
+          type='error'
           showIcon
         />
       );
@@ -77,9 +77,9 @@ const NativeFlowerForm: React.FC<NativeFlowerFormProps> = ({
     if (!formId) {
       return (
         <Alert
-          message="Форма не найдена"
-          description="Не удалось найти форму указанного типа"
-          type="warning"
+          message='Форма не найдена'
+          description='Не удалось найти форму указанного типа'
+          type='warning'
           showIcon
         />
       );
@@ -107,9 +107,9 @@ const NativeFlowerForm: React.FC<NativeFlowerFormProps> = ({
       default:
         return (
           <Alert
-            message="Неподдерживаемый тип формы"
+            message='Неподдерживаемый тип формы'
             description={`Тип формы ${activeFormType} не поддерживается`}
-            type="warning"
+            type='warning'
             showIcon
           />
         );
@@ -117,7 +117,7 @@ const NativeFlowerForm: React.FC<NativeFlowerFormProps> = ({
   };
 
   return (
-    <div className="native-flower-form">
+    <div className='native-flower-form'>
       <Card
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -1,0 +1,77 @@
+# Dependencies
+node_modules/
+*.lock
+yarn.lock
+package-lock.json
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+
+# Generated files
+*.d.ts.map
+*.js.map
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# Docker
+Dockerfile
+docker-compose*
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation that shouldn't be formatted
+docs/generated/
+*.generated.*
+
+# Database
+*.db
+*.sqlite
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Images and media
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.webp
+
+# Fonts
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# PDF and other documents
+*.pdf
+
+# HTML files with potential syntax issues
+**/flower-form/**
+Flower Form/**
+
+# Special files
+.cursorrules

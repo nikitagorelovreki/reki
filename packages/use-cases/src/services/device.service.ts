@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { 
   Device, 
-  DeviceStatus, 
+  DEVICE_REPOSITORY, 
   DeviceRepositoryPort, 
-  PaginationOptions, 
+  DeviceStatus, 
   PaginatedResult,
-  DEVICE_REPOSITORY
+  PaginationOptions
 } from '@cuis/domain';
 import { v4 as uuidv4 } from 'uuid';
 

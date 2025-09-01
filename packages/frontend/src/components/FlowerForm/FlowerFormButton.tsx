@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Drawer, Select, message } from 'antd';
+import { Button, Drawer, message, Modal, Select } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import NativeFlowerForm from './NativeFlowerForm';
@@ -71,21 +71,21 @@ const FlowerFormButton: React.FC<FlowerFormButtonProps> = ({
       </Button>
 
       <Modal
-        title="Выберите тип формы"
+        title='Выберите тип формы'
         open={formSelectVisible}
         onCancel={() => setFormSelectVisible(false)}
         footer={null}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Button 
-            type="primary" 
+            type='primary' 
             block 
             onClick={() => handleFormTypeSelect('lfk')}
           >
             Осмотр ЛФК
           </Button>
           <Button 
-            type="primary" 
+            type='primary' 
             block 
             onClick={() => handleFormTypeSelect('fim')}
           >

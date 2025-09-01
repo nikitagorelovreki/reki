@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { Device, CreateDeviceDto, PaginatedResponse, DeviceStatus } from '../types';
+import { CreateDeviceDto, Device, DeviceStatus, PaginatedResponse } from '../types';
 
 export const devicesApi = {
   // Get all devices with pagination

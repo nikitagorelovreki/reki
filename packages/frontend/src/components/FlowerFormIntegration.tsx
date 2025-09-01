@@ -69,7 +69,7 @@ const FlowerFormIntegration: React.FC<FlowerFormIntegrationProps> = ({
   const saveFormData = async (patientId: string, type: string, data: any) => {
     try {
       // Проверяем, существует ли уже запись для этого пациента и типа формы
-      const response = await apiClient.get(`/form-entries`, {
+      const response = await apiClient.get('/form-entries', {
         params: {
           patientId,
           formType: type,
@@ -111,7 +111,7 @@ const FlowerFormIntegration: React.FC<FlowerFormIntegrationProps> = ({
   };
 
   return (
-    <Card title="Форма осмотра" style={{ width: '100%', height: '100%', minHeight: '80vh' }}>
+    <Card title='Форма осмотра' style={{ width: '100%', height: '100%', minHeight: '80vh' }}>
       {loading && (
         <div style={{ 
           position: 'absolute', 
@@ -125,19 +125,19 @@ const FlowerFormIntegration: React.FC<FlowerFormIntegrationProps> = ({
           background: 'rgba(255, 255, 255, 0.7)',
           zIndex: 1000
         }}>
-          <Spin size="large" tip="Загрузка формы..." />
+          <Spin size='large' tip='Загрузка формы...' />
         </div>
       )}
       <iframe
         ref={iframeRef}
-        src="/flower-form/index.html"
+        src='/flower-form/index.html'
         style={{
           width: '100%',
           height: '80vh',
           border: 'none',
         }}
         onLoad={handleIframeLoad}
-        title="Flower Form"
+        title='Flower Form'
       />
     </Card>
   );

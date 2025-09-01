@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Avatar,
   Card,
-  Row,
   Col,
-  Statistic,
-  Typography,
+  Divider,
+  List,
+  Progress,
+  Row,
   Space,
+  Statistic,
   Table,
   Tag,
-  Progress,
-  List,
-  Avatar,
-  Divider,
+  Typography,
 } from 'antd';
 import FormsDashboard from './FormsDashboard';
 import {
-  UserOutlined,
-  ToolOutlined,
-  MedicineBoxOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
   CheckCircleOutlined,
   ExclamationCircleOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
+  MedicineBoxOutlined,
+  ToolOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { Device, Client, DeviceStatus, ClientStatus } from '../../types';
+import { Client, ClientStatus, Device, DeviceStatus } from '../../types';
 
 const { Title, Text } = Typography;
 
@@ -197,13 +197,13 @@ const DashboardPage: React.FC = () => {
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Total Devices"
+              title='Total Devices'
               value={stats.totalDevices}
               prefix={<ToolOutlined />}
               suffix={
                 <Space>
                   <ArrowUpOutlined style={{ color: '#3f8600' }} />
-                  <Text type="success">12%</Text>
+                  <Text type='success'>12%</Text>
                 </Space>
               }
             />
@@ -213,13 +213,13 @@ const DashboardPage: React.FC = () => {
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Active Devices"
+              title='Active Devices'
               value={stats.activeDevices}
               prefix={<CheckCircleOutlined />}
               suffix={
                 <Space>
                   <ArrowUpOutlined style={{ color: '#3f8600' }} />
-                  <Text type="success">8%</Text>
+                  <Text type='success'>8%</Text>
                 </Space>
               }
             />
@@ -229,13 +229,13 @@ const DashboardPage: React.FC = () => {
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Total Clients"
+              title='Total Clients'
               value={stats.totalClients}
               prefix={<UserOutlined />}
               suffix={
                 <Space>
                   <ArrowUpOutlined style={{ color: '#3f8600' }} />
-                  <Text type="success">24%</Text>
+                  <Text type='success'>24%</Text>
                 </Space>
               }
             />
@@ -245,13 +245,13 @@ const DashboardPage: React.FC = () => {
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Active Clients"
+              title='Active Clients'
               value={stats.activeClients}
               prefix={<MedicineBoxOutlined />}
               suffix={
                 <Space>
                   <ArrowDownOutlined style={{ color: '#cf1322' }} />
-                  <Text type="danger">2%</Text>
+                  <Text type='danger'>2%</Text>
                 </Space>
               }
             />
@@ -262,14 +262,14 @@ const DashboardPage: React.FC = () => {
       {/* Utilization Cards */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} md={12}>
-          <Card title="Device Utilization" extra={<Text>{deviceUtilization}%</Text>}>
+          <Card title='Device Utilization' extra={<Text>{deviceUtilization}%</Text>}>
             <Progress 
               percent={deviceUtilization} 
               status={deviceUtilization > 80 ? 'success' : 'normal'}
               strokeColor={deviceUtilization > 80 ? '#52c41a' : '#1890ff'}
             />
             <div style={{ marginTop: 16 }}>
-              <Text type="secondary">
+              <Text type='secondary'>
                 {stats.activeDevices} of {stats.totalDevices} devices are currently active
               </Text>
             </div>
@@ -277,14 +277,14 @@ const DashboardPage: React.FC = () => {
         </Col>
         
         <Col xs={24} md={12}>
-          <Card title="Client Activity" extra={<Text>{clientActive}%</Text>}>
+          <Card title='Client Activity' extra={<Text>{clientActive}%</Text>}>
             <Progress 
               percent={clientActive} 
               status={clientActive > 70 ? 'success' : 'normal'}
               strokeColor={clientActive > 70 ? '#52c41a' : '#1890ff'}
             />
             <div style={{ marginTop: 16 }}>
-              <Text type="secondary">
+              <Text type='secondary'>
                 {stats.activeClients} of {stats.totalClients} clients are in active care
               </Text>
             </div>
@@ -295,35 +295,35 @@ const DashboardPage: React.FC = () => {
       <Row gutter={[16, 16]}>
         {/* Recent Devices */}
         <Col xs={24} lg={12}>
-          <Card title="Recent Devices" extra={<a href="/devices">View All</a>}>
+          <Card title='Recent Devices' extra={<a href='/devices'>View All</a>}>
             <Table
               columns={deviceColumns}
               dataSource={recentDevices}
               pagination={false}
-              size="small"
-              rowKey="id"
+              size='small'
+              rowKey='id'
             />
           </Card>
         </Col>
 
         {/* Recent Clients */}
         <Col xs={24} lg={12}>
-          <Card title="Recent Clients" extra={<a href="/clients">View All</a>}>
+          <Card title='Recent Clients' extra={<a href='/clients'>View All</a>}>
             <Table
               columns={clientColumns}
               dataSource={recentClients}
               pagination={false}
-              size="small"
-              rowKey="id"
+              size='small'
+              rowKey='id'
             />
           </Card>
         </Col>
 
         {/* Recent Activity */}
         <Col xs={24}>
-          <Card title="Recent Activity">
+          <Card title='Recent Activity'>
             <List
-              itemLayout="horizontal"
+              itemLayout='horizontal'
               dataSource={activityData}
               renderItem={(item, index) => (
                 <List.Item>

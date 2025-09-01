@@ -132,7 +132,7 @@ async function createPackage() {
   // Create index.ts
   fs.writeFileSync(
     path.join(packageDir, 'src', 'index.ts'),
-    `// Export public API here\n`
+    '// Export public API here\n'
   );
   
   console.log(`\n✅ Package ${fullName} created successfully at ${packageDir}`);

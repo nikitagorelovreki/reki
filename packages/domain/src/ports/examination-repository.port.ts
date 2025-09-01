@@ -1,5 +1,5 @@
-import { ExaminationFormModel as Form, ExaminationFormType, ExaminationFormEntryModel as FormSubmission } from '../models/examination.model';
-import { PaginationOptions, PaginatedResult } from './device-repository.port';
+import { ExaminationFormType, ExaminationFormModel as Form, ExaminationFormEntryModel as FormSubmission } from '../models/examination.model';
+import { PaginatedResult, PaginationOptions } from './device-repository.port';
 
 export interface FormRepositoryPort {
   // Базовые CRUD операции для форм
