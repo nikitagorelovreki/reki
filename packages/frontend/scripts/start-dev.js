@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { execSync } = require('child_process');
-const os = require('os');
+import { execSync, spawn } from 'child_process';
+import os from 'os';
 
 const PORT = 3000;
 
@@ -67,7 +67,7 @@ freePort();
 
 // Запускаем Vite
 console.log('Запуск Vite...');
-require('child_process').spawn('vite', [], { 
+spawn('vite', [], { 
   stdio: 'inherit',
   shell: true
 });
