@@ -34,7 +34,7 @@ const fimItems = [
 ];
 
 // ====== Test switcher ======
-const TEST_KEY = 'cosyma_current_test_type';
+const TEST_KEY = 'reki_current_test_type';
 let currentTest = localStorage.getItem(TEST_KEY) || 'lfk';
 const testTypeSelect = $('#testTypeSelect');
 testTypeSelect.value = currentTest;
@@ -148,7 +148,7 @@ document.addEventListener('change', e => {
 
 // ====== Persistence (per-test) ======
 function getRoot(){ return currentTest === 'lfk' ? $('#test-lfk') : $('#test-fim'); }
-function getLSKey(){ return `cosyma_test_${currentTest}_v1`; }
+function getLSKey(){ return `reki_test_${currentTest}_v1`; }
 
 function fieldToValue(holder){
   const chips = holder.querySelector('[data-type="checkbox-group"]');
@@ -225,7 +225,7 @@ $('#saveJsonBtn').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `cosyma_${currentTest}.json`; a.click(); URL.revokeObjectURL(url);
+  a.href = url; a.download = `reki_${currentTest}.json`; a.click(); URL.revokeObjectURL(url);
 });
 $('#loadJsonBtn').addEventListener('click', () => $('#jsonFile').click());
 $('#jsonFile').addEventListener('change', e => {

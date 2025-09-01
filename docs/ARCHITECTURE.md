@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-Reki (Cosyma Unified Info-System) is built using Clean Architecture principles with Domain-Driven Design (DDD) patterns. The system is designed to be modular, testable, and maintainable while providing comprehensive functionality for medical device and patient management.
+Reki Control Panel is built using Clean Architecture principles with Domain-Driven Design (DDD) patterns. The system is designed to be modular, testable, and maintainable while providing comprehensive functionality for medical device and patient management.
 
 ## Architectural Principles
 

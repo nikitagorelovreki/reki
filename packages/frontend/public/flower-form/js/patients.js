@@ -1,6 +1,6 @@
 // ====== Patient Management ======
-const PATIENTS_KEY = 'cosyma_patients_data';
-const CURRENT_PATIENT_KEY = 'cosyma_current_patient';
+const PATIENTS_KEY = 'reki_patients_data';
+const CURRENT_PATIENT_KEY = 'reki_current_patient';
 
 // Тестовые данные пациентов
 const demoPatients = [
@@ -266,8 +266,8 @@ function initPatientsData() {
   if (!localStorage.getItem(PATIENTS_KEY)) {
     localStorage.setItem(PATIENTS_KEY, JSON.stringify(demoPatients));
   }
-  if (!localStorage.getItem('cosyma_patient_results')) {
-    localStorage.setItem('cosyma_patient_results', JSON.stringify(demoResults));
+  if (!localStorage.getItem('reki_patient_results')) {
+localStorage.setItem('reki_patient_results', JSON.stringify(demoResults));
   }
 }
 
@@ -306,15 +306,15 @@ function setCurrentPatient(patientId) {
 
 // Загрузка данных пациента
 function loadPatientData(patientId) {
-  const results = JSON.parse(localStorage.getItem('cosyma_patient_results') || '{}');
+  const results = JSON.parse(localStorage.getItem('reki_patient_results') || '{}');
   return results[patientId] || {};
 }
 
 // Сохранение данных пациента
 function savePatientData(patientId, data) {
-  const results = JSON.parse(localStorage.getItem('cosyma_patient_results') || '{}');
+  const results = JSON.parse(localStorage.getItem('reki_patient_results') || '{}');
   results[patientId] = data;
-  localStorage.setItem('cosyma_patient_results', JSON.stringify(results));
+  localStorage.setItem('reki_patient_results', JSON.stringify(results));
 }
 
 // Переключение пациента
@@ -507,9 +507,9 @@ function deletePatient(patientId) {
   localStorage.setItem(PATIENTS_KEY, JSON.stringify(filteredPatients));
   
   // Также удаляем результаты тестов пациента
-  const results = JSON.parse(localStorage.getItem('cosyma_patient_results') || '{}');
+  const results = JSON.parse(localStorage.getItem('reki_patient_results') || '{}');
   delete results[patientId];
-  localStorage.setItem('cosyma_patient_results', JSON.stringify(results));
+  localStorage.setItem('reki_patient_results', JSON.stringify(results));
   
   // Обновляем списки
   loadPatientsList();

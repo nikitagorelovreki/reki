@@ -1,6 +1,6 @@
 # Reki Frontend
 
-React-based user interface for the Reki (Cosyma Unified Info-System).
+React-based user interface for the Reki Control Panel.
 
 ## Overview
 

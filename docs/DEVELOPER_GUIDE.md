@@ -13,7 +13,7 @@
 
 ## Overview
 
-Reki (Cosyma Unified Info-System) is a comprehensive modular system designed for managing medical devices, clients (patients), and service requests in healthcare environments. The system follows Domain-Driven Design (DDD) principles and Clean Architecture patterns to ensure maintainability, testability, and scalability.
+Reki Control Panel is a comprehensive modular system designed for managing medical devices, clients (patients), and service requests in healthcare environments. The system follows Domain-Driven Design (DDD) principles and Clean Architecture patterns to ensure maintainability, testability, and scalability.
 
 ### Key Features
 
