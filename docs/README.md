@@ -2,6 +2,8 @@
 
 Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified Info-System). This documentation covers all aspects of the system architecture, development practices, and implementation details.
 
+> **[🔙 Назад к главной странице проекта](../README.md)** | **[🏠 Project Overview](../README.md)**
+
 ## 📚 Documentation Index
 
 ### Getting Started
@@ -17,6 +19,9 @@ Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified In
 
 ### Integration Guides
 - **[Flower Form Integration](./flower-form-integration.md)** - Form system integration details
+
+### Meta Documentation
+- **[README Structure Guide](./README_STRUCTURE.md)** - Guide to all README files in the repository
 
 ## 🏗️ System Overview
 
