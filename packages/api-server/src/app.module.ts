@@ -5,7 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { PersistenceModule } from '@reki/persistence';
 import { UseCasesModule } from '@reki/use-cases';
-import { ApiModule } from '@reki/api';
+import { ApiModule, DevicesController } from '@reki/api';
 
 @Module({
   imports: [
@@ -16,10 +16,12 @@ import { ApiModule } from '@reki/api';
     }),
 
     // Rate limiting
-    ThrottlerModule.forRoot([{
-      ttl: parseInt(process.env.THROTTLE_TTL || '60') * 1000,
-      limit: parseInt(process.env.THROTTLE_LIMIT || '100'),
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: parseInt(process.env.THROTTLE_TTL || '60') * 1000,
+        limit: parseInt(process.env.THROTTLE_LIMIT || '100'),
+      },
+    ]),
 
     // Scheduling
     ScheduleModule.forRoot(),
@@ -29,5 +31,6 @@ import { ApiModule } from '@reki/api';
     UseCasesModule,
     ApiModule,
   ],
+  controllers: [DevicesController],
 })
 export class AppModule {}

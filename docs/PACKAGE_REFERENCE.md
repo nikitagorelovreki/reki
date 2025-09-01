@@ -2,12 +2,12 @@
 
 ## Overview
 
-The CUIS monorepo is organized into distinct packages following Clean Architecture principles. Each package has a specific responsibility and clear dependency boundaries.
+The Reki monorepo is organized into distinct packages following Clean Architecture principles. Each package has a specific responsibility and clear dependency boundaries.
 
 ## Package Hierarchy
 
 ```
-@cuis/
+@reki/
 ├── domain          # Core business logic (no dependencies)
 ├── persistence     # Data access layer (depends on domain)
 ├── use-cases       # Application services (depends on domain)
@@ -17,13 +17,14 @@ The CUIS monorepo is organized into distinct packages following Clean Architectu
 
 ## Package Descriptions
 
-### @cuis/domain
+### @reki/domain
 
 **Version**: 0.1.0  
 **Purpose**: Core business domain models, entities, and port interfaces  
 **Dependencies**: None (pure TypeScript)
 
 #### Structure
+
 ```
 src/
 ├── models/           # Domain entities and value objects
@@ -42,6 +43,7 @@ src/
 ```
 
 #### Key Exports
+
 ```typescript
 // Domain Entities
 export { Device, DeviceStatus } from './models/device.model';
@@ -60,19 +62,21 @@ export { PaginatedResult, PaginationOptions } from './types/common';
 ```
 
 #### Business Rules
+
 - All entities include audit fields (`createdAt`, `updatedAt`)
 - Status transitions are controlled by entity methods
 - Validation logic is embedded in domain entities
 - No external framework dependencies
 
 #### Usage Example
+
 ```typescript
-import { Device, DeviceStatus } from '@cuis/domain';
+import { Device, DeviceStatus } from '@reki/domain';
 
 const device = new Device({
   serial: 'DEV001',
   model: 'RehabDevice Pro',
-  status: DeviceStatus.REGISTERED
+  status: DeviceStatus.REGISTERED,
 });
 
 device.assignToPatient('patient-123');
@@ -81,13 +85,14 @@ console.log(device.status); // Automatically updated with timestamp
 
 ---
 
-### @cuis/persistence
+### @reki/persistence
 
 **Version**: 0.1.0  
 **Purpose**: Data persistence implementation using PostgreSQL and Knex.js  
-**Dependencies**: `@cuis/domain`, `knex`, `pg`
+**Dependencies**: `@reki/domain`, `knex`, `pg`
 
 #### Structure
+
 ```
 src/
 ├── database/         # Database connection and configuration
@@ -106,6 +111,7 @@ src/
 ```
 
 #### Key Features
+
 - **Repository Pattern**: Implements domain-defined repository ports
 - **Case Conversion**: Automatic camelCase ↔ snake_case mapping
 - **Connection Pooling**: Optimized PostgreSQL connection management
@@ -113,24 +119,26 @@ src/
 - **Transaction Support**: Database transaction handling
 
 #### Configuration
+
 ```typescript
 // Database connection via environment variables
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_USER=cuis
-POSTGRES_PASSWORD=cuis
-POSTGRES_DB=cuis
+POSTGRES_HOST = localhost;
+POSTGRES_PORT = 5432;
+POSTGRES_USER = reki;
+POSTGRES_PASSWORD = reki;
+POSTGRES_DB = reki;
 ```
 
 #### Usage Example
+
 ```typescript
-import { DeviceRepository } from '@cuis/persistence';
-import { Device } from '@cuis/domain';
+import { DeviceRepository } from '@reki/persistence';
+import { Device } from '@reki/domain';
 
 @Injectable()
 export class SomeService {
   constructor(private deviceRepo: DeviceRepository) {}
-  
+
   async createDevice(deviceData: Partial<Device>) {
     const device = new Device(deviceData);
     return await this.deviceRepo.create(device);
@@ -140,13 +148,14 @@ export class SomeService {
 
 ---
 
-### @cuis/use-cases
+### @reki/use-cases
 
 **Version**: 0.1.0  
 **Purpose**: Application business logic and use case implementations  
-**Dependencies**: `@cuis/domain`, `uuid`
+**Dependencies**: `@reki/domain`, `uuid`
 
 #### Structure
+
 ```
 src/
 ├── services/         # Application service implementations
@@ -160,6 +169,7 @@ src/
 ```
 
 #### Key Responsibilities
+
 - **Business Logic Orchestration**: Coordinates multiple domain entities
 - **Transaction Management**: Handles business transaction boundaries
 - **Validation**: Applies business rule validation
@@ -168,20 +178,19 @@ src/
 #### Service Patterns
 
 **Standard Service Structure**:
+
 ```typescript
 @Injectable()
 export class EntityService {
-  constructor(
-    private readonly entityRepository: EntityRepositoryPort
-  ) {}
-  
+  constructor(private readonly entityRepository: EntityRepositoryPort) {}
+
   async createEntity(data: Partial<Entity>): Promise<Entity> {
     // Business validation
     // Create domain entity
     // Persist via repository
     // Return result
   }
-  
+
   async updateEntity(id: string, data: Partial<Entity>): Promise<Entity> {
     // Fetch existing entity
     // Apply business rules
@@ -192,13 +201,14 @@ export class EntityService {
 ```
 
 #### Usage Example
+
 ```typescript
-import { ClientService } from '@cuis/use-cases';
+import { ClientService } from '@reki/use-cases';
 
 @Controller('clients')
 export class ClientsController {
   constructor(private clientService: ClientService) {}
-  
+
   @Post()
   async create(@Body() data: CreateClientDto) {
     return await this.clientService.createClient(data);
@@ -208,13 +218,14 @@ export class ClientsController {
 
 ---
 
-### @cuis/api
+### @reki/api
 
 **Version**: 0.1.0  
 **Purpose**: REST API controllers and Data Transfer Objects  
-**Dependencies**: `@cuis/domain`, `@cuis/use-cases`, `class-validator`, `class-transformer`
+**Dependencies**: `@reki/domain`, `@reki/use-cases`, `class-validator`, `class-transformer`
 
 #### Structure
+
 ```
 src/
 ├── devices/          # Device management endpoints
@@ -234,6 +245,7 @@ src/
 ```
 
 #### Key Features
+
 - **Swagger Documentation**: Auto-generated OpenAPI documentation
 - **Validation**: Request/response validation using class-validator
 - **DTO Pattern**: Clear separation between API and domain models
@@ -243,13 +255,14 @@ src/
 #### Controller Patterns
 
 **Standard Controller Structure**:
+
 ```typescript
 @ApiTags('entities')
 @ApiBearerAuth()
 @Controller('entities')
 export class EntitiesController {
   constructor(private readonly entityService: EntityService) {}
-  
+
   @Post()
   @ApiOperation({ summary: 'Create new entity' })
   @ApiResponse({ status: 201, type: EntityResponseDto })
@@ -261,17 +274,18 @@ export class EntitiesController {
 ```
 
 #### DTO Examples
+
 ```typescript
 // Create DTO
 export class CreateDeviceDto {
   @IsString()
   @IsNotEmpty()
   serial: string;
-  
+
   @IsString()
   @IsNotEmpty()
   model: string;
-  
+
   @IsEnum(DeviceStatus)
   @IsOptional()
   status?: DeviceStatus;
@@ -290,13 +304,14 @@ export class DeviceResponseDto {
 
 ---
 
-### @cuis/frontend
+### @reki/frontend
 
 **Version**: 0.0.0  
 **Purpose**: React-based user interface  
 **Dependencies**: `react`, `antd`, `axios`, `react-router-dom`, `dayjs`
 
 #### Structure
+
 ```
 src/
 ├── components/       # Reusable UI components
@@ -328,6 +343,7 @@ src/
 ```
 
 #### Key Features
+
 - **Ant Design Integration**: Consistent UI components and theming
 - **Russian Localization**: Complete Russian language support
 - **Form Integration**: Multiple approaches for form handling
@@ -338,10 +354,11 @@ src/
 #### API Client Architecture
 
 **Base Client**:
+
 ```typescript
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // Automatic token injection
@@ -355,6 +372,7 @@ apiClient.interceptors.request.use(config => {
 ```
 
 **Typed API Methods**:
+
 ```typescript
 // Type-safe API calls
 export const devicesApi = {
@@ -377,17 +395,17 @@ graph TD
     B --> D[Repository Port]
     D --> E[Repository Implementation]
     E --> F[Database]
-    
+
     G[Frontend] --> A
 ```
 
 ### Data Flow Example
 
-1. **Frontend** makes API request to **@cuis/api**
-2. **API Controller** calls **@cuis/use-cases** service
-3. **Use Case Service** creates/modifies **@cuis/domain** entities
-4. **Use Case Service** calls **@cuis/domain** repository port
-5. **@cuis/persistence** repository implements the port
+1. **Frontend** makes API request to **@reki/api**
+2. **API Controller** calls **@reki/use-cases** service
+3. **Use Case Service** creates/modifies **@reki/domain** entities
+4. **Use Case Service** calls **@reki/domain** repository port
+5. **@reki/persistence** repository implements the port
 6. **Repository** persists data to PostgreSQL
 
 ## Build and Publishing
@@ -411,14 +429,16 @@ npm run build
 ### Dependencies
 
 **Internal Dependencies**:
-- `@cuis/api` → `@cuis/use-cases` → `@cuis/domain`
-- `@cuis/persistence` → `@cuis/domain`
-- `@cuis/frontend` → (communicates via HTTP API)
+
+- `@reki/api` → `@reki/use-cases` → `@reki/domain`
+- `@reki/persistence` → `@reki/domain`
+- `@reki/frontend` → (communicates via HTTP API)
 
 **External Dependencies**:
+
 - **Domain**: None (pure TypeScript)
 - **Persistence**: `knex`, `pg`, NestJS peer dependencies
-- **Use Cases**: `uuid`, NestJS peer dependencies  
+- **Use Cases**: `uuid`, NestJS peer dependencies
 - **API**: `class-validator`, `class-transformer`, NestJS peer dependencies
 - **Frontend**: `react`, `antd`, `axios`, `react-router-dom`
 
@@ -431,9 +451,7 @@ All packages are configured for restricted access:
   "publishConfig": {
     "access": "restricted"
   },
-  "files": [
-    "dist"
-  ]
+  "files": ["dist"]
 }
 ```
 
@@ -442,24 +460,26 @@ All packages are configured for restricted access:
 ### Domain Package
 
 **Rules**:
+
 - No external framework dependencies
 - Pure business logic only
 - Well-defined interfaces (ports)
 - Comprehensive unit tests
 
 **Example Entity**:
+
 ```typescript
 export class Client {
   constructor(data: Partial<Client>) {
     // Initialization logic
   }
-  
+
   updateStatus(status: ClientStatus): void {
     // Business rule validation
     this.status = status;
     this.updatedAt = new Date();
   }
-  
+
   isActive(): boolean {
     // Business logic
     return this.status === ClientStatus.ACTIVE_THERAPY;
@@ -470,17 +490,19 @@ export class Client {
 ### Persistence Package
 
 **Rules**:
+
 - Implement domain repository ports
 - Handle data mapping between domain and database
 - Manage database connections and transactions
 - Provide migration scripts
 
 **Example Repository**:
+
 ```typescript
 @Injectable()
 export class ClientRepository implements ClientRepositoryPort {
   constructor(private readonly db: DatabaseService) {}
-  
+
   async create(client: Client): Promise<Client> {
     const dbData = this.mapToDb(client);
     const [result] = await this.db.knex('patients').insert(dbData).returning('*');
@@ -492,26 +514,28 @@ export class ClientRepository implements ClientRepositoryPort {
 ### Use Cases Package
 
 **Rules**:
+
 - Orchestrate domain entities
 - Implement business workflows
 - Handle transaction boundaries
 - Provide clean interfaces for API layer
 
 **Example Service**:
+
 ```typescript
 @Injectable()
 export class ClientService {
   constructor(private readonly clientRepo: ClientRepositoryPort) {}
-  
+
   async createClient(data: Partial<Client>): Promise<Client> {
     // Business validation
     const client = new Client(data);
-    
+
     // Additional business logic
     if (client.status === ClientStatus.ACTIVE_THERAPY) {
       // Validate therapy prerequisites
     }
-    
+
     return await this.clientRepo.create(client);
   }
 }
@@ -520,18 +544,20 @@ export class ClientService {
 ### API Package
 
 **Rules**:
+
 - Define clear DTOs for requests/responses
 - Implement comprehensive validation
 - Provide Swagger documentation
 - Handle HTTP concerns only
 
 **Example Controller**:
+
 ```typescript
 @ApiTags('clients')
 @Controller('clients')
 export class ClientsController {
   constructor(private readonly clientService: ClientService) {}
-  
+
   @Post()
   @ApiOperation({ summary: 'Create new client' })
   async create(@Body() dto: CreateClientDto): Promise<ClientResponseDto> {
@@ -544,12 +570,14 @@ export class ClientsController {
 ### Frontend Package
 
 **Rules**:
+
 - Use TypeScript for type safety
 - Implement responsive design
 - Handle loading and error states
 - Follow React best practices
 
 **Example Component**:
+
 ```typescript
 interface ClientListProps {
   clinicId?: string;
@@ -559,7 +587,7 @@ interface ClientListProps {
 const ClientList: React.FC<ClientListProps> = ({ clinicId, onClientSelect }) => {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     const fetchClients = async () => {
       try {
@@ -571,10 +599,10 @@ const ClientList: React.FC<ClientListProps> = ({ clinicId, onClientSelect }) => 
         setLoading(false);
       }
     };
-    
+
     fetchClients();
   }, [clinicId]);
-  
+
   return (
     <Table
       dataSource={clients}
@@ -590,20 +618,24 @@ const ClientList: React.FC<ClientListProps> = ({ clinicId, onClientSelect }) => 
 ## Testing Strategy
 
 ### Unit Tests
+
 - **Domain**: Test business logic and entity methods
 - **Use Cases**: Test service orchestration
 - **Repositories**: Test data mapping and queries
 
 ### Integration Tests
+
 - **API**: Test endpoint behavior
 - **Database**: Test repository implementations
 
 ### E2E Tests
+
 - **Frontend**: Test complete user workflows
 
 ## Performance Considerations
 
 ### Package Size
+
 - Domain: Minimal (pure TypeScript)
 - Persistence: Database drivers only
 - Use Cases: Business logic only
@@ -611,9 +643,10 @@ const ClientList: React.FC<ClientListProps> = ({ clinicId, onClientSelect }) => 
 - Frontend: React + UI library (largest bundle)
 
 ### Optimization Strategies
+
 - Tree-shaking for unused code elimination
 - Lazy loading for frontend routes
 - Connection pooling for database access
 - Bundle splitting for frontend optimization
 
-This package reference provides detailed information about each package's purpose, structure, and usage patterns within the CUIS monorepo architecture.
+This package reference provides detailed information about each package's purpose, structure, and usage patterns within the Reki monorepo architecture.

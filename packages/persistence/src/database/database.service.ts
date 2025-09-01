@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import knex, { Knex } from 'knex';
+import { Knex } from 'knex';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {
@@ -8,24 +8,30 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
 
   constructor(private configService: ConfigService) {}
 
-  onModuleInit() {
-    this._knex = knex({
+  async onModuleInit(): Promise<void> {
+    // Динамически импортируем только Knex с PostgreSQL
+    const { default: knex } = await import('knex');
+
+    // Создаем конфигурацию только для PostgreSQL
+    const config: Knex.Config = {
       client: 'pg',
       connection: {
         host: this.configService.get('POSTGRES_HOST', 'localhost'),
         port: this.configService.get('POSTGRES_PORT', 5432),
-        user: this.configService.get('POSTGRES_USER', 'cuis'),
-        password: this.configService.get('POSTGRES_PASSWORD', 'cuis'),
-        database: this.configService.get('POSTGRES_DB', 'cuis'),
+        user: this.configService.get('POSTGRES_USER', 'reki'),
+        password: this.configService.get('POSTGRES_PASSWORD', 'reki'),
+        database: this.configService.get('POSTGRES_DB', 'reki'),
       },
       pool: {
         min: 2,
         max: 10,
       },
-    });
+    };
+
+    this._knex = knex(config);
   }
 
-  onModuleDestroy() {
+  onModuleDestroy(): void {
     if (this._knex) {
       this._knex.destroy();
     }

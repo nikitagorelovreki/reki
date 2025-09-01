@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides step-by-step instructions for creating new packages in the CUIS monorepo. The system includes an automated script that handles package scaffolding and configuration.
+This guide provides step-by-step instructions for creating new packages in the Reki monorepo. The system includes an automated script that handles package scaffolding and configuration.
 
 ## Quick Start
 
@@ -41,7 +41,7 @@ cd packages/your-package-name
 
 ```json
 {
-  "name": "@cuis/your-package-name",
+  "name": "@reki/your-package-name",
   "version": "0.1.0",
   "description": "Brief description of your package",
   "main": "dist/index.js",
@@ -52,14 +52,12 @@ cd packages/your-package-name
     "lint": "eslint src/**/*.ts",
     "clean": "rimraf dist"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "restricted"
   },
   "dependencies": {
-    "@cuis/domain": "^0.1.0"
+    "@reki/domain": "^0.1.0"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",
@@ -94,15 +92,8 @@ cd packages/your-package-name
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }
 ```
 
@@ -239,7 +230,7 @@ If your package provides services that need to be used by the use-cases layer:
 
 ```typescript
 // In packages/use-cases/src/use-cases.module.ts
-import { YourPackageModule } from '@cuis/your-package';
+import { YourPackageModule } from '@reki/your-package';
 
 @Module({
   imports: [YourPackageModule],
@@ -263,7 +254,7 @@ If your package needs API endpoints:
 @Controller('your-endpoints')
 export class YourController {
   constructor(private readonly yourService: YourService) {}
-  
+
   @Get()
   @ApiOperation({ summary: 'Get your data' })
   async findAll() {
@@ -298,7 +289,7 @@ If your package requires frontend components:
 ### Package Naming
 
 - Use descriptive, kebab-case names
-- Prefix with organization scope: `@cuis/package-name`
+- Prefix with organization scope: `@reki/package-name`
 - Avoid generic names like "utils" or "helpers"
 
 ### Dependency Management
@@ -341,20 +332,20 @@ export class YourService implements YourServicePort {
 
   async performBusinessOperation(data: OperationData): Promise<Result> {
     this.logger.log('Starting business operation');
-    
+
     try {
       // Validate input
       this.validateInput(data);
-      
+
       // Create domain entity
       const entity = new YourEntity(data);
-      
+
       // Apply business rules
       entity.applyBusinessRule();
-      
+
       // Persist
       const result = await this.repository.save(entity);
-      
+
       this.logger.log('Business operation completed successfully');
       return result;
     } catch (error) {
@@ -371,14 +362,12 @@ export class YourService implements YourServicePort {
 @Injectable()
 export class YourRepository implements YourRepositoryPort {
   private readonly tableName = 'your_table';
-  
+
   constructor(private readonly db: DatabaseService) {}
 
   async create(entity: YourEntity): Promise<YourEntity> {
     const dbData = this.mapToDatabase(entity);
-    const [result] = await this.db.knex(this.tableName)
-      .insert(dbData)
-      .returning('*');
+    const [result] = await this.db.knex(this.tableName).insert(dbData).returning('*');
     return this.mapToDomain(result);
   }
 
@@ -404,4 +393,4 @@ export class YourRepository implements YourRepositoryPort {
 }
 ```
 
-This guide provides everything needed to create and integrate new packages into the CUIS monorepo architecture while maintaining consistency and best practices.
+This guide provides everything needed to create and integrate new packages into the Reki monorepo architecture while maintaining consistency and best practices.

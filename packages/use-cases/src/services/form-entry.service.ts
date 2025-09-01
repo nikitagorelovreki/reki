@@ -1,12 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { FormEntryModel, FormEntryStatus, IFormEntryRepository, PaginatedResult, PaginationOptions } from '@reki/domain';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  FORM_ENTRY_REPOSITORY,
+  FormEntryModel,
+  FormEntryStatus,
+  IFormEntryRepository,
+  PaginatedResult,
+  PaginationOptions,
+} from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FormEntryService {
-  constructor(private readonly formEntryRepository: IFormEntryRepository) {}
+  constructor(
+    @Inject(FORM_ENTRY_REPOSITORY)
+    private readonly formEntryRepository: IFormEntryRepository
+  ) {}
 
-  async createFormEntry(formEntryData: Partial<FormEntryModel>): Promise<FormEntryModel> {
+  async createFormEntry(
+    formEntryData: Partial<FormEntryModel>
+  ): Promise<FormEntryModel> {
     const formEntry = new FormEntryModel({
       id: uuidv4(),
       status: FormEntryStatus.IN_PROGRESS,
@@ -25,11 +37,16 @@ export class FormEntryService {
     return formEntry;
   }
 
-  async getAllFormEntries(options: PaginationOptions = {}): Promise<PaginatedResult<FormEntryModel>> {
+  async getAllFormEntries(
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormEntryModel>> {
     return this.formEntryRepository.findAll(options);
   }
 
-  async updateFormEntry(id: string, updateData: Partial<FormEntryModel>): Promise<FormEntryModel> {
+  async updateFormEntry(
+    id: string,
+    updateData: Partial<FormEntryModel>
+  ): Promise<FormEntryModel> {
     const existingFormEntry = await this.getFormEntryById(id);
     existingFormEntry.update(updateData);
     return this.formEntryRepository.update(id, existingFormEntry);
@@ -39,23 +56,38 @@ export class FormEntryService {
     return this.formEntryRepository.delete(id);
   }
 
-  async getFormEntriesByFormId(formId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormEntryModel>> {
+  async getFormEntriesByFormId(
+    formId: string,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormEntryModel>> {
     return this.formEntryRepository.findByFormId(formId, options);
   }
 
-  async getFormEntriesByPatientId(patientId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormEntryModel>> {
+  async getFormEntriesByPatientId(
+    patientId: string,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormEntryModel>> {
     return this.formEntryRepository.findByPatientId(patientId, options);
   }
 
-  async getFormEntriesByDeviceId(deviceId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormEntryModel>> {
+  async getFormEntriesByDeviceId(
+    deviceId: string,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormEntryModel>> {
     return this.formEntryRepository.findByDeviceId(deviceId, options);
   }
 
-  async getFormEntriesByClinicId(clinicId: string, options: PaginationOptions = {}): Promise<PaginatedResult<FormEntryModel>> {
+  async getFormEntriesByClinicId(
+    clinicId: string,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormEntryModel>> {
     return this.formEntryRepository.findByClinicId(clinicId, options);
   }
 
-  async getFormEntriesByStatus(status: FormEntryStatus, options: PaginationOptions = {}): Promise<PaginatedResult<FormEntryModel>> {
+  async getFormEntriesByStatus(
+    status: FormEntryStatus,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormEntryModel>> {
     return this.formEntryRepository.findByStatus(status, options);
   }
 
@@ -71,7 +103,10 @@ export class FormEntryService {
     return this.formEntryRepository.update(id, formEntry);
   }
 
-  async saveFormData(id: string, data: Record<string, any>): Promise<FormEntryModel> {
+  async saveFormData(
+    id: string,
+    data: Record<string, unknown>
+  ): Promise<FormEntryModel> {
     const formEntry = await this.getFormEntryById(id);
     formEntry.data = data;
     formEntry.updatedAt = new Date();

@@ -1,6 +1,6 @@
-# @cuis/use-cases
+# @reki/use-cases
 
-Application business logic and use case implementations for the CUIS system.
+Application business logic and use case implementations for the Reki system.
 
 ## Overview
 
@@ -22,32 +22,32 @@ This package contains application services that orchestrate domain entities and 
 ## Services
 
 - **DeviceService**: Device management workflows
-- **ClientService**: Client/patient management  
+- **ClientService**: Client/patient management
 - **FormService**: Form template management
 - **FormEntryService**: Form submission workflows
 
 ## Usage
 
 ```typescript
-import { ClientService } from '@cuis/use-cases';
+import { ClientService } from '@reki/use-cases';
 
 // Service usage (injected via DI)
 const client = await clientService.createClient({
   fullName: 'John Doe',
-  status: ClientStatus.INTAKE
+  status: ClientStatus.INTAKE,
 });
 ```
 
 ## Dependencies
 
-- `@cuis/domain` - Core domain models and interfaces
+- `@reki/domain` - Core domain models and interfaces
 - `uuid` - UUID generation
 - NestJS (peer dependency) - Dependency injection
 
 ## Documentation
 
 For complete package documentation, see:
-**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#cuisuse-cases)**
+**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#rekiuse-cases)**
 
 For system documentation, see:
-**[CUIS Documentation Hub](../../docs/README.md)**
+**[Reki Documentation Hub](../../docs/README.md)**

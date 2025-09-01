@@ -1,6 +1,6 @@
-# CUIS Frontend
+# Reki Frontend
 
-React-based user interface for the CUIS (Cosyma Unified Info-System).
+React-based user interface for the Reki (Cosyma Unified Info-System).
 
 ## Overview
 
@@ -53,8 +53,8 @@ src/
 
 ## API Integration
 
-The frontend communicates with the CUIS API server running on port 3002. API configuration is handled in `src/api/config.ts`.
+The frontend communicates with the Reki API server running on port 3002. API configuration is handled in `src/api/config.ts`.
 
 ## For More Information
 
-See the main [CUIS Documentation](../../docs/README.md) for complete system documentation.
+See the main [Reki Documentation](../../docs/README.md) for complete system documentation.

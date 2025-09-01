@@ -1,22 +1,12 @@
-import * as knex from 'knex';
 import { v4 as uuidv4 } from 'uuid';
 import { defaultForms } from '../../api/src/forms/seed/default-forms';
+import knexConfig from '../../persistence/src/database/knex-config';
 
-// Конфигурация подключения к БД
-const knexConfig = {
-  client: 'pg',
-  connection: {
-    host: process.env.POSTGRES_HOST || 'localhost',
-    port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
-    user: process.env.POSTGRES_USER || 'cuis',
-    password: process.env.POSTGRES_PASSWORD || 'cuis',
-    database: process.env.POSTGRES_DB || 'cuis',
-  },
-};
-
-async function seed() {
+async function seed(): Promise<void> {
   console.log('Starting database seed...');
-  const db = knex.default(knexConfig);
+  // Динамически импортируем Knex
+  const { default: knex } = await import('knex');
+  const db = knex(knexConfig);
 
   try {
     // Создаем клиентов
@@ -33,20 +23,22 @@ async function seed() {
         contacts: JSON.stringify({
           phone: `+7900${i}000000`,
           email: `client${i}@example.com`,
-          address: `Улица Примерная, дом ${i}`
+          address: `Улица Примерная, дом ${i}`,
         }),
         dob: new Date(1980 + i, 0, i),
         status: i % 2 === 0 ? 'active_therapy' : 'intake',
         diagnosis: `Тестовый диагноз #${i}`,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       });
       clients.push({
         id,
         firstName: `Иван${i}`,
-        lastName: `Петров${i}`
+        lastName: `Петров${i}`,
       });
-      console.log(`Created client: ${clients[clients.length - 1].firstName} ${clients[clients.length - 1].lastName}`);
+      console.log(
+        `Created client: ${clients[clients.length - 1].firstName} ${clients[clients.length - 1].lastName}`
+      );
     }
 
     // Создаем устройства
@@ -60,13 +52,15 @@ async function seed() {
         model: `Устройство ${i}`,
         status: i % 2 === 0 ? 'AT_CLINIC' : 'IN_STOCK',
         last_seen_at: new Date(),
-        maintenance_notes: JSON.stringify({ notes: `Тестовое устройство #${i}` }),
+        maintenance_notes: JSON.stringify({
+          notes: `Тестовое устройство #${i}`,
+        }),
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       });
       devices.push({
         id,
-        model: `Устройство ${i}`
+        model: `Устройство ${i}`,
       });
       console.log(`Created device: ${devices[devices.length - 1].model}`);
     }
@@ -85,12 +79,12 @@ async function seed() {
         version: 1,
         schema: JSON.stringify(formData.schema),
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       });
       forms.push({
         id,
         title: formData.title,
-        type: formData.type
+        type: formData.type,
       });
       console.log(`Created form: ${formData.title}`);
     }
@@ -127,11 +121,13 @@ async function seed() {
               conclusion: 'Тестовое заключение',
               recommendations: 'Тестовые рекомендации',
             }),
-                      created_at: new Date(),
-          updated_at: new Date(),
-          completed_at: new Date()
+            created_at: new Date(),
+            updated_at: new Date(),
+            completed_at: new Date(),
           });
-          console.log(`Created LFK form entry for client: ${client.firstName} ${client.lastName}`);
+          console.log(
+            `Created LFK form entry for client: ${client.firstName} ${client.lastName}`
+          );
         }
       }
 
@@ -185,11 +181,13 @@ async function seed() {
               fim_memory_dis: '6',
               fim_notes: 'Тестовые заметки по FIM',
             }),
-                      created_at: new Date(),
-          updated_at: new Date(),
-          completed_at: new Date()
+            created_at: new Date(),
+            updated_at: new Date(),
+            completed_at: new Date(),
           });
-          console.log(`Created FIM form entry for client: ${client.firstName} ${client.lastName}`);
+          console.log(
+            `Created FIM form entry for client: ${client.firstName} ${client.lastName}`
+          );
         }
       }
     }

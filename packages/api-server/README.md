@@ -1,14 +1,14 @@
-# @cuis/api-server
+# @reki/api-server
 
-Main API server application for the CUIS system.
+Main API server application for the Reki system.
 
 ## Overview
 
-This is the runnable API server that brings together all the CUIS packages to provide a complete REST API service. Built with NestJS and configured for production deployment.
+This is the runnable API server that brings together all the Reki packages to provide a complete REST API service. Built with NestJS and configured for production deployment.
 
 ## Features
 
-- **Complete REST API**: All CUIS functionality via HTTP endpoints
+- **Complete REST API**: All Reki functionality via HTTP endpoints
 - **Swagger Documentation**: Auto-generated API docs at `/api/docs`
 - **Database Integration**: PostgreSQL with migrations
 - **Production Ready**: Optimized for deployment
@@ -17,11 +17,13 @@ This is the runnable API server that brings together all the CUIS packages to pr
 ## Running the Server
 
 ### Development
+
 ```bash
 npm run api:dev
 ```
 
 ### Production
+
 ```bash
 npm run api:build
 npm run api:start
@@ -40,9 +42,9 @@ Set environment variables:
 PORT=3002
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
-POSTGRES_USER=cuis
-POSTGRES_PASSWORD=cuis
-POSTGRES_DB=cuis
+POSTGRES_USER=reki
+POSTGRES_PASSWORD=reki
+POSTGRES_DB=reki
 ```
 
 ## Available Scripts
@@ -55,13 +57,14 @@ POSTGRES_DB=cuis
 
 ## Dependencies
 
-This package integrates all CUIS packages:
-- `@cuis/domain` - Core business logic
-- `@cuis/persistence` - Data access layer
-- `@cuis/use-cases` - Application services
-- `@cuis/api` - REST controllers and DTOs
+This package integrates all Reki packages:
+
+- `@reki/domain` - Core business logic
+- `@reki/persistence` - Data access layer
+- `@reki/use-cases` - Application services
+- `@reki/api` - REST controllers and DTOs
 
 ## Documentation
 
 For complete system documentation, see:
-**[CUIS Documentation Hub](../../docs/README.md)**
+**[Reki Documentation Hub](../../docs/README.md)**

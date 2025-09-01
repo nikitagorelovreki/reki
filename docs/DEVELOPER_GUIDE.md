@@ -1,4 +1,4 @@
-# CUIS Developer Guide
+# Reki Developer Guide
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@
 
 ## Overview
 
-CUIS (Cosyma Unified Info-System) is a comprehensive modular system designed for managing medical devices, clients (patients), and service requests in healthcare environments. The system follows Domain-Driven Design (DDD) principles and Clean Architecture patterns to ensure maintainability, testability, and scalability.
+Reki (Cosyma Unified Info-System) is a comprehensive modular system designed for managing medical devices, clients (patients), and service requests in healthcare environments. The system follows Domain-Driven Design (DDD) principles and Clean Architecture patterns to ensure maintainability, testability, and scalability.
 
 ### Key Features
 
@@ -37,7 +37,7 @@ CUIS (Cosyma Unified Info-System) is a comprehensive modular system designed for
 
 ## High-Level Architecture
 
-CUIS follows a layered architecture based on Clean Architecture principles:
+Reki follows a layered architecture based on Clean Architecture principles:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -100,7 +100,7 @@ export class Device {
   // ... additional fields
 }
 
-// Client/Patient Entity  
+// Client/Patient Entity
 export class Client {
   id: string;
   fullName: string;
@@ -146,11 +146,12 @@ The system uses PostgreSQL with the following main tables:
 
 ## Package Documentation
 
-### @cuis/domain
+### @reki/domain
 
 **Purpose**: Contains pure business logic, domain entities, and port interfaces.
 
 **Structure**:
+
 ```
 packages/domain/src/
 ├── models/           # Domain entities and business objects
@@ -168,6 +169,7 @@ packages/domain/src/
 ```
 
 **Key Responsibilities**:
+
 - Define business entities and rules
 - Provide interfaces (ports) for external dependencies
 - Maintain data integrity through domain validation
@@ -175,11 +177,12 @@ packages/domain/src/
 
 **Dependencies**: None (pure TypeScript)
 
-### @cuis/persistence
+### @reki/persistence
 
 **Purpose**: Implements data persistence using PostgreSQL and provides repository implementations.
 
 **Structure**:
+
 ```
 packages/persistence/src/
 ├── database/         # Database connection and configuration
@@ -197,26 +200,29 @@ packages/persistence/src/
 ```
 
 **Key Responsibilities**:
+
 - Implement repository patterns defined in domain ports
 - Handle database connections and transactions
 - Manage data mapping between domain objects and database records
 - Provide database migration scripts
 
-**Dependencies**: 
-- `@cuis/domain` for interfaces and entities
+**Dependencies**:
+
+- `@reki/domain` for interfaces and entities
 - `knex` for SQL query building
 - `pg` for PostgreSQL connectivity
 
-### @cuis/use-cases
+### @reki/use-cases
 
 **Purpose**: Contains application business logic and orchestrates domain entities.
 
 **Structure**:
+
 ```
 packages/use-cases/src/
 ├── services/         # Application services
 │   ├── client.service.ts     # Client management business logic
-│   ├── device.service.ts     # Device management business logic  
+│   ├── device.service.ts     # Device management business logic
 │   ├── form.service.ts       # Form template management
 │   └── form-entry.service.ts # Form submission management
 ├── application.module.ts     # Legacy module
@@ -224,20 +230,23 @@ packages/use-cases/src/
 ```
 
 **Key Responsibilities**:
+
 - Implement business use cases and workflows
 - Coordinate between multiple domain entities
 - Handle transaction boundaries
 - Provide service interfaces for API layer
 
 **Dependencies**:
-- `@cuis/domain` for entities and ports
+
+- `@reki/domain` for entities and ports
 - Repository implementations (injected via DI)
 
-### @cuis/api
+### @reki/api
 
 **Purpose**: Provides RESTful API endpoints and handles HTTP requests/responses.
 
 **Structure**:
+
 ```
 packages/api/src/
 ├── devices/          # Device management endpoints
@@ -256,20 +265,23 @@ packages/api/src/
 ```
 
 **Key Responsibilities**:
+
 - Handle HTTP requests and responses
 - Validate input data using DTOs
 - Transform data between API and domain formats
 - Provide Swagger/OpenAPI documentation
 
 **Dependencies**:
-- `@cuis/use-cases` for business logic
-- `@cuis/domain` for type definitions
 
-### @cuis/frontend
+- `@reki/use-cases` for business logic
+- `@reki/domain` for type definitions
 
-**Purpose**: React-based user interface for the CUIS system.
+### @reki/frontend
+
+**Purpose**: React-based user interface for the Reki system.
 
 **Structure**:
+
 ```
 packages/frontend/src/
 ├── components/       # Reusable UI components
@@ -289,12 +301,14 @@ packages/frontend/src/
 ```
 
 **Key Responsibilities**:
+
 - Provide user interface for system functionality
 - Handle user interactions and state management
 - Communicate with backend API
 - Display data in user-friendly formats
 
 **Dependencies**:
+
 - React and related UI libraries
 - API client libraries for backend communication
 
@@ -303,6 +317,7 @@ packages/frontend/src/
 ### Backend Components
 
 #### Domain Models
+
 Core business entities that represent the system's fundamental concepts:
 
 - **Device**: Represents medical devices with lifecycle management
@@ -311,14 +326,16 @@ Core business entities that represent the system's fundamental concepts:
 - **FormEntry**: Individual form submissions with data and scoring
 
 #### Repository Pattern
+
 Each domain entity has a corresponding repository that handles data persistence:
 
 - **DeviceRepository**: CRUD operations for devices
-- **ClientRepository**: CRUD operations for clients  
+- **ClientRepository**: CRUD operations for clients
 - **FormRepository**: CRUD operations for form templates
 - **FormEntryRepository**: CRUD operations for form submissions
 
 #### Services (Use Cases)
+
 Business logic services that orchestrate domain entities:
 
 - **DeviceService**: Device management workflows
@@ -327,6 +344,7 @@ Business logic services that orchestrate domain entities:
 - **FormEntryService**: Form submission workflows
 
 #### API Controllers
+
 REST endpoints that expose system functionality:
 
 - **DevicesController**: Device management API
@@ -337,16 +355,19 @@ REST endpoints that expose system functionality:
 ### Frontend Components
 
 #### Layout Components
+
 - **MainLayout**: Primary application layout with navigation
 - **PageLayout**: Standard page wrapper with common elements
 
 #### Feature Components
+
 - **DeviceList**: Display and manage devices
 - **ClientList**: Display and manage clients
 - **FormList**: Display available forms
 - **FlowerFormIntegration**: Embedded form interface
 
 #### Common Components
+
 - **LoadingSpinner**: Loading state indicator
 - **ErrorBoundary**: Error handling wrapper
 - **Pagination**: Data pagination controls
@@ -384,16 +405,19 @@ The system uses PostgreSQL with the following approach to data storage:
 #### Data Storage Patterns
 
 **JSON Schema Storage**:
+
 - Form templates store their structure as JSON schemas
 - Form submissions store data as flexible JSON objects
 - Allows for schema evolution without database migrations
 
 **Audit Fields**:
+
 - All entities include `created_at`, `updated_at` timestamps
 - User tracking with `created_by`, `updated_by` fields
 - Enables full audit trail of changes
 
 **Status Tracking**:
+
 - Entities use enum-based status fields for state management
 - Supports business workflow transitions
 - Enables filtering and reporting by status
@@ -401,6 +425,7 @@ The system uses PostgreSQL with the following approach to data storage:
 ### Migration Strategy
 
 Database migrations are managed using Knex.js:
+
 - Location: `packages/persistence/database/migrations/`
 - Naming: `001_initial_schema.ts`, `002_add_forms.ts`, etc.
 - Run via: `knex migrate:latest`
@@ -425,14 +450,16 @@ packages/your-package/
 ### Step-by-Step Guide
 
 1. **Create Package Directory**
+
    ```bash
    npm run create:package your-package-name
    ```
 
 2. **Configure package.json**
+
    ```json
    {
-     "name": "@cuis/your-package",
+     "name": "@reki/your-package",
      "version": "0.1.0",
      "description": "Package description",
      "main": "dist/index.js",
@@ -444,12 +471,13 @@ packages/your-package/
        "clean": "rimraf dist"
      },
      "dependencies": {
-       "@cuis/domain": "^0.1.0"
+       "@reki/domain": "^0.1.0"
      }
    }
    ```
 
 3. **Add TypeScript Configuration**
+
    ```json
    {
      "extends": "../../tsconfig.json",
@@ -521,6 +549,7 @@ Follow these dependency guidelines:
 ## Next Steps
 
 For specific implementation details, refer to:
+
 - [UML Schema Documentation](./UML_SCHEMA.md)
 - [API Documentation](http://localhost:3002/api/docs) (when server is running)
 - [Frontend Component Guide](./FRONTEND_COMPONENTS.md)

@@ -4,7 +4,7 @@ This guide explains how to create new modules in the Reki codebase, following th
 
 ## Overview
 
-CUIS follows a modular architecture based on Clean Architecture and Domain-Driven Design (DDD) principles. Each business feature is implemented as a module that spans across multiple layers:
+Reki follows a modular architecture based on Clean Architecture and Domain-Driven Design (DDD) principles. Each business feature is implemented as a module that spans across multiple layers:
 
 - **Domain** - Business models and interfaces
 - **Persistence** - Data access layer
@@ -38,11 +38,13 @@ packages/
 The codebase currently uses two patterns for repository ports:
 
 ### Pattern 1: Interface with Dependency Injection Tokens
+
 - **Used by**: Device, Client modules
 - **Benefits**: Better testability, clearer dependencies
 - **When to use**: For new modules, recommended approach
 
-### Pattern 2: Abstract Class with Direct Injection  
+### Pattern 2: Abstract Class with Direct Injection
+
 - **Used by**: Form, FormEntry modules
 - **Benefits**: Simpler setup, no token configuration needed
 - **When to use**: When you need transaction support or want simpler configuration
@@ -97,6 +99,7 @@ export class Patient {
 **Note**: The codebase uses two patterns for repository ports. Choose the appropriate one:
 
 **Pattern 1: Interface with Dependency Injection Tokens** (Device/Client pattern)
+
 ```typescript
 import { Patient, PatientStatus } from '../models/patient.model';
 import { PaginationOptions, PaginatedResult } from './device-repository.port';
@@ -108,17 +111,18 @@ export interface PatientRepositoryPort {
   findAll(options?: PaginationOptions): Promise<PaginatedResult<Patient>>;
   update(id: string, patient: Partial<Patient>): Promise<Patient>;
   delete(id: string): Promise<void>;
-  
+
   // Specific queries
   findByEmail(email: string): Promise<Patient | null>;
   findByStatus(status: PatientStatus, options?: PaginationOptions): Promise<PaginatedResult<Patient>>;
-  
+
   // Query builder access for complex cases
   getQueryBuilder(): any;
 }
 ```
 
 **Pattern 2: Abstract Class with Direct Injection** (Form/FormEntry pattern)
+
 ```typescript
 import { Knex } from 'knex';
 import { Patient, PatientStatus } from '../models/patient.model';
@@ -160,6 +164,7 @@ export * from './ports/patient-repository.port';
 #### Create Repository Implementation (`packages/persistence/src/repositories/{entity}.repository.ts`)
 
 **Pattern 1: Interface Implementation** (Device/Client pattern)
+
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { Patient, PatientStatus, PatientRepositoryPort, PaginationOptions, PaginatedResult } from '@reki/domain';
@@ -182,18 +187,14 @@ export class PatientRepository implements PatientRepositoryPort {
 
   async create(patient: Patient): Promise<Patient> {
     const dbData = objectCamelToSnake(patient, this.fieldMappings);
-    const [result] = await this.db.knex(this.tableName)
-      .insert(dbData)
-      .returning('*');
-    
+    const [result] = await this.db.knex(this.tableName).insert(dbData).returning('*');
+
     return this.mapToPatient(result);
   }
 
   async findById(id: string): Promise<Patient | null> {
-    const result = await this.db.knex(this.tableName)
-      .where({ id })
-      .first();
-    
+    const result = await this.db.knex(this.tableName).where({ id }).first();
+
     return result ? this.mapToPatient(result) : null;
   }
 
@@ -211,6 +212,7 @@ export class PatientRepository implements PatientRepositoryPort {
 ```
 
 **Pattern 2: Abstract Class Implementation** (Form/FormEntry pattern)
+
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
@@ -235,17 +237,15 @@ export class PatientRepository implements IPatientRepository {
   async create(patient: Patient, trx?: Knex.Transaction): Promise<Patient> {
     const dbData = objectCamelToSnake(patient, this.fieldMappings);
     const query = trx ? trx(this.tableName) : this.db.knex(this.tableName);
-    const [result] = await query
-      .insert(dbData)
-      .returning('*');
-    
+    const [result] = await query.insert(dbData).returning('*');
+
     return this.mapToPatient(result);
   }
 
   async findById(id: string, trx?: Knex.Transaction): Promise<Patient | null> {
     const query = trx ? trx(this.tableName) : this.db.knex(this.tableName);
     const result = await query.where({ id }).first();
-    
+
     return result ? this.mapToPatient(result) : null;
   }
 
@@ -273,15 +273,16 @@ PatientRepository,
 #### Create Service (`packages/use-cases/src/services/{entity}.service.ts`)
 
 **Pattern 1: Using Dependency Injection Tokens** (Device/Client pattern)
+
 ```typescript
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
-import { 
-  Patient, 
-  PatientStatus, 
-  PatientRepositoryPort, 
-  PaginationOptions, 
+import {
+  Patient,
+  PatientStatus,
+  PatientRepositoryPort,
+  PaginationOptions,
   PaginatedResult,
-  PATIENT_REPOSITORY
+  PATIENT_REPOSITORY,
 } from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -318,7 +319,7 @@ export class PatientService {
 
   async updatePatient(id: string, updateData: Partial<Patient>): Promise<Patient> {
     const existingPatient = await this.getPatientById(id);
-    
+
     const updatedPatient = new Patient({
       ...existingPatient,
       ...updateData,
@@ -338,15 +339,10 @@ export class PatientService {
 ```
 
 **Pattern 2: Direct Abstract Class Injection** (Form/FormEntry pattern)
+
 ```typescript
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { 
-  Patient, 
-  PatientStatus, 
-  IPatientRepository,
-  PaginationOptions, 
-  PaginatedResult
-} from '@reki/domain';
+import { Patient, PatientStatus, IPatientRepository, PaginationOptions, PaginatedResult } from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -379,7 +375,7 @@ export class PatientService {
 
   async updatePatient(id: string, updateData: Partial<Patient>): Promise<Patient> {
     const existingPatient = await this.getPatientById(id);
-    
+
     const updatedPatient = new Patient({
       ...existingPatient,
       ...updateData,
@@ -431,7 +427,7 @@ export class CreatePatientDto {
   firstName!: string;
 
   @ApiProperty({
-    description: 'Patient last name', 
+    description: 'Patient last name',
     example: 'Doe',
   })
   @IsString()
@@ -545,18 +541,18 @@ export class PatientResponseDto {
 #### B. Create Controller (`packages/api/src/{entities}/{entities}.controller.ts`)
 
 ```typescript
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Put, 
-  Delete, 
-  Body, 
-  Param, 
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
   Query,
   ParseUUIDPipe,
   HttpCode,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { PatientService } from '@reki/use-cases';
@@ -647,9 +643,10 @@ PatientsModule,
 
 #### B. Configure Dependency Injection
 
-**For Pattern 1 (Interface with DI Tokens)**: 
+**For Pattern 1 (Interface with DI Tokens)**:
 
 1. Update `packages/api-server/src/providers.ts`:
+
 ```typescript
 // Add to imports
 import { PATIENT_REPOSITORY } from '@reki/domain';
@@ -663,6 +660,7 @@ import { PatientRepository } from '@reki/persistence';
 ```
 
 2. **Important**: Ensure providers are registered in a module. The providers may need to be imported in `packages/api-server/src/app.module.ts`:
+
 ```typescript
 import { providers } from './providers';
 
@@ -710,6 +708,7 @@ The codebase currently uses two different patterns for repository dependency inj
 2. **Form/FormEntry modules**: Use abstract classes with direct injection
 
 This inconsistency may cause confusion. For new modules, we recommend:
+
 - **Use Pattern 1** (Interface with DI tokens) for better testability and consistency
 - Consider refactoring existing Form/FormEntry modules to use Pattern 1 in the future
 
@@ -730,6 +729,7 @@ The `packages/api-server/src/providers.ts` file exists but isn't imported in any
 ### 2. Package Dependencies
 
 Follow the dependency flow:
+
 ```
 API → Use Cases → Domain ← Persistence
 ```
@@ -748,6 +748,7 @@ API → Use Cases → Domain ← Persistence
 ### 4. Testing
 
 Create tests for each layer:
+
 - `{entity}.model.spec.ts` - Domain model tests
 - `{entity}.repository.spec.ts` - Repository tests
 - `{entity}.service.spec.ts` - Service tests
@@ -766,6 +767,7 @@ Here's a complete checklist for adding a new Patient module:
 ### Checklist
 
 #### Core Steps (Required for all modules)
+
 - [ ] **Domain Model**: Create `packages/domain/src/models/patient.model.ts`
 - [ ] **Repository Port**: Create `packages/domain/src/ports/patient-repository.port.ts` OR `i-patient-repository.ts`
 - [ ] **Domain Exports**: Update `packages/domain/src/index.ts`
@@ -783,6 +785,7 @@ Here's a complete checklist for adding a new Patient module:
 - [ ] **API Documentation**: Ensure Swagger docs are complete
 
 #### Additional Steps for Pattern 1 (Interface with DI Tokens)
+
 - [ ] **Dependency Token**: Add `PATIENT_REPOSITORY` to `packages/domain/src/tokens.ts`
 - [ ] **Configure DI**: Update `packages/api-server/src/providers.ts`
 
@@ -793,6 +796,7 @@ Here's a complete checklist for adding a new Patient module:
 ### 1. Repository Implementation Template
 
 All repositories should:
+
 - Implement their corresponding port interface
 - Use `DatabaseService` for database access
 - Include field mappings for camelCase ↔ snake_case conversion
@@ -802,6 +806,7 @@ All repositories should:
 ### 2. Service Implementation Template
 
 All services should:
+
 - Inject repository via dependency injection token
 - Generate UUIDs for new entities
 - Handle business logic and validation
@@ -811,6 +816,7 @@ All services should:
 ### 3. Controller Implementation Template
 
 All controllers should:
+
 - Use appropriate HTTP methods and status codes
 - Include Swagger documentation
 - Validate input with DTOs
@@ -856,6 +862,7 @@ After creating your module:
 ### Module Registration
 
 Ensure your module is properly registered in:
+
 - `packages/persistence/src/persistence.module.ts` (repository)
 - `packages/use-cases/src/use-cases.module.ts` (service)
 - `packages/api/src/api.module.ts` (controller module)

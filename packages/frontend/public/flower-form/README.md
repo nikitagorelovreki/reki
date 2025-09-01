@@ -1,6 +1,6 @@
 # Flower Form Documentation
 
-This directory contains the Flower Form static files integrated into the CUIS system.
+This directory contains the Flower Form static files integrated into the Reki system.
 
 ## Full Documentation
 
@@ -9,10 +9,10 @@ For complete Flower Form documentation, see:
 
 ## Integration Documentation
 
-For integration details with the CUIS system, see:
+For integration details with the Reki system, see:
 **[Flower Form Integration Guide](../../../docs/flower-form-integration.md)**
 
-## CUIS System Documentation
+## Reki System Documentation
 
 For complete system documentation, see:
-**[CUIS Developer Documentation](../../../docs/README.md)**
+**[Reki Developer Documentation](../../../docs/README.md)**

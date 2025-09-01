@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CUIS frontend is built with React and TypeScript, using Ant Design (antd) as the UI component library. The application follows a modular component architecture with clear separation of concerns.
+The Reki frontend is built with React and TypeScript, using Ant Design (antd) as the UI component library. The application follows a modular component architecture with clear separation of concerns.
 
 ## Technology Stack
 
@@ -36,12 +36,14 @@ src/
 **Purpose**: Primary application layout with navigation sidebar and header.
 
 **Key Features**:
+
 - Collapsible sidebar navigation
 - User authentication status
 - Route-based menu highlighting
 - Responsive design
 
 **Props**:
+
 ```typescript
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -49,13 +51,15 @@ interface MainLayoutProps {
 ```
 
 **Menu Structure**:
+
 - Dashboard (`/dashboard`)
 - Devices (`/devices`) - Device management
-- Clients (`/clients`) - Patient management  
+- Clients (`/clients`) - Patient management
 - Forms (`/forms`) - Form and assessment management
 - Settings (`/settings`) - Application settings
 
 **Usage**:
+
 ```jsx
 <MainLayout>
   <YourPageComponent />
@@ -71,12 +75,14 @@ interface MainLayoutProps {
 **Purpose**: Embeds the standalone Flower Form application within the React app using iframe.
 
 **Key Features**:
+
 - Iframe-based integration with postMessage communication
 - Bidirectional data exchange with parent application
 - Loading states and error handling
 - Support for different form types (LFK, FIM)
 
 **Props**:
+
 ```typescript
 interface FlowerFormIntegrationProps {
   clientId?: string;
@@ -92,12 +98,14 @@ interface FlowerFormIntegrationProps {
 **Purpose**: Native React implementation of form functionality as an alternative to iframe integration.
 
 **Key Features**:
+
 - Tabbed interface for different form sections
 - Support for LFK and FIM form types
 - Form validation and data management
 - Integration with backend API
 
 **Props**:
+
 ```typescript
 interface NativeFlowerFormProps {
   clientId: string;
@@ -114,6 +122,7 @@ interface NativeFlowerFormProps {
 **Purpose**: Specialized component for LFK (physical therapy) examination forms.
 
 **Key Features**:
+
 - Structured form sections for physical assessment
 - Checkbox groups for multi-select options
 - Text areas for notes and observations
@@ -126,22 +135,16 @@ interface NativeFlowerFormProps {
 **Purpose**: Specialized component for FIM (Functional Independence Measure) assessment forms.
 
 **Key Features**:
+
 - Chart.js integration for radar charts
 - Scoring system for functional assessments
 - Data visualization of patient progress
 - Export and print functionality
 
 **Dependencies**:
+
 ```typescript
-import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend
-} from 'chart.js';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 ```
 
@@ -152,6 +155,7 @@ import { Radar } from 'react-chartjs-2';
 **Purpose**: Display and review completed form submissions.
 
 **Key Features**:
+
 - Read-only form data display
 - Historical submission viewing
 - Support for multiple form formats
@@ -163,6 +167,7 @@ import { Radar } from 'react-chartjs-2';
 **Purpose**: Reusable button component for launching form interfaces.
 
 **Props**:
+
 ```typescript
 interface FlowerFormButtonProps {
   formType: 'lfk' | 'fim';
@@ -175,6 +180,7 @@ interface FlowerFormButtonProps {
 ## Page Components
 
 ### Pages Structure
+
 ```
 pages/
 ├── Clients/            # Client management pages
@@ -184,6 +190,7 @@ pages/
 ```
 
 Each page directory typically contains:
+
 - `index.tsx` - Main page component
 - `components/` - Page-specific components
 - `hooks/` - Page-specific custom hooks (if applicable)
@@ -197,6 +204,7 @@ Each page directory typically contains:
 **Purpose**: Configured Axios instance with interceptors for authentication and error handling.
 
 **Features**:
+
 - Automatic token injection for authenticated requests
 - Global error handling for 401 responses
 - Base URL configuration
@@ -207,6 +215,7 @@ Each page directory typically contains:
 #### Clients API (`api/clients.ts`)
 
 **Available Methods**:
+
 ```typescript
 const clientsApi = {
   getAll(params?: PaginationParams): Promise<PaginatedResponse<Client>>;
@@ -224,6 +233,7 @@ const clientsApi = {
 #### Devices API (`api/devices.ts`)
 
 **Available Methods**:
+
 ```typescript
 const devicesApi = {
   getAll(params?: PaginationParams): Promise<PaginatedResponse<Device>>;
@@ -242,13 +252,14 @@ const devicesApi = {
 #### Forms API (`api/forms.ts`)
 
 **Available Methods**:
+
 ```typescript
 // Form Templates
 export const getForms: (page?: number, limit?: number) => Promise<PaginatedResponse<Form>>;
 export const getFormsByType: (type: 'lfk' | 'fim', page?: number, limit?: number) => Promise<PaginatedResponse<Form>>;
 export const createForm: (data: any) => Promise<Form>;
 
-// Form Submissions  
+// Form Submissions
 export const getFormSubmissions: (params?: any) => Promise<PaginatedResponse<FormSubmission>>;
 export const createFormSubmission: (data: any) => Promise<FormSubmission>;
 export const importFlowerFormData: (data: any) => Promise<any>;
@@ -269,25 +280,25 @@ interface ComponentProps {
 }
 
 // Component implementation
-const Component: React.FC<ComponentProps> = ({ 
-  id, 
-  className, 
-  onAction 
+const Component: React.FC<ComponentProps> = ({
+  id,
+  className,
+  onAction
 }) => {
   // State management
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  
+
   // Effect hooks
   useEffect(() => {
     // Component initialization
   }, []);
-  
+
   // Event handlers
   const handleAction = useCallback((actionData: any) => {
     onAction?.(actionData);
   }, [onAction]);
-  
+
   return (
     <div className={className}>
       {/* Component JSX */}
@@ -306,7 +317,7 @@ const useEntityData = (id: string) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -319,10 +330,10 @@ const useEntityData = (id: string) => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [id]);
-  
+
   return { data, loading, error };
 };
 ```
@@ -337,10 +348,13 @@ The Flower Form integration uses the browser's postMessage API for secure cross-
 // Sending data to iframe
 const sendDataToForm = (data: any) => {
   if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage({
-      type: 'INIT_FORM',
-      payload: data
-    }, '*');
+    iframeRef.current.contentWindow.postMessage(
+      {
+        type: 'INIT_FORM',
+        payload: data,
+      },
+      '*'
+    );
   }
 };
 
@@ -351,7 +365,7 @@ useEffect(() => {
       handleFormSubmit(event.data.payload);
     }
   };
-  
+
   window.addEventListener('message', handleMessage);
   return () => window.removeEventListener('message', handleMessage);
 }, []);
@@ -382,7 +396,7 @@ interface LFKFormData {
   };
 }
 
-// FIM Form Data Structure  
+// FIM Form Data Structure
 interface FIMFormData {
   assessment_date: string;
   therapist_name: string;
@@ -416,6 +430,7 @@ const [state, dispatch] = useReducer(formReducer, initialState);
 ### Global State
 
 For application-wide state, the system uses:
+
 - Local Storage for user preferences and authentication
 - Context API for theme and user information
 - Props drilling for component communication
@@ -427,8 +442,8 @@ For application-wide state, the system uses:
 ```typescript
 // Global error interceptor
 apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('authToken');
@@ -471,6 +486,7 @@ const hide = message.loading('Processing...', 0);
 ### CSS Structure
 
 The application uses a combination of:
+
 - Ant Design's built-in theming system
 - Custom CSS for specific styling needs
 - CSS Modules for component-specific styles
@@ -484,7 +500,7 @@ const theme = {
     colorPrimary: '#1890ff',
     borderRadius: 6,
     // ... other theme tokens
-  }
+  },
 };
 ```
 
@@ -502,11 +518,11 @@ describe('Component', () => {
     render(<Component id="test" />);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
-  
+
   it('should handle user interaction', () => {
     const mockHandler = jest.fn();
     render(<Component id="test" onAction={mockHandler} />);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(mockHandler).toHaveBeenCalledWith(expect.any(Object));
   });
@@ -551,6 +567,7 @@ describe('Component', () => {
 To integrate a new form type:
 
 1. **Create Form Component**:
+
    ```typescript
    const NewFormComponent: React.FC<FormProps> = ({ clientId, onSubmit }) => {
      // Form implementation
@@ -558,6 +575,7 @@ To integrate a new form type:
    ```
 
 2. **Add to Form Router**:
+
    ```typescript
    // In NativeFlowerForm or similar
    const formComponents = {
@@ -573,7 +591,7 @@ To integrate a new form type:
    export const createNewFormSubmission = async (data: NewFormData) => {
      const response = await apiClient.post('/form-entries', {
        formType: 'new_form',
-       data
+       data,
      });
      return response.data;
    };
@@ -603,4 +621,4 @@ npm run lint
 npm run test
 ```
 
-This frontend documentation provides a comprehensive guide for understanding and working with the React-based user interface components in the CUIS system.
+This frontend documentation provides a comprehensive guide for understanding and working with the React-based user interface components in the Reki system.

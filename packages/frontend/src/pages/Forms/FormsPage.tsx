@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { 
-  Form, 
-  FormSubmission, 
+import { useParams } from 'react-router-dom';
+import {
+  Form,
+  FormSubmission,
   getForms,
-  getFormsByType,
   getSubmissionsByClient,
   getSubmissionsByClientAndForm,
-  getSubmissionsByForm
+  getSubmissionsByForm,
 } from '../../api/forms';
-import NativeFlowerForm from '../../components/FlowerForm/NativeFlowerForm';
-import { Button, Card, Tabs } from 'antd';
+import { Button } from 'antd';
 import './FormsPage.css';
 
 interface FormsPageParams extends Record<string, string | undefined> {
@@ -19,12 +17,12 @@ interface FormsPageParams extends Record<string, string | undefined> {
 
 const FormsPage: React.FC = () => {
   const { clientId } = useParams<FormsPageParams>();
-  const navigate = useNavigate();
-  
+
   const [forms, setForms] = useState<Form[]>([]);
   const [submissions, setSubmissions] = useState<FormSubmission[]>([]);
   const [selectedForm, setSelectedForm] = useState<Form | null>(null);
-  const [selectedSubmission, setSelectedSubmission] = useState<FormSubmission | null>(null);
+  const [selectedSubmission, setSelectedSubmission] =
+    useState<FormSubmission | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [showFlowerForm, setShowFlowerForm] = useState<boolean>(false);
@@ -34,20 +32,24 @@ const FormsPage: React.FC = () => {
       try {
         setLoading(true);
         let formsData;
-        
+
         // Load forms
         if (clientId) {
           // If we have a client ID, load all forms
           formsData = await getForms(1, 100);
-          
+
           // Also load submissions for this client
-          const submissionsData = await getSubmissionsByClient(clientId, 1, 100);
+          const submissionsData = await getSubmissionsByClient(
+            clientId,
+            1,
+            100
+          );
           setSubmissions(submissionsData.data);
         } else {
           // If no client ID, just load all forms
           formsData = await getForms(1, 100);
         }
-        
+
         setForms(formsData.data);
       } catch (err) {
         console.error('Error loading forms data:', err);
@@ -62,18 +64,23 @@ const FormsPage: React.FC = () => {
 
   const handleFormSelect = (form: Form) => {
     setSelectedForm(form);
-    
+
     // If we have a client ID, try to find submissions for this form and client
     if (clientId) {
       const loadSubmissions = async () => {
         try {
-          const submissionsData = await getSubmissionsByClientAndForm(clientId, form.id, 1, 100);
+          const submissionsData = await getSubmissionsByClientAndForm(
+            clientId,
+            form.id,
+            1,
+            100
+          );
           setSubmissions(submissionsData.data);
         } catch (err) {
           console.error('Error loading submissions:', err);
         }
       };
-      
+
       loadSubmissions();
     } else {
       // If no client ID, load all submissions for this form
@@ -85,7 +92,7 @@ const FormsPage: React.FC = () => {
           console.error('Error loading submissions:', err);
         }
       };
-      
+
       loadSubmissions();
     }
   };
@@ -98,20 +105,20 @@ const FormsPage: React.FC = () => {
     if (!selectedForm || !clientId) {
       return;
     }
-    
+
     setShowFlowerForm(true);
   };
 
-  const handleFormSubmit = (data: FormSubmission) => {
+  const _handleFormSubmit = (_data: FormSubmission) => {
     // Add the new submission to the list
-    setSubmissions(prev => [data, ...prev]);
+    setSubmissions(prev => [_data, ...prev]);
     setShowFlowerForm(false);
-    
+
     // Select the new submission
-    setSelectedSubmission(data);
+    setSelectedSubmission(_data);
   };
 
-  const handleCloseFlowerForm = () => {
+  const _handleCloseFlowerForm = () => {
     setShowFlowerForm(false);
   };
 
@@ -129,19 +136,16 @@ const FormsPage: React.FC = () => {
         <div className='forms-header'>
           <h2>Forms</h2>
           {clientId && selectedForm && (
-            <Button 
-              type='primary'
-              onClick={handleNewForm}
-            >
+            <Button type='primary' onClick={handleNewForm}>
               New Form
             </Button>
           )}
         </div>
-        
+
         <div className='forms-list'>
           {forms.map(form => (
-            <div 
-              key={form.id} 
+            <div
+              key={form.id}
               className={`form-item ${selectedForm?.id === form.id ? 'selected' : ''}`}
               onClick={() => handleFormSelect(form)}
             >
@@ -149,27 +153,28 @@ const FormsPage: React.FC = () => {
               <div className='form-item-type'>{form.type.toUpperCase()}</div>
             </div>
           ))}
-          
+
           {forms.length === 0 && (
             <div className='no-forms'>No forms available</div>
           )}
         </div>
-        
+
         {selectedForm && (
           <>
             <div className='submissions-header'>
               <h3>Submissions</h3>
               {clientId && (
                 <span className='submissions-count'>
-                  {submissions.length} {submissions.length === 1 ? 'submission' : 'submissions'}
+                  {submissions.length}{' '}
+                  {submissions.length === 1 ? 'submission' : 'submissions'}
                 </span>
               )}
             </div>
-            
+
             <div className='submissions-list'>
               {submissions.map(submission => (
-                <div 
-                  key={submission.id} 
+                <div
+                  key={submission.id}
                   className={`submission-item ${selectedSubmission?.id === submission.id ? 'selected' : ''}`}
                   onClick={() => handleSubmissionSelect(submission)}
                 >
@@ -177,11 +182,13 @@ const FormsPage: React.FC = () => {
                     {new Date(submission.submissionDate).toLocaleDateString()}
                   </div>
                   {submission.therapistName && (
-                    <div className='submission-therapist'>{submission.therapistName}</div>
+                    <div className='submission-therapist'>
+                      {submission.therapistName}
+                    </div>
                   )}
                 </div>
               ))}
-              
+
               {submissions.length === 0 && (
                 <div className='no-submissions'>No submissions available</div>
               )}
@@ -189,33 +196,35 @@ const FormsPage: React.FC = () => {
           </>
         )}
       </div>
-      
+
       <div className='forms-content'>
         {showFlowerForm && selectedForm && clientId ? (
-          <NativeFlowerForm
-            clientId={clientId}
-            formType={selectedForm.type as 'lfk' | 'fim'}
-            onSubmit={handleFormSubmit}
-            onClose={handleCloseFlowerForm}
-          />
+          <div style={{ padding: 20, textAlign: 'center' }}>
+            <p>
+              Форма {selectedForm.type === 'lfk' ? 'ЛФК' : 'FIM'} будет доступна
+              в следующем обновлении
+            </p>
+          </div>
         ) : selectedSubmission ? (
           <div className='submission-details'>
             <div className='submission-details-header'>
               <h2>{selectedForm?.name || 'Form'} Submission</h2>
               <div className='submission-details-meta'>
                 <div className='submission-details-date'>
-                  <span className='label'>Date:</span> 
-                  {new Date(selectedSubmission.submissionDate).toLocaleDateString()}
+                  <span className='label'>Date:</span>
+                  {new Date(
+                    selectedSubmission.submissionDate
+                  ).toLocaleDateString()}
                 </div>
                 {selectedSubmission.therapistName && (
                   <div className='submission-details-therapist'>
-                    <span className='label'>Therapist:</span> 
+                    <span className='label'>Therapist:</span>
                     {selectedSubmission.therapistName}
                   </div>
                 )}
               </div>
             </div>
-            
+
             <div className='submission-details-content'>
               <pre>{JSON.stringify(selectedSubmission.data, null, 2)}</pre>
             </div>

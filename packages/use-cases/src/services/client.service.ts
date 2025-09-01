@@ -1,16 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { 
-  Client, 
-  ClientStatus, 
-  ClientRepositoryPort, 
-  PaginationOptions, 
-  PaginatedResult 
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Client,
+  CLIENT_REPOSITORY,
+  ClientRepositoryPort,
+  ClientStatus,
+  PaginatedResult,
+  PaginationOptions,
 } from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ClientService {
-  constructor(private readonly clientRepository: ClientRepositoryPort) {}
+  constructor(
+    @Inject(CLIENT_REPOSITORY)
+    private readonly clientRepository: ClientRepositoryPort
+  ) {}
 
   async createClient(clientData: Partial<Client>): Promise<Client> {
     const client = new Client({
@@ -32,20 +36,22 @@ export class ClientService {
     return client;
   }
 
-  async getAllClients(options: PaginationOptions = {}): Promise<PaginatedResult<Client>> {
+  async getAllClients(
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<Client>> {
     return this.clientRepository.findAll(options);
   }
 
   async updateClient(id: string, updateData: Partial<Client>): Promise<Client> {
     const existingClient = await this.getClientById(id);
-    
+
     // Обновляем свойства клиента
     const updatedClient = new Client({
       ...existingClient,
       ...updateData,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     });
-    
+
     return this.clientRepository.update(id, updatedClient);
   }
 
@@ -53,19 +59,31 @@ export class ClientService {
     await this.clientRepository.delete(id);
   }
 
-  async getClientsByClinic(clinicId: string, options: PaginationOptions = {}): Promise<PaginatedResult<Client>> {
+  async getClientsByClinic(
+    clinicId: string,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<Client>> {
     return this.clientRepository.findByClinic(clinicId, options);
   }
 
-  async getClientsByStatus(status: ClientStatus, options: PaginationOptions = {}): Promise<PaginatedResult<Client>> {
+  async getClientsByStatus(
+    status: ClientStatus,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<Client>> {
     return this.clientRepository.findByStatus(status, options);
   }
 
-  async searchClients(query: string, options: PaginationOptions = {}): Promise<PaginatedResult<Client>> {
+  async searchClients(
+    query: string,
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<Client>> {
     return this.clientRepository.search(query, options);
   }
 
-  async updateClientStatus(clientId: string, status: ClientStatus): Promise<Client> {
+  async updateClientStatus(
+    clientId: string,
+    status: ClientStatus
+  ): Promise<Client> {
     const client = await this.getClientById(clientId);
     client.updateStatus(status);
     return this.clientRepository.update(clientId, client);

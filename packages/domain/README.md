@@ -1,6 +1,6 @@
-# @cuis/domain
+# @reki/domain
 
-Core business domain models and interfaces for the CUIS system.
+Core business domain models and interfaces for the Reki system.
 
 ## Overview
 
@@ -22,11 +22,11 @@ This package contains pure business logic, domain entities, and port interfaces.
 ## Usage
 
 ```typescript
-import { Device, DeviceStatus } from '@cuis/domain';
+import { Device, DeviceStatus } from '@reki/domain';
 
 const device = new Device({
   serial: 'DEV001',
-  model: 'RehabDevice Pro'
+  model: 'RehabDevice Pro',
 });
 
 device.assignToPatient('patient-123');
@@ -35,7 +35,7 @@ device.assignToPatient('patient-123');
 ## Documentation
 
 For complete package documentation, see:
-**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#cuisdomain)**
+**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#rekidomain)**
 
 For system documentation, see:
-**[CUIS Documentation Hub](../../docs/README.md)**
+**[Reki Documentation Hub](../../docs/README.md)**

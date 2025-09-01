@@ -1,7 +1,9 @@
-# CUIS User Guide
+# Reki User Guide
+
 ## Reki Medical Device Management System - Control Panel
 
 ### Table of Contents
+
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Navigation & Main Tabs](#navigation--main-tabs)
@@ -20,6 +22,7 @@
 Reki is a comprehensive control panel designed for healthcare facilities to manage medical devices, patients (clients), and assessment forms. The system helps streamline operations by providing a centralized platform for tracking equipment, managing patient information, and conducting standardized assessments.
 
 ### Key Features
+
 - **Device Management**: Track medical devices across different locations and statuses
 - **Patient Management**: Manage client information, status, and treatment progress
 - **Assessment Forms**: Conduct LFK (Physical Therapy) and FIM (Functional Independence Measure) evaluations
@@ -30,11 +33,13 @@ Reki is a comprehensive control panel designed for healthcare facilities to mana
 ## Getting Started
 
 ### Accessing the System
-1. Open your web browser and navigate to the CUIS application URL
+
+1. Open your web browser and navigate to the Reki application URL
 2. Log in with your credentials
 3. You'll be automatically redirected to the Dashboard
 
 ### System Requirements
+
 - Modern web browser (Chrome, Firefox, Safari, Edge)
 - Internet connection
 - Login credentials provided by your system administrator
@@ -43,21 +48,26 @@ Reki is a comprehensive control panel designed for healthcare facilities to mana
 
 ## Navigation & Main Tabs
 
-The CUIS control panel features a sidebar navigation with the following main sections:
+The Reki control panel features a sidebar navigation with the following main sections:
 
 ### 🏠 Dashboard
+
 Main overview page showing system statistics and recent activity
 
-### 🔧 Devices  
+### 🔧 Devices
+
 Manage medical devices, track their locations and status
 
 ### 👥 Clients
+
 Manage patient information and treatment status
 
 ### 📋 Forms
+
 Access assessment forms (LFK and FIM evaluations)
 
 ### ⚙️ Settings
+
 System configuration (Coming Soon)
 
 ---
@@ -69,25 +79,30 @@ The Dashboard provides a comprehensive overview of your system's current state.
 ### What You'll See
 
 #### Statistics Cards
+
 - **Total Devices**: Overview of all registered devices
-- **Active Devices**: Currently deployed or in-use devices  
+- **Active Devices**: Currently deployed or in-use devices
 - **Total Clients**: All registered patients/clients
 - **Active Clients**: Clients currently receiving treatment
 
 #### Quick Access Forms
+
 - **LFK Assessment**: Physical therapy examination forms
 - **FIM Assessment**: Functional Independence Measure forms
 
 #### Recent Activity Tables
+
 - **Recent Devices**: Latest device updates and status changes
 - **Recent Clients**: Newly added or updated client records
 - **Activity Feed**: System-wide activity log
 
 #### Progress Indicators
+
 - **Device Usage**: Percentage of devices currently active
 - **Client Activity**: Treatment progress indicators
 
 ### How to Use the Dashboard
+
 1. **View Statistics**: Monitor overall system health at a glance
 2. **Quick Forms Access**: Click "Открыть форму" to quickly start an assessment
 3. **Navigate to Details**: Click "View All" links to access detailed views
@@ -101,19 +116,20 @@ The Devices section allows you to track and manage medical equipment throughout 
 
 ### Device Statuses
 
-| Status | Description | Use Case |
-|--------|-------------|----------|
-| **REGISTERED** | Device registered in system | New devices added to inventory |
-| **IN_STOCK** | Available in warehouse/storage | Ready for deployment |
-| **AT_CLINIC** | Currently at the medical facility | In use for treatments |
-| **AT_PATIENT_HOME** | Deployed to patient's home | Home therapy equipment |
-| **UNDER_SERVICE** | Being repaired or maintained | Temporarily unavailable |
-| **RMA** | Return merchandise authorization | Defective, being returned |
-| **DECOMMISSIONED** | Permanently out of service | End of device lifecycle |
+| Status              | Description                       | Use Case                       |
+| ------------------- | --------------------------------- | ------------------------------ |
+| **REGISTERED**      | Device registered in system       | New devices added to inventory |
+| **IN_STOCK**        | Available in warehouse/storage    | Ready for deployment           |
+| **AT_CLINIC**       | Currently at the medical facility | In use for treatments          |
+| **AT_PATIENT_HOME** | Deployed to patient's home        | Home therapy equipment         |
+| **UNDER_SERVICE**   | Being repaired or maintained      | Temporarily unavailable        |
+| **RMA**             | Return merchandise authorization  | Defective, being returned      |
+| **DECOMMISSIONED**  | Permanently out of service        | End of device lifecycle        |
 
 ### Key Features
 
 #### Device Information
+
 - **Serial Number**: Unique device identifier
 - **Model**: Device type and specifications
 - **QR Code**: For quick scanning and identification
@@ -121,6 +137,7 @@ The Devices section allows you to track and manage medical equipment throughout 
 - **Telemetry Endpoint**: Data collection URL
 
 #### Device Management Actions
+
 1. **Add New Device**
    - Click the "+" button to register a new device
    - Fill in serial number, model, and initial location
@@ -151,17 +168,18 @@ The Clients section manages patient/client information and treatment status.
 
 ### Client Statuses
 
-| Status | Description | Typical Duration |
-|--------|-------------|------------------|
-| **INTAKE** | Initial registration | 1-2 days |
-| **DIAGNOSTICS** | Assessment and evaluation phase | 3-7 days |
-| **ACTIVE_THERAPY** | Currently receiving treatment | Weeks to months |
-| **PAUSED** | Treatment temporarily suspended | Variable |
-| **DISCHARGED** | Treatment completed successfully | Permanent |
-| **FOLLOWUP** | Post-treatment monitoring | 1-6 months |
-| **ARCHIVED** | Historical record | Permanent |
+| Status             | Description                      | Typical Duration |
+| ------------------ | -------------------------------- | ---------------- |
+| **INTAKE**         | Initial registration             | 1-2 days         |
+| **DIAGNOSTICS**    | Assessment and evaluation phase  | 3-7 days         |
+| **ACTIVE_THERAPY** | Currently receiving treatment    | Weeks to months  |
+| **PAUSED**         | Treatment temporarily suspended  | Variable         |
+| **DISCHARGED**     | Treatment completed successfully | Permanent        |
+| **FOLLOWUP**       | Post-treatment monitoring        | 1-6 months       |
+| **ARCHIVED**       | Historical record                | Permanent        |
 
 ### Client Information Fields
+
 - **Full Name**: Patient's complete name
 - **First Name**: Given name
 - **Date of Birth**: For age calculation and identification
@@ -204,9 +222,11 @@ The Forms section provides access to standardized assessment tools used in healt
 ### Available Form Types
 
 #### 1. LFK Assessment (Осмотр ЛФК)
+
 **Purpose**: Physical therapy examination for evaluating motor skills and movement capabilities
 
 **Form Sections**:
+
 - **1) Осмотр и двигательные навыки** (Examination & Motor Skills)
   - Head control assessment
   - Rolling over capabilities
@@ -224,9 +244,11 @@ The Forms section provides access to standardized assessment tools used in healt
   - Recommended interventions
 
 #### 2. FIM Assessment (Функциональная независимость)
+
 **Purpose**: Functional Independence Measure for evaluating patient's ability to perform daily activities
 
 **Assessment Areas**:
+
 - Self-care activities
 - Mobility and transfers
 - Communication abilities
@@ -236,6 +258,7 @@ The Forms section provides access to standardized assessment tools used in healt
 ### How to Use Forms
 
 #### Creating a New Assessment
+
 1. **From Dashboard**:
    - Click "Открыть форму" on the LFK or FIM card
    - System will prompt you to select a client
@@ -252,6 +275,7 @@ The Forms section provides access to standardized assessment tools used in healt
    - Select client and form type
 
 #### Completing an Assessment
+
 1. **Fill Out Form Sections**:
    - Navigate through tabs (for LFK: Examination → Gait → Therapy Plan)
    - Complete all relevant fields
@@ -266,6 +290,7 @@ The Forms section provides access to standardized assessment tools used in healt
    - Form is permanently stored in the client's record
 
 #### Viewing Assessment History
+
 1. Navigate to Forms section
 2. Select a client from the sidebar
 3. Choose form type (LFK or FIM)
@@ -287,12 +312,14 @@ This section will provide system configuration options for administrators.
 ### Daily Workflow Examples
 
 #### Morning Device Check
+
 1. Go to **Dashboard** → Review device statistics
 2. Go to **Devices** → Check devices marked as "UNDER_SERVICE"
 3. Update any devices that have been repaired
 4. Verify all clinic devices are marked "AT_CLINIC"
 
 #### New Patient Intake
+
 1. Go to **Clients** → Click "+" to add new client
 2. Enter complete patient information
 3. Set status to "INTAKE"
@@ -301,12 +328,14 @@ This section will provide system configuration options for administrators.
 6. Update client status to "DIAGNOSTICS" or "ACTIVE_THERAPY"
 
 #### Equipment Deployment
+
 1. Go to **Devices** → Find device with status "IN_STOCK"
 2. Edit device → Update status to "AT_PATIENT_HOME"
 3. Update location to patient's address
 4. Go to **Clients** → Update client record with device information
 
 #### Weekly Assessment Review
+
 1. Go to **Dashboard** → Review Forms section
 2. Check clients due for follow-up assessments
 3. Go to **Forms** → Complete required evaluations
@@ -314,14 +343,14 @@ This section will provide system configuration options for administrators.
 
 ### Quick Reference Actions
 
-| Task | Steps |
-|------|-------|
-| Add new device | Devices → "+" → Fill form → Save |
-| Update device location | Devices → Edit → Change location → Save |
-| Add new client | Clients → "+" → Fill form → Save |
-| Start assessment | Forms → New Form → Select client/type → Complete |
-| View client history | Clients → Select client → Forms button |
-| Check system stats | Dashboard → View statistics cards |
+| Task                   | Steps                                            |
+| ---------------------- | ------------------------------------------------ |
+| Add new device         | Devices → "+" → Fill form → Save                 |
+| Update device location | Devices → Edit → Change location → Save          |
+| Add new client         | Clients → "+" → Fill form → Save                 |
+| Start assessment       | Forms → New Form → Select client/type → Complete |
+| View client history    | Clients → Select client → Forms button           |
+| Check system stats     | Dashboard → View statistics cards                |
 
 ---
 
@@ -330,29 +359,37 @@ This section will provide system configuration options for administrators.
 ### Common Issues
 
 #### Forms Not Loading
+
 **Problem**: Assessment forms don't display properly
-**Solution**: 
+**Solution**:
+
 1. Refresh the browser page
 2. Check internet connection
 3. Contact system administrator if issue persists
 
 #### Device Status Not Updating
+
 **Problem**: Device status changes don't save
 **Solution**:
+
 1. Verify you have appropriate permissions
 2. Ensure required fields are completed
 3. Try refreshing the page and updating again
 
 #### Client Information Missing
+
 **Problem**: Client data appears incomplete
 **Solution**:
+
 1. Check if you have permission to view all client fields
 2. Verify client record wasn't archived
 3. Use search function to locate client by different criteria
 
 #### Can't Access Forms
+
 **Problem**: Unable to create or view assessment forms
 **Solution**:
+
 1. Ensure client is selected before creating forms
 2. Check that client status allows for assessments
 3. Verify form type is appropriate for client's treatment phase
@@ -360,11 +397,13 @@ This section will provide system configuration options for administrators.
 ### Getting Help
 
 If you encounter issues not covered in this guide:
+
 1. Check with your facility's system administrator
 2. Review the technical documentation in the repository
 3. Contact technical support with specific error messages
 
 ### Browser Compatibility
+
 - **Recommended**: Google Chrome, Mozilla Firefox (latest versions)
 - **Supported**: Safari, Microsoft Edge
 - **Note**: Internet Explorer is not supported
@@ -373,7 +412,7 @@ If you encounter issues not covered in this guide:
 
 ## System Access Levels
 
-The CUIS system supports different user roles with varying access levels:
+The Reki system supports different user roles with varying access levels:
 
 - **Therapists**: Can manage clients and create assessments
 - **Administrators**: Full system access including device management
@@ -384,5 +423,5 @@ Contact your administrator to understand your specific access permissions.
 
 ---
 
-*Last updated: [Current Date]*
-*For technical documentation, see [README.md](../README.md) and [docs/flower-form-integration.md](./flower-form-integration.md)*
+_Last updated: [Current Date]_
+_For technical documentation, see [README.md](../README.md) and [docs/flower-form-integration.md](./flower-form-integration.md)_

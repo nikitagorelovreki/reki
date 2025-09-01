@@ -1,6 +1,6 @@
-# @cuis/persistence
+# @reki/persistence
 
-Data persistence layer for the CUIS system using PostgreSQL and Knex.js.
+Data persistence layer for the Reki system using PostgreSQL and Knex.js.
 
 ## Overview
 
@@ -24,7 +24,7 @@ This package implements the repository pattern for data access, providing concre
 ## Usage
 
 ```typescript
-import { DeviceRepository, DatabaseService } from '@cuis/persistence';
+import { DeviceRepository, DatabaseService } from '@reki/persistence';
 
 // Repository usage (injected via DI)
 const device = await deviceRepository.create(deviceEntity);
@@ -37,15 +37,15 @@ Set environment variables for database connection:
 ```bash
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
-POSTGRES_USER=cuis
-POSTGRES_PASSWORD=cuis
-POSTGRES_DB=cuis
+POSTGRES_USER=reki
+POSTGRES_PASSWORD=reki
+POSTGRES_DB=reki
 ```
 
 ## Documentation
 
 For complete package documentation, see:
-**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#cuispersistence)**
+**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#rekipersistence)**
 
 For system documentation, see:
-**[CUIS Documentation Hub](../../docs/README.md)**
+**[Reki Documentation Hub](../../docs/README.md)**

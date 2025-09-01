@@ -14,7 +14,7 @@ async function bootstrap(): Promise<void> {
       whitelist: true,
       transform: true,
       forbidNonWhitelisted: true,
-    }),
+    })
   );
 
   // CORS
@@ -25,7 +25,7 @@ async function bootstrap(): Promise<void> {
 
   // Swagger setup
   const config = new DocumentBuilder()
-    .setTitle('CUIS API')
+    .setTitle('Reki API')
     .setDescription('Reki Medical Device Management System API Documentation')
     .setVersion('0.9.0')
     .addBearerAuth()
@@ -37,15 +37,15 @@ async function bootstrap(): Promise<void> {
     .addTag('tickets', 'Support ticket system')
     .addTag('media', 'Media management')
     .build();
-  
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
   // Start server
   const port = configService.get('PORT', 3002);
   await app.listen(port);
-  
-  console.log(`🚀 CUIS API Server is running on: http://localhost:${port}`);
+
+  console.log(`🚀 Reki API Server is running on: http://localhost:${port}`);
   console.log(`📚 API Documentation: http://localhost:${port}/api/docs`);
 }
 

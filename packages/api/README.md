@@ -1,10 +1,10 @@
-# @cuis/api
+# @reki/api
 
-REST API controllers and Data Transfer Objects for the CUIS system.
+REST API controllers and Data Transfer Objects for the Reki system.
 
 ## Overview
 
-This package provides HTTP endpoints and request/response handling for the CUIS system. It implements the presentation layer for REST API access.
+This package provides HTTP endpoints and request/response handling for the Reki system. It implements the presentation layer for REST API access.
 
 ## Contents
 
@@ -32,13 +32,13 @@ This package provides HTTP endpoints and request/response handling for the CUIS 
 ## Usage
 
 ```typescript
-import { DevicesController } from '@cuis/api';
+import { DevicesController } from '@reki/api';
 
 // Controller usage (NestJS DI)
 @Controller('devices')
 export class DevicesController {
   constructor(private deviceService: DeviceService) {}
-  
+
   @Get()
   async findAll() {
     return this.deviceService.getAllDevices();
@@ -48,8 +48,8 @@ export class DevicesController {
 
 ## Dependencies
 
-- `@cuis/domain` - Domain models and types
-- `@cuis/use-cases` - Business logic services
+- `@reki/domain` - Domain models and types
+- `@reki/use-cases` - Business logic services
 - `class-validator` - DTO validation
 - `class-transformer` - Object transformation
 - NestJS (peer dependency) - Web framework
@@ -57,10 +57,10 @@ export class DevicesController {
 ## Documentation
 
 For complete package documentation, see:
-**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#cuisapi)**
+**[Package Reference Guide](../../docs/PACKAGE_REFERENCE.md#rekiapi)**
 
 For API endpoint documentation, see:
 **http://localhost:3002/api/docs** (when server is running)
 
 For system documentation, see:
-**[CUIS Documentation Hub](../../docs/README.md)**
+**[Reki Documentation Hub](../../docs/README.md)**

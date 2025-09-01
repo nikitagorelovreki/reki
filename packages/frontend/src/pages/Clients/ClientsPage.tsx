@@ -16,8 +16,6 @@ import {
   Typography,
 } from 'antd';
 
-const { Option } = Select;
-
 import {
   DeleteOutlined,
   EditOutlined,
@@ -25,7 +23,6 @@ import {
   MoreOutlined,
   PlusOutlined,
   ReloadOutlined,
-  SearchOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
@@ -33,7 +30,6 @@ import dayjs from 'dayjs';
 import { Client, ClientStatus, CreateClientDto } from '../../types';
 import { clientsApi } from '../../api/clients';
 import { useNavigate } from 'react-router-dom';
-import FlowerFormButton from '../../components/FlowerForm/FlowerFormButton';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -94,7 +90,9 @@ const ClientsPage: React.FC = () => {
     fetchClients(pagination.current, pagination.pageSize);
   };
 
-  const handleCreate = async (values: CreateClientDto & { dob?: dayjs.Dayjs }) => {
+  const handleCreate = async (
+    values: CreateClientDto & { dob?: dayjs.Dayjs }
+  ) => {
     try {
       const formattedValues = {
         ...values,
@@ -111,9 +109,11 @@ const ClientsPage: React.FC = () => {
     }
   };
 
-  const handleUpdate = async (values: Partial<CreateClientDto> & { dob?: dayjs.Dayjs }) => {
+  const handleUpdate = async (
+    values: Partial<CreateClientDto> & { dob?: dayjs.Dayjs }
+  ) => {
     if (!editingClient) return;
-    
+
     try {
       const formattedValues = {
         ...values,
@@ -159,7 +159,7 @@ const ClientsPage: React.FC = () => {
       dataIndex: 'fullName',
       key: 'fullName',
       sorter: true,
-      render: (text, record) => (
+      render: (text, _record) => (
         <Space>
           <UserOutlined />
           {text}
@@ -170,7 +170,8 @@ const ClientsPage: React.FC = () => {
       title: 'Date of Birth',
       dataIndex: 'dob',
       key: 'dob',
-      render: (date: string) => date ? new Date(date).toLocaleDateString() : '-',
+      render: (date: string) =>
+        date ? new Date(date).toLocaleDateString() : '-',
     },
     {
       title: 'Status',
@@ -214,7 +215,7 @@ const ClientsPage: React.FC = () => {
           >
             Edit
           </Button>
-          
+
           <Space>
             <Button
               type='link'
@@ -223,15 +224,8 @@ const ClientsPage: React.FC = () => {
             >
               Forms
             </Button>
-            <FlowerFormButton
-              clientId={record.id}
-              buttonText='Осмотр'
-              buttonType='link'
-              buttonSize='small'
-              displayMode='modal'
-            />
           </Space>
-          
+
           <Dropdown
             menu={{
               items: Object.values(ClientStatus).map(status => ({
@@ -266,14 +260,22 @@ const ClientsPage: React.FC = () => {
     <div>
       <Card>
         <Space direction='vertical' size='large' style={{ width: '100%' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Title level={2} style={{ margin: 0 }}>
               Client Management
             </Title>
             <Space>
               <Button
                 icon={<ReloadOutlined />}
-                onClick={() => fetchClients(pagination.current, pagination.pageSize)}
+                onClick={() =>
+                  fetchClients(pagination.current, pagination.pageSize)
+                }
               >
                 Refresh
               </Button>
@@ -291,7 +293,7 @@ const ClientsPage: React.FC = () => {
             placeholder='Search clients...'
             allowClear
             style={{ width: 300 }}
-            onSearch={(value) => {
+            onSearch={value => {
               // TODO: Implement search
               console.log('Search:', value);
             }}
@@ -326,11 +328,7 @@ const ClientsPage: React.FC = () => {
         footer={null}
         width={600}
       >
-        <Form
-          form={form}
-          layout='vertical'
-          onFinish={handleCreate}
-        >
+        <Form form={form} layout='vertical' onFinish={handleCreate}>
           <Form.Item
             name='fullName'
             label='Full Name'
@@ -360,20 +358,20 @@ const ClientsPage: React.FC = () => {
           </Form.Item>
 
           <Form.Item name='diagnosis' label='Diagnosis'>
-            <TextArea 
-              rows={3}
-              placeholder='Enter primary diagnosis'
-            />
+            <TextArea rows={3} placeholder='Enter primary diagnosis' />
           </Form.Item>
 
-          <Form.Item name='status' label='Status' initialValue={ClientStatus.INTAKE}>
-            <Select>
-              {Object.values(ClientStatus).map(status => (
-                <Option key={status} value={status}>
-                  {status.replace('_', ' ').toUpperCase()}
-                </Option>
-              ))}
-            </Select>
+          <Form.Item
+            name='status'
+            label='Status'
+            initialValue={ClientStatus.INTAKE}
+          >
+            <Select
+              options={Object.values(ClientStatus).map(status => ({
+                label: status.replace('_', ' ').toUpperCase(),
+                value: status,
+              }))}
+            />
           </Form.Item>
 
           <Form.Item>
@@ -401,11 +399,7 @@ const ClientsPage: React.FC = () => {
         footer={null}
         width={600}
       >
-        <Form
-          form={form}
-          layout='vertical'
-          onFinish={handleUpdate}
-        >
+        <Form form={form} layout='vertical' onFinish={handleUpdate}>
           <Form.Item
             name='fullName'
             label='Full Name'
@@ -435,20 +429,16 @@ const ClientsPage: React.FC = () => {
           </Form.Item>
 
           <Form.Item name='diagnosis' label='Diagnosis'>
-            <TextArea 
-              rows={3}
-              placeholder='Enter primary diagnosis'
-            />
+            <TextArea rows={3} placeholder='Enter primary diagnosis' />
           </Form.Item>
 
           <Form.Item name='status' label='Status'>
-            <Select>
-              {Object.values(ClientStatus).map(status => (
-                <Option key={status} value={status}>
-                  {status.replace('_', ' ').toUpperCase()}
-                </Option>
-              ))}
-            </Select>
+            <Select
+              options={Object.values(ClientStatus).map(status => ({
+                label: status.replace('_', ' ').toUpperCase(),
+                value: status,
+              }))}
+            />
           </Form.Item>
 
           <Form.Item>
@@ -456,9 +446,7 @@ const ClientsPage: React.FC = () => {
               <Button type='primary' htmlType='submit'>
                 Update Client
               </Button>
-              <Button onClick={() => setEditModalVisible(false)}>
-                Cancel
-              </Button>
+              <Button onClick={() => setEditModalVisible(false)}>Cancel</Button>
             </Space>
           </Form.Item>
         </Form>

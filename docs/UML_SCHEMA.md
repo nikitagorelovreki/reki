@@ -8,26 +8,26 @@ graph TB
         FE[Frontend<br/>React App]
         API[API Layer<br/>NestJS REST]
     end
-    
+
     subgraph "Application Layer"
         DS[DeviceService]
-        CS[ClientService] 
+        CS[ClientService]
         FS[FormService]
         FES[FormEntryService]
     end
-    
+
     subgraph "Domain Layer"
         D[Device]
         C[Client]
         F[Form]
         FE_MODEL[FormEntry]
-        
+
         DRP[DeviceRepositoryPort]
         CRP[ClientRepositoryPort]
         FRP[FormRepositoryPort]
         FERP[FormEntryRepositoryPort]
     end
-    
+
     subgraph "Infrastructure Layer"
         DR[DeviceRepository]
         CR[ClientRepository]
@@ -35,13 +35,13 @@ graph TB
         FER[FormEntryRepository]
         DB[(PostgreSQL<br/>Database)]
     end
-    
+
     FE --> API
     API --> DS
     API --> CS
     API --> FS
     API --> FES
-    
+
     DS --> D
     DS --> DRP
     CS --> C
@@ -50,12 +50,12 @@ graph TB
     FS --> FRP
     FES --> FE_MODEL
     FES --> FERP
-    
+
     DRP -.-> DR
     CRP -.-> CR
     FRP -.-> FR
     FERP -.-> FER
-    
+
     DR --> DB
     CR --> DB
     FR --> DB
@@ -87,7 +87,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     Client {
         UUID id PK
         string full_name
@@ -102,7 +102,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     FormTemplate {
         UUID id PK
         string title
@@ -116,7 +116,7 @@ erDiagram
         UUID created_by FK
         UUID updated_by FK
     }
-    
+
     FormEntry {
         UUID id PK
         UUID form_id FK
@@ -132,7 +132,7 @@ erDiagram
         UUID created_by FK
         UUID updated_by FK
     }
-    
+
     FormSubmission {
         UUID id PK
         UUID form_id FK
@@ -144,7 +144,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     Device ||--o{ Client : "assigned_to"
     Client ||--o{ FormEntry : "has_entries"
     Client ||--o{ FormSubmission : "has_submissions"
@@ -156,6 +156,7 @@ erDiagram
 ## Status Enumerations
 
 ### DeviceStatus
+
 ```mermaid
 stateDiagram-v2
     [*] --> REGISTERED
@@ -171,6 +172,7 @@ stateDiagram-v2
 ```
 
 ### ClientStatus
+
 ```mermaid
 stateDiagram-v2
     [*] --> INTAKE
@@ -188,6 +190,7 @@ stateDiagram-v2
 ```
 
 ### FormEntryStatus
+
 ```mermaid
 stateDiagram-v2
     [*] --> IN_PROGRESS
@@ -207,7 +210,7 @@ sequenceDiagram
     participant Domain as Domain Entity
     participant Repo as Repository
     participant DB as Database
-    
+
     Client->>+API: HTTP Request
     API->>+Service: Call business method
     Service->>+Domain: Create/modify entity
@@ -227,22 +230,22 @@ graph LR
     subgraph "Form Templates"
         FT[Form Template<br/>JSON Schema]
     end
-    
+
     subgraph "Form Rendering"
         FF[Flower Form<br/>Standalone App]
         FI[Form Integration<br/>React Component]
     end
-    
+
     subgraph "Data Storage"
         FE[Form Entry<br/>JSON Data]
         FS[Form Submission<br/>Legacy Support]
     end
-    
+
     FT --> FF
     FT --> FI
     FF --> FE
     FI --> FS
-    
+
     FE --> |"New System"| PostgreSQL[(PostgreSQL)]
     FS --> |"Legacy Support"| PostgreSQL
 ```
@@ -251,31 +254,31 @@ graph LR
 
 ```mermaid
 graph TD
-    API[📦 @cuis/api]
-    UC[📦 @cuis/use-cases]
-    DOMAIN[📦 @cuis/domain]
-    PERSISTENCE[📦 @cuis/persistence]
-    FRONTEND[📦 @cuis/frontend]
-    
+    API[📦 @reki/api]
+    UC[📦 @reki/use-cases]
+    DOMAIN[📦 @reki/domain]
+    PERSISTENCE[📦 @reki/persistence]
+    FRONTEND[📦 @reki/frontend]
+
     API --> UC
     API --> DOMAIN
     UC --> DOMAIN
     PERSISTENCE --> DOMAIN
     FRONTEND --> API
-    
+
     subgraph "External Dependencies"
         NESTJS[NestJS]
         KNEX[Knex.js]
         REACT[React]
         PG[PostgreSQL]
     end
-    
+
     API --> NESTJS
     UC --> NESTJS
     PERSISTENCE --> KNEX
     PERSISTENCE --> PG
     FRONTEND --> REACT
-    
+
     style DOMAIN fill:#e1f5fe
     style API fill:#f3e5f5
     style UC fill:#e8f5e8
@@ -297,7 +300,7 @@ classDiagram
         +update(id: string, data: Partial~Client~) Promise~Client~
         +delete(id: string) Promise~void~
     }
-    
+
     class ClientRepository {
         -tableName: string
         -fieldMappings: Record~string, string~
@@ -307,14 +310,14 @@ classDiagram
         +update(id: string, data: Partial~Client~) Promise~Client~
         +delete(id: string) Promise~void~
     }
-    
+
     class DatabaseService {
         -_knex: Knex
         +knex: Knex
         +onModuleInit() void
         +onModuleDestroy() void
     }
-    
+
     ClientRepositoryPort <|-- ClientRepository
     ClientRepository --> DatabaseService
 ```
@@ -332,7 +335,7 @@ classDiagram
         +deleteClient(id: string) Promise~void~
         +updateClientStatus(id: string, status: ClientStatus) Promise~Client~
     }
-    
+
     class Client {
         +id: string
         +fullName: string
@@ -340,7 +343,7 @@ classDiagram
         +updateStatus(status: ClientStatus) void
         +isActive() boolean
     }
-    
+
     ClientService --> ClientRepositoryPort
     ClientService --> Client
 ```
@@ -358,7 +361,7 @@ sequenceDiagram
     participant FormEntryService
     participant Repository
     participant Database
-    
+
     User->>Frontend: Select form type
     Frontend->>FlowerForm: Load form in iframe
     FlowerForm-->>Frontend: Form loaded

@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Avatar,
-  Button,
-  Layout,
-  Menu,
-  Space,
-  theme,
-  Typography,
-} from 'antd';
+import { Avatar, Button, Layout, Menu, Space, theme, Typography } from 'antd';
 import {
   DashboardOutlined,
   FormOutlined,
@@ -77,36 +69,38 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider 
-        trigger={null} 
-        collapsible 
+      <Sider
+        trigger={null}
+        collapsible
         collapsed={collapsed}
         theme='light'
         style={{
           boxShadow: '2px 0 8px 0 rgba(0,0,0,0.15)',
         }}
       >
-        <div style={{ 
-          padding: '16px', 
-          textAlign: 'center',
-          borderBottom: '1px solid #f0f0f0',
-        }}>
+        <div
+          style={{
+            padding: '16px',
+            textAlign: 'center',
+            borderBottom: '1px solid #f0f0f0',
+          }}
+        >
           <Space direction='vertical' size='small'>
-            <MedicineBoxOutlined 
-              style={{ 
-                fontSize: collapsed ? '24px' : '32px', 
+            <MedicineBoxOutlined
+              style={{
+                fontSize: collapsed ? '24px' : '32px',
                 color: '#1890ff',
-                transition: 'all 0.2s'
-              }} 
+                transition: 'all 0.2s',
+              }}
             />
             {!collapsed && (
               <Title level={4} style={{ margin: 0, color: '#1890ff' }}>
-                CUIS
+                Reki
               </Title>
             )}
           </Space>
         </div>
-        
+
         <Menu
           theme='light'
           mode='inline'
@@ -116,10 +110,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           style={{ border: 'none' }}
         />
       </Sider>
-      
+
       <Layout>
-        <Header 
-          style={{ 
+        <Header
+          style={{
             padding: '0 24px',
             background: colorBgContainer,
             display: 'flex',
@@ -138,22 +132,22 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               height: 64,
             }}
           />
-          
+
           <Space size='middle'>
-            <Button 
-              type='text' 
+            <Button
+              type='text'
               icon={<UserOutlined />}
               onClick={() => navigate('/profile')}
             >
               Profile
             </Button>
-            <Avatar 
-              size='default' 
-              icon={<UserOutlined />} 
+            <Avatar
+              size='default'
+              icon={<UserOutlined />}
               style={{ backgroundColor: '#1890ff' }}
             />
-            <Button 
-              type='text' 
+            <Button
+              type='text'
               icon={<LogoutOutlined />}
               onClick={handleLogout}
               danger
@@ -162,7 +156,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             </Button>
           </Space>
         </Header>
-        
+
         <Content
           style={{
             margin: '24px',

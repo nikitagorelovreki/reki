@@ -1,10 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { FormModel, FormStatus, FormType, IFormRepository, PaginatedResult, PaginationOptions } from '@reki/domain';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  FORM_REPOSITORY,
+  FormModel,
+  FormStatus,
+  FormType,
+  IFormRepository,
+  PaginatedResult,
+  PaginationOptions,
+} from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FormService {
-  constructor(private readonly formRepository: IFormRepository) {}
+  constructor(
+    @Inject(FORM_REPOSITORY)
+    private readonly formRepository: IFormRepository
+  ) {}
 
   async createForm(formData: Partial<FormModel>): Promise<FormModel> {
     const form = new FormModel({
@@ -25,11 +36,16 @@ export class FormService {
     return form;
   }
 
-  async getAllForms(options: PaginationOptions = {}): Promise<PaginatedResult<FormModel>> {
+  async getAllForms(
+    options: PaginationOptions = {}
+  ): Promise<PaginatedResult<FormModel>> {
     return this.formRepository.findAll(options);
   }
 
-  async updateForm(id: string, updateData: Partial<FormModel>): Promise<FormModel> {
+  async updateForm(
+    id: string,
+    updateData: Partial<FormModel>
+  ): Promise<FormModel> {
     const existingForm = await this.getFormById(id);
     existingForm.update(updateData);
     return this.formRepository.update(id, existingForm);

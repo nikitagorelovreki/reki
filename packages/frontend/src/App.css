@@ -1,4 +1,4 @@
-/* Global styles for CUIS application */
+/* Global styles for Reki application */
 #root {
   margin: 0;
   padding: 0;
@@ -9,9 +9,9 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -39,7 +39,7 @@ body {
   .ant-card {
     margin-bottom: 16px;
   }
-  
+
   .ant-table-wrapper {
     overflow-x: auto;
   }
