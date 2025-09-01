@@ -5,12 +5,12 @@ export class CreateFormSubmissionDto {
   @ApiProperty({ description: 'Form ID', example: '123e4567-e89b-12d3-a456-426614174000' })
   @IsUUID()
   @IsNotEmpty()
-  formId: string;
+  formId!: string;
 
   @ApiProperty({ description: 'Client ID', example: '123e4567-e89b-12d3-a456-426614174001' })
   @IsUUID()
   @IsNotEmpty()
-  clientId: string;
+  clientId!: string;
 
   @ApiPropertyOptional({ description: 'Therapist ID', example: '123e4567-e89b-12d3-a456-426614174002' })
   @IsUUID()
@@ -37,7 +37,7 @@ export class CreateFormSubmissionDto {
   })
   @IsObject()
   @IsNotEmpty()
-  data: Record<string, any>;
+  data!: Record<string, any>;
 }
 
 export class UpdateFormSubmissionDto {
@@ -71,13 +71,13 @@ export class UpdateFormSubmissionDto {
 
 export class FormSubmissionResponseDto {
   @ApiProperty({ description: 'Submission ID', example: '123e4567-e89b-12d3-a456-426614174003' })
-  id: string;
+  id!: string;
 
   @ApiProperty({ description: 'Form ID', example: '123e4567-e89b-12d3-a456-426614174000' })
-  formId: string;
+  formId!: string;
 
   @ApiProperty({ description: 'Client ID', example: '123e4567-e89b-12d3-a456-426614174001' })
-  clientId: string;
+  clientId!: string;
 
   @ApiPropertyOptional({ description: 'Therapist ID', example: '123e4567-e89b-12d3-a456-426614174002' })
   therapistId?: string;
@@ -86,7 +86,7 @@ export class FormSubmissionResponseDto {
   therapistName?: string;
 
   @ApiProperty({ description: 'Submission date', example: '2023-01-01T12:00:00.000Z' })
-  submissionDate: Date;
+  submissionDate!: Date;
 
   @ApiProperty({ 
     description: 'Form data', 
@@ -96,25 +96,25 @@ export class FormSubmissionResponseDto {
       notes: 'Patient shows improvement in head control'
     }
   })
-  data: Record<string, any>;
+  data!: Record<string, any>;
 
   @ApiProperty({ description: 'Creation date', example: '2023-01-01T12:00:00.000Z' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @ApiProperty({ description: 'Last update date', example: '2023-01-01T12:00:00.000Z' })
-  updatedAt: Date;
+  updatedAt!: Date;
 }
 
 export class ImportFlowerFormDto {
   @ApiProperty({ description: 'Client ID', example: '123e4567-e89b-12d3-a456-426614174001' })
   @IsUUID()
   @IsNotEmpty()
-  clientId: string;
+  clientId!: string;
 
   @ApiProperty({ description: 'Form ID', example: '123e4567-e89b-12d3-a456-426614174000' })
   @IsUUID()
   @IsNotEmpty()
-  formId: string;
+  formId!: string;
 
   @ApiPropertyOptional({ description: 'Therapist name', example: 'John Doe' })
   @IsString()
@@ -133,5 +133,5 @@ export class ImportFlowerFormDto {
   })
   @IsObject()
   @IsNotEmpty()
-  formData: Record<string, any>;
+  formData!: Record<string, any>;
 }

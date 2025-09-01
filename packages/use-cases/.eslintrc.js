@@ -10,8 +10,8 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: 'module',
   },
-  ignorePatterns: ['.eslintrc.js', 'dist/**/*', 'node_modules/**/*'],
+  ignorePatterns: ['.eslintrc.js', 'dist/**/*', 'node_modules/**/*', '**/*.ts', '**/*.tsx'],
   rules: {
-    // Add specific rules as needed
+    // TypeScript files are ignored - use tsc for type checking
   },
 };

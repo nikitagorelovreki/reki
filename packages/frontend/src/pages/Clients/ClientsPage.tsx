@@ -15,6 +15,9 @@ import {
   Dropdown,
   Popconfirm,
 } from 'antd';
+
+const { Option } = Select;
+
 import {
   PlusOutlined,
   SearchOutlined,
@@ -366,9 +369,9 @@ const ClientsPage: React.FC = () => {
           <Form.Item name="status" label="Status" initialValue={ClientStatus.INTAKE}>
             <Select>
               {Object.values(ClientStatus).map(status => (
-                <Select.Option key={status} value={status}>
+                <Option key={status} value={status}>
                   {status.replace('_', ' ').toUpperCase()}
-                </Select.Option>
+                </Option>
               ))}
             </Select>
           </Form.Item>
@@ -441,9 +444,9 @@ const ClientsPage: React.FC = () => {
           <Form.Item name="status" label="Status">
             <Select>
               {Object.values(ClientStatus).map(status => (
-                <Select.Option key={status} value={status}>
+                <Option key={status} value={status}>
                   {status.replace('_', ' ').toUpperCase()}
-                </Select.Option>
+                </Option>
               ))}
             </Select>
           </Form.Item>

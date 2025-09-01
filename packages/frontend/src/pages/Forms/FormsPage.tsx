@@ -13,7 +13,7 @@ import NativeFlowerForm from '../../components/FlowerForm/NativeFlowerForm';
 import { Button, Card, Tabs } from 'antd';
 import './FormsPage.css';
 
-interface FormsPageParams {
+interface FormsPageParams extends Record<string, string | undefined> {
   clientId?: string;
 }
 

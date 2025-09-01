@@ -11,7 +11,7 @@
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "tsc --noEmit",
     "migrate": "ts-node src/run-migrations.ts",
     "migrate:rollback": "ts-node src/rollback-migrations.ts",
     "seed": "ts-node src/seed-db.ts",

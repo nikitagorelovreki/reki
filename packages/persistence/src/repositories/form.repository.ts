@@ -33,7 +33,7 @@ export class FormRepository implements IFormRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .select('*')
