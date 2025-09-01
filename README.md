@@ -97,17 +97,17 @@ npm run api:start
 ## Документация
 
 ### API Documentation
-После запуска API сервера, документация Swagger доступна по адресу:
-http://localhost:3002/api/docs
+После запуска API сервера, документация Swagger доступна по адресу:  
+**http://localhost:3002/api/docs**
 
 ### Developer Documentation
 Полная документация для разработчиков доступна в директории `docs/`:
 
-- **[Developer Guide](docs/README.md)** - Главная страница документации
-- **[Architecture](docs/ARCHITECTURE.md)** - Архитектура системы и паттерны проектирования
-- **[UML Schema](docs/UML_SCHEMA.md)** - Диаграммы и схемы системы
-- **[Database Schema](docs/DATABASE_SCHEMA.md)** - Структура базы данных
-- **[Package Reference](docs/PACKAGE_REFERENCE.md)** - Документация по пакетам
-- **[Frontend Components](docs/FRONTEND_COMPONENTS.md)** - Компоненты пользовательского интерфейса
-- **[New Package Guide](docs/NEW_PACKAGE_GUIDE.md)** - Создание новых пакетов
-- **[Flower Form Integration](docs/flower-form-integration.md)** - Интеграция форм оценки пациентов
+- **[📚 Developer Guide](docs/README.md)** - Главная страница документации
+- **[🏗️ Architecture](docs/ARCHITECTURE.md)** - Архитектура системы и паттерны проектирования
+- **[📊 UML Schema](docs/UML_SCHEMA.md)** - Диаграммы и схемы системы
+- **[🗃️ Database Schema](docs/DATABASE_SCHEMA.md)** - Структура базы данных
+- **[📦 Package Reference](docs/PACKAGE_REFERENCE.md)** - Документация по пакетам
+- **[⚛️ Frontend Components](docs/FRONTEND_COMPONENTS.md)** - Компоненты пользовательского интерфейса
+- **[➕ New Package Guide](docs/NEW_PACKAGE_GUIDE.md)** - Создание новых пакетов
+- **[🌸 Flower Form Integration](docs/flower-form-integration.md)** - Интеграция форм оценки пациентов
