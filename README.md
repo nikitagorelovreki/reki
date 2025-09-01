@@ -93,14 +93,3 @@ npm run api:start
 - Интеграция с карточками пациентов
 
 Подробная документация по интеграции доступна в файле [docs/flower-form-integration.md](docs/flower-form-integration.md).
-
-## Документация
-
-### Для пользователей
-- [User Guide (English)](docs/USER_GUIDE.md) - Comprehensive user documentation
-- [Руководство пользователя (Русский)](docs/РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md) - Полное руководство на русском языке  
-- [Quick Reference Guide](docs/QUICK_REFERENCE.md) - Quick reference for daily tasks
-
-### Для разработчиков
-- [Flower Form Integration](docs/flower-form-integration.md) - Integration documentation
-- [API Documentation](http://localhost:3002/api/docs) - Swagger API docs (after starting the server)
