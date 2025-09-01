@@ -12,5 +12,8 @@ export * from './ports/examination-repository.port';
 export * from './ports/form-repository.port';
 export * from './ports/form-entry-repository.port';
 
+// Additional exports for legacy compatibility
+export { ExaminationFormEntryModel as FormSubmission } from './models/examination.model';
+
 // Tokens
 export * from './tokens';

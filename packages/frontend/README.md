@@ -1,69 +1,60 @@
-# React + TypeScript + Vite
+# CUIS Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React-based user interface for the CUIS (Cosyma Unified Info-System).
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This package contains the frontend application built with React, TypeScript, and Ant Design. It provides a comprehensive interface for managing medical devices, patients, and assessment forms.
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 18** with TypeScript
+- **Ant Design (antd)** for UI components
+- **React Router** for navigation
+- **Axios** for API communication
+- **Chart.js** for data visualization
+- **Vite** for build tooling
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Start development server
+npm run frontend:dev
+
+# Build for production
+npm run frontend:build
+
+# Run linting
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/       # Reusable UI components
+│   ├── Layout/      # Application layout
+│   └── FlowerForm/  # Form integration components
+├── pages/           # Page-level components
+├── api/             # API client modules
+├── types/           # TypeScript types
+└── assets/          # Static assets
+```
+
+## Features
+
+- **Device Management**: CRUD operations for medical devices
+- **Patient Management**: Comprehensive patient information system
+- **Form Integration**: Embedded assessment forms (LFK, FIM)
+- **Russian Localization**: Complete Russian language support
+- **Responsive Design**: Mobile-friendly interface
+
+## API Integration
+
+The frontend communicates with the CUIS API server running on port 3002. API configuration is handled in `src/api/config.ts`.
+
+## For More Information
+
+See the main [CUIS Documentation](../../docs/README.md) for complete system documentation.

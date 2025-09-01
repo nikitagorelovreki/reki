@@ -1,121 +1,234 @@
-# CUIS Documentation
-## Cosyma Unified Info-System
+# CUIS Documentation Hub
 
-Welcome to the CUIS documentation center. This directory contains all user-facing documentation for the Cosyma Unified Info-System.
+Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified Info-System). This documentation covers all aspects of the system architecture, development practices, and implementation details.
+
+> **[🔙 Назад к главной странице проекта](../README.md)** | **[🏠 Project Overview](../README.md)**
 
 ## 📚 Documentation Index
 
-### 👨‍💼 For End Users
-- **[📖 User Guide (English)](USER_GUIDE.md)** - Complete user documentation with detailed explanations
-- **[📖 Руководство пользователя (Русский)](РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md)** - Полная документация пользователя на русском языке
-- **[⚡ Quick Reference](QUICK_REFERENCE.md)** - Printable quick reference guide for daily tasks
+### Getting Started
+- **[Developer Guide](./DEVELOPER_GUIDE.md)** - Complete overview and getting started guide
+- **[Architecture Overview](./ARCHITECTURE.md)** - System architecture and design patterns
+- **[New Package Guide](./NEW_PACKAGE_GUIDE.md)** - How to create and integrate new packages
 
-### 👨‍💻 For Developers & Administrators
-- **[🔗 Flower Form Integration](flower-form-integration.md)** - Technical integration documentation
-- **[📋 Main README](../README.md)** - Project setup and technical overview
-- **[🌐 API Documentation](http://localhost:3002/api/docs)** - Swagger API docs (requires running server)
+### Technical References  
+- **[UML Schema](./UML_SCHEMA.md)** - Visual system diagrams and relationships
+- **[Database Schema](./DATABASE_SCHEMA.md)** - Complete database structure and queries
+- **[Package Reference](./PACKAGE_REFERENCE.md)** - Detailed package documentation
+- **[Frontend Components](./FRONTEND_COMPONENTS.md)** - React component architecture
 
----
+### Integration Guides
+- **[Module Creation Guide](./module-creation-guide.md)** - Guide for creating new modules (if available)
 
-## 🎯 What is CUIS?
+### User Documentation
+- **[📖 User Guide](./USER_GUIDE.md)** - End-user documentation (if available)
+- **[📖 Руководство пользователя](./РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md)** - Russian user guide (if available)
+- **[⚡ Quick Reference](./QUICK_REFERENCE.md)** - Quick reference guide (if available)
 
-CUIS (Cosyma Unified Info-System) is a comprehensive healthcare management platform that provides:
+### Meta Documentation
+- **[README Structure Guide](./README_STRUCTURE.md)** - Guide to all README files in the repository
 
-### Core Functionality
-- **Device Management** - Track medical equipment across locations
-- **Patient Management** - Manage client information and treatment status  
-- **Assessment Forms** - Standardized LFK and FIM evaluations
-- **Real-time Dashboard** - System overview and activity monitoring
+## 🏗️ System Overview
 
-### Main Interface Tabs
+CUIS is a modular medical device and patient management system built with:
 
-| Tab | Purpose | What You Can Do |
-|-----|---------|-----------------|
-| 🏠 **Dashboard** | System overview | View statistics, quick access to forms, monitor activity |
-| 🔧 **Devices** | Equipment tracking | Add/edit devices, update locations, change status |
-| 👥 **Clients** | Patient management | Manage patient info, track treatment progress |
-| 📋 **Forms** | Assessments | Create LFK/FIM evaluations, view history |
-| ⚙️ **Settings** | Configuration | System settings *(coming soon)* |
+- **Clean Architecture** principles
+- **Domain-Driven Design** (DDD) patterns  
+- **TypeScript** for type safety
+- **NestJS** for backend API
+- **React** for frontend UI
+- **PostgreSQL** for data persistence
+- **Turborepo** for monorepo management
 
----
+## 🎯 Quick Navigation
 
-## 🚀 Getting Started
+### For New Developers
+1. Start with [Developer Guide](./DEVELOPER_GUIDE.md) for system overview
+2. Review [Architecture](./ARCHITECTURE.md) to understand design principles
+3. Explore [Package Reference](./PACKAGE_REFERENCE.md) for detailed package info
+4. Check [Frontend Components](./FRONTEND_COMPONENTS.md) for UI development
 
-### For New Users
-1. Start with the **[User Guide](USER_GUIDE.md)** for comprehensive instructions
-2. Print the **[Quick Reference](QUICK_REFERENCE.md)** for your desk
-3. If you speak Russian, use the **[Russian User Guide](РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md)**
+### For System Architects
+1. Review [UML Schema](./UML_SCHEMA.md) for visual system overview
+2. Study [Architecture](./ARCHITECTURE.md) for design patterns and principles
+3. Examine [Database Schema](./DATABASE_SCHEMA.md) for data modeling
 
-### For Administrators
-1. Review the **[Main README](../README.md)** for system setup
-2. Check **[Flower Form Integration](flower-form-integration.md)** for form system details
-3. Access **[API Documentation](http://localhost:3002/api/docs)** for technical integration
+### For DevOps Engineers
+1. Check [Database Schema](./DATABASE_SCHEMA.md) for deployment requirements
+2. Review [Architecture](./ARCHITECTURE.md) deployment patterns section
+3. See main [README.md](../README.md) for setup instructions
 
----
+### For Feature Developers
+1. Start with [Package Reference](./PACKAGE_REFERENCE.md) to understand existing packages
+2. Use [New Package Guide](./NEW_PACKAGE_GUIDE.md) when creating new features
+3. Follow [Frontend Components](./FRONTEND_COMPONENTS.md) for UI development
 
-## 📋 Assessment Forms Overview
+### For End Users
+1. Check [User Guide](./USER_GUIDE.md) for complete user documentation (if available)
+2. Use [Quick Reference](./QUICK_REFERENCE.md) for daily tasks (if available)
+3. See [Russian User Guide](./РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md) for Russian documentation (if available)
 
-### LFK Assessment (Осмотр ЛФК)
-Physical therapy examination with three main sections:
-- Motor skills evaluation
-- Gait and limb positioning analysis  
-- Therapy planning and goal setting
+## 📋 System Components
 
-### FIM Assessment 
-Functional Independence Measure evaluating:
-- Daily living activities
-- Mobility and transfers
-- Communication skills
-- Social cognition
+### Core Domain Entities
+- **Device** - Medical device lifecycle management
+- **Client** - Patient information and status tracking  
+- **Form** - Assessment and examination form templates
+- **FormEntry** - Individual form submissions and data
 
----
+### Package Architecture
+```
+@cuis/
+├── domain          # Core business logic (entities, interfaces)
+├── persistence     # Data access layer (repositories, database)
+├── use-cases       # Application services (business workflows)
+├── api             # REST API layer (controllers, DTOs)
+└── frontend        # React UI (components, pages, API clients)
+```
 
-## 🎨 System Design
+### Key Technologies
+- **Backend**: Node.js, NestJS, TypeScript, PostgreSQL, Knex.js
+- **Frontend**: React, TypeScript, Ant Design, Vite
+- **DevOps**: Docker, Turborepo, ESLint, Jest, Prettier
+- **Integration**: Flower Form (iframe-based patient assessments)
 
-CUIS is built with a modern, user-friendly interface featuring:
-- **Responsive Design** - Works on desktop, tablet, and mobile
-- **Intuitive Navigation** - Clear sidebar with recognizable icons
-- **Real-time Updates** - Live statistics and activity feeds
-- **Accessibility** - Designed for healthcare professionals of all technical levels
+## 🚀 Development Workflow
 
----
+### Setup
+```bash
+# Install dependencies
+npm install
 
-## 🔧 Technical Architecture
+# Start development environment
+docker-compose up -d postgres
 
-The system is built using:
-- **Frontend**: React with Ant Design components
-- **Backend**: NestJS with PostgreSQL database
-- **Architecture**: Clean architecture with domain-driven design
-- **Deployment**: Docker containers with Turbo monorepo
+# Run API server
+npm run api:dev
 
----
+# Run frontend (in separate terminal)
+npm run frontend:dev
+```
+
+### Common Tasks
+
+**Adding New Feature**:
+1. Create domain entities in `@cuis/domain`
+2. Implement repositories in `@cuis/persistence`  
+3. Create services in `@cuis/use-cases`
+4. Add API endpoints in `@cuis/api`
+5. Build UI components in `@cuis/frontend`
+
+**Database Changes**:
+1. Create migration in `packages/persistence/database/migrations/`
+2. Update domain models if needed
+3. Modify repositories to handle new fields
+4. Test migration on development data
+
+**API Changes**:
+1. Update DTOs in `@cuis/api`
+2. Modify controllers as needed
+3. Update Swagger documentation
+4. Update frontend API clients
+
+## 📊 System Metrics
+
+### Package Sizes (Approximate)
+- **Domain**: ~50KB (pure TypeScript)
+- **Persistence**: ~200KB (database drivers)
+- **Use Cases**: ~100KB (business logic)
+- **API**: ~300KB (NestJS + validation)
+- **Frontend**: ~2MB (React + UI library)
+
+### Performance Targets
+- API Response Time: < 200ms (95th percentile)
+- Database Query Time: < 50ms (average)
+- Frontend First Paint: < 2s
+- Frontend Interactive: < 3s
+
+## 🔧 Development Tools
+
+### Available Scripts
+```bash
+# Development
+npm run dev                    # Start all services
+npm run api:dev               # Start API only
+npm run frontend:dev          # Start frontend only
+
+# Building
+npm run build                 # Build everything
+npm run packages:build        # Build all packages
+npm run api:build            # Build API only
+npm run frontend:build       # Build frontend only
+
+# Testing
+npm run test                 # Run all tests
+npm run lint                 # Run linting
+
+# Package Management
+npm run create:package       # Create new package
+```
+
+### IDE Configuration
+- **VSCode**: Recommended with ESLint and TypeScript extensions
+- **Prettier**: Code formatting (configured in `.prettierrc`)
+- **ESLint**: Code linting (configured in `eslint.config.js`)
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Database Connection**:
+- Check PostgreSQL is running: `docker-compose ps`
+- Verify environment variables in `.env`
+- Check network connectivity
+
+**Build Issues**:
+- Clear package caches: `npm run clean`
+- Reinstall dependencies: `rm -rf node_modules && npm install`
+- Check TypeScript compilation: `npm run build`
+
+**Frontend Issues**:
+- Check API server is running on port 3002
+- Verify API base URL in frontend config
+- Check browser console for JavaScript errors
+
+## 🤝 Contributing
+
+### Code Style
+- Follow the [Code Style Guide](../CODE_STYLE_GUIDE.md) (if available)
+- Use TypeScript for type safety
+- Write comprehensive JSDoc comments
+- Include unit tests for new features
+
+### Documentation
+- Update relevant documentation when making changes
+- Include examples in complex features
+- Keep README files current
+- Document breaking changes
+
+### Review Process
+1. Create feature branch from main
+2. Implement changes following architecture patterns
+3. Add/update tests and documentation
+4. Submit pull request for review
+5. Address feedback and merge
 
 ## 📞 Support
 
-### For Users
-- System functionality questions → See User Guide
-- Technical issues → Contact your facility's system administrator
-- Training needs → Contact your supervisor
+### Getting Help
+- Check this documentation first
+- Review existing code patterns
+- Consult API documentation: http://localhost:3002/api/docs
+- Reach out to team members for architectural questions
 
-### For Developers
-- Technical questions → See integration documentation
-- API usage → Check Swagger documentation
-- System setup → See main README
-
----
-
-## 📈 System Requirements
-
-### For Users
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- Internet connection
-- User credentials from administrator
-
-### For Deployment
-- Node.js environment
-- PostgreSQL database
-- Docker (optional)
+### Reporting Issues
+- Use clear, descriptive titles
+- Include reproduction steps
+- Provide relevant code snippets
+- Tag with appropriate labels
 
 ---
 
-*This documentation is maintained alongside the CUIS codebase. For the latest updates, check the repository.*
+**Last Updated**: January 2025  
+**Documentation Version**: 1.0  
+**System Version**: 0.9.0

@@ -33,7 +33,7 @@ export class FormEntryRepository implements IFormEntryRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormEntryModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .select('*')
@@ -67,7 +67,7 @@ export class FormEntryRepository implements IFormEntryRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormEntryModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .where(this.fieldMappings.formId, formId)
@@ -96,7 +96,7 @@ export class FormEntryRepository implements IFormEntryRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormEntryModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .where(this.fieldMappings.patientId, patientId)
@@ -125,7 +125,7 @@ export class FormEntryRepository implements IFormEntryRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormEntryModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .where(this.fieldMappings.deviceId, deviceId)
@@ -154,7 +154,7 @@ export class FormEntryRepository implements IFormEntryRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormEntryModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .where(this.fieldMappings.clinicId, clinicId)
@@ -183,7 +183,7 @@ export class FormEntryRepository implements IFormEntryRepository {
     const offset = (page - 1) * limit;
     const knexInstance = trx || this.db.knex;
 
-    const dbSortField = this.fieldMappings[sortBy as keyof FormEntryModel] || camelToSnake(sortBy);
+    const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
       .where(this.fieldMappings.status, status)

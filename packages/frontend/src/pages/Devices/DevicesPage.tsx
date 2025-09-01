@@ -14,6 +14,9 @@ import {
   Tag,
   Typography,
 } from 'antd';
+
+const { Option } = Select;
+
 import {
   DeleteOutlined,
   EditOutlined,
@@ -324,9 +327,9 @@ const DevicesPage: React.FC = () => {
           <Form.Item name='status' label='Status' initialValue={DeviceStatus.REGISTERED}>
             <Select>
               {Object.values(DeviceStatus).map(status => (
-                <Select.Option key={status} value={status}>
+                <Option key={status} value={status}>
                   {status.replace('_', ' ')}
-                </Select.Option>
+                </Option>
               ))}
             </Select>
           </Form.Item>
@@ -400,9 +403,9 @@ const DevicesPage: React.FC = () => {
           <Form.Item name='status' label='Status'>
             <Select>
               {Object.values(DeviceStatus).map(status => (
-                <Select.Option key={status} value={status}>
+                <Option key={status} value={status}>
                   {status.replace('_', ' ')}
-                </Select.Option>
+                </Option>
               ))}
             </Select>
           </Form.Item>
