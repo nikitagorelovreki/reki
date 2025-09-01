@@ -94,7 +94,11 @@ npm run api:start
 
 Подробная документация по интеграции доступна в файле [docs/flower-form-integration.md](docs/flower-form-integration.md).
 
-## Документация API
+## Документация
 
+### API
 После запуска API сервера, документация Swagger доступна по адресу:
 http://localhost:3002/api/docs
+
+### Разработка модулей
+Подробное руководство по созданию новых модулей доступно в файле [docs/module-creation-guide.md](docs/module-creation-guide.md).
