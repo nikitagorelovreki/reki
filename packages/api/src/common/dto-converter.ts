@@ -11,15 +11,20 @@ export function convertDtoTypes<T>(dto: T): Partial<T> {
       if (typeof value === 'string') {
         // Проверяем ISO формат даты
         if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value)) {
-          converted[key] = new Date(value) as any;
+          (converted[key] as unknown) = new Date(value);
         }
         // Проверяем формат даты YYYY-MM-DD
-        else if (/^\d{4}-\d{2}-\d{2}$/.test(value) && key.toLowerCase().includes('date') || key === 'warrantyUntil') {
-          converted[key] = new Date(value) as any;
+        else if (
+          /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+          (key.toLowerCase().includes('date') ||
+            key === 'warrantyUntil' ||
+            key === 'dob')
+        ) {
+          (converted[key] as unknown) = new Date(value);
         }
       }
     }
   }
-  
+
   return converted;
 }
