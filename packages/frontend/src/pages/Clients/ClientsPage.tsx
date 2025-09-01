@@ -91,12 +91,12 @@ const ClientsPage: React.FC = () => {
   };
 
   const handleCreate = async (
-    values: CreateClientDto & { dob?: dayjs.Dayjs }
+    values: CreateClientDto & { dateOfBirth?: dayjs.Dayjs }
   ) => {
     try {
       const formattedValues = {
         ...values,
-        dob: values.dob ? values.dob.format('YYYY-MM-DD') : undefined,
+        dateOfBirth: values.dateOfBirth ? values.dateOfBirth.format('YYYY-MM-DD') : undefined,
       };
       await clientsApi.create(formattedValues);
       message.success('Клиент создан успешно');
@@ -110,14 +110,14 @@ const ClientsPage: React.FC = () => {
   };
 
   const handleUpdate = async (
-    values: Partial<CreateClientDto> & { dob?: dayjs.Dayjs }
+    values: Partial<CreateClientDto> & { dateOfBirth?: dayjs.Dayjs }
   ) => {
     if (!editingClient) return;
 
     try {
       const formattedValues = {
         ...values,
-        dob: values.dob ? values.dob.format('YYYY-MM-DD') : undefined,
+        dateOfBirth: values.dateOfBirth ? values.dateOfBirth.format('YYYY-MM-DD') : undefined,
       };
       await clientsApi.update(editingClient.id, formattedValues);
       message.success('Клиент обновлен успешно');
@@ -207,7 +207,10 @@ const ClientsPage: React.FC = () => {
               setEditingClient(record);
               const formValues = {
                 ...record,
-                dob: record.dob ? dayjs(record.dob) : undefined,
+                dateOfBirth: record.dob ? dayjs(record.dob) : undefined,
+                phone: record.contacts?.phone,
+                email: record.contacts?.email,
+                address: record.contacts?.address,
               };
               form.setFieldsValue(formValues);
               setEditModalVisible(true);
@@ -349,12 +352,24 @@ const ClientsPage: React.FC = () => {
             <Input placeholder='Michael' />
           </Form.Item>
 
-          <Form.Item name='dob' label='Date of Birth'>
+          <Form.Item name='dateOfBirth' label='Date of Birth'>
             <DatePicker
               style={{ width: '100%' }}
               placeholder='Select date of birth'
               format='YYYY-MM-DD'
             />
+          </Form.Item>
+
+          <Form.Item name='phone' label='Phone'>
+            <Input placeholder='+7 (900) 123-45-67' />
+          </Form.Item>
+
+          <Form.Item name='email' label='Email'>
+            <Input placeholder='john.doe@example.com' />
+          </Form.Item>
+
+          <Form.Item name='address' label='Address'>
+            <TextArea rows={2} placeholder='Enter address' />
           </Form.Item>
 
           <Form.Item name='diagnosis' label='Diagnosis'>
@@ -420,12 +435,24 @@ const ClientsPage: React.FC = () => {
             <Input placeholder='Michael' />
           </Form.Item>
 
-          <Form.Item name='dob' label='Date of Birth'>
+          <Form.Item name='dateOfBirth' label='Date of Birth'>
             <DatePicker
               style={{ width: '100%' }}
               placeholder='Select date of birth'
               format='YYYY-MM-DD'
             />
+          </Form.Item>
+
+          <Form.Item name='phone' label='Phone'>
+            <Input placeholder='+7 (900) 123-45-67' />
+          </Form.Item>
+
+          <Form.Item name='email' label='Email'>
+            <Input placeholder='john.doe@example.com' />
+          </Form.Item>
+
+          <Form.Item name='address' label='Address'>
+            <TextArea rows={2} placeholder='Enter address' />
           </Form.Item>
 
           <Form.Item name='diagnosis' label='Diagnosis'>

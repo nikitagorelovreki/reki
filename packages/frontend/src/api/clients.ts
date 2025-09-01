@@ -75,3 +75,14 @@ export const clientsApi = {
     return response.data;
   },
 };
+
+// Export individual functions for backward compatibility
+export const getAllClients = clientsApi.getAll;
+export const getClientById = clientsApi.getById;
+export const searchClients = clientsApi.search;
+export const getClientsByClinic = clientsApi.getByClinic;
+export const getClientsByStatus = clientsApi.getByStatus;
+export const createClient = clientsApi.create;
+export const updateClient = clientsApi.update;
+export const deleteClient = clientsApi.delete;
+export const updateClientStatus = clientsApi.updateStatus;

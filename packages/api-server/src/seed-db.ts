@@ -13,6 +13,22 @@ async function seed(): Promise<void> {
     console.log('Creating clients...');
     const clients = [];
     for (let i = 1; i <= 5; i++) {
+      // Проверяем, существует ли уже клиент с таким именем
+      const existingClient = await db('clients')
+        .where('first_name', `Иван${i}`)
+        .where('last_name', `Петров${i}`)
+        .first();
+      
+      if (existingClient) {
+        console.log(`Client Иван${i} Петров${i} already exists, skipping...`);
+        clients.push({
+          id: existingClient.id,
+          firstName: `Иван${i}`,
+          lastName: `Петров${i}`,
+        });
+        continue;
+      }
+
       const id = uuidv4();
       await db('clients').insert({
         id,
@@ -45,6 +61,20 @@ async function seed(): Promise<void> {
     console.log('Creating devices...');
     const devices = [];
     for (let i = 1; i <= 8; i++) {
+      // Проверяем, существует ли уже устройство с таким серийным номером
+      const existingDevice = await db('devices')
+        .where('serial', `SN${i}00${i}`)
+        .first();
+      
+      if (existingDevice) {
+        console.log(`Device with serial SN${i}00${i} already exists, skipping...`);
+        devices.push({
+          id: existingDevice.id,
+          model: `Устройство ${i}`,
+        });
+        continue;
+      }
+
       const id = uuidv4();
       await db('devices').insert({
         id,
@@ -69,6 +99,21 @@ async function seed(): Promise<void> {
     console.log('Creating forms...');
     const forms = [];
     for (const formData of defaultForms) {
+      // Проверяем, существует ли уже форма с таким типом
+      const existingForm = await db('form_templates')
+        .where('type', formData.type)
+        .first();
+      
+      if (existingForm) {
+        console.log(`Form ${formData.title} already exists, skipping...`);
+        forms.push({
+          id: existingForm.id,
+          title: formData.title,
+          type: formData.type,
+        });
+        continue;
+      }
+
       const id = uuidv4();
       await db('form_templates').insert({
         id,
@@ -98,6 +143,18 @@ async function seed(): Promise<void> {
       if (lfkForm) {
         for (let i = 0; i < 3; i++) {
           const client = clients[i % clients.length];
+          
+          // Проверяем, существует ли уже form entry для этого клиента и формы
+          const existingEntry = await db('form_entries')
+            .where('form_id', lfkForm.id)
+            .where('patient_id', client.id)
+            .first();
+          
+          if (existingEntry) {
+            console.log(`LFK form entry for client ${client.firstName} ${client.lastName} already exists, skipping...`);
+            continue;
+          }
+
           const id = uuidv4();
           await db('form_entries').insert({
             id,
@@ -134,6 +191,18 @@ async function seed(): Promise<void> {
       if (fimForm) {
         for (let i = 0; i < 3; i++) {
           const client = clients[i % clients.length];
+          
+          // Проверяем, существует ли уже form entry для этого клиента и формы
+          const existingEntry = await db('form_entries')
+            .where('form_id', fimForm.id)
+            .where('patient_id', client.id)
+            .first();
+          
+          if (existingEntry) {
+            console.log(`FIM form entry for client ${client.firstName} ${client.lastName} already exists, skipping...`);
+            continue;
+          }
+
           const id = uuidv4();
           await db('form_entries').insert({
             id,

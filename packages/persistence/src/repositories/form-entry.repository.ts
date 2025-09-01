@@ -36,7 +36,20 @@ export class FormEntryRepository implements IFormEntryRepository {
     const dbSortField = (this.fieldMappings as any)[sortBy] || camelToSnake(sortBy);
 
     const query = knexInstance(this.tableName)
-      .select('*')
+      .select([
+        `${this.tableName}.*`,
+        'clients.first_name as patient_first_name',
+        'clients.last_name as patient_last_name',
+        'clients.middle_name as patient_middle_name',
+        'clients.full_name as patient_full_name',
+        'clients.status as patient_status',
+        'form_templates.title as form_title',
+        'form_templates.type as form_type',
+        'form_templates.description as form_description',
+        'form_templates.schema as form_schema'
+      ])
+      .leftJoin('clients', `${this.tableName}.patient_id`, 'clients.id')
+      .leftJoin('form_templates', `${this.tableName}.form_id`, 'form_templates.id')
       .orderBy(dbSortField, sortOrder)
       .limit(limit)
       .offset(offset);
@@ -49,7 +62,33 @@ export class FormEntryRepository implements IFormEntryRepository {
     const totalPages = Math.ceil(total / limit);
 
     return {
-      data: records.map(this.mapFromDb.bind(this)),
+      data: records.map(record => {
+        const formEntry = this.mapFromDb(record);
+        
+        // Добавляем связанные данные
+        if (record.patient_first_name || record.patient_last_name) {
+          (formEntry as any).patient = {
+            id: formEntry.patientId,
+            firstName: record.patient_first_name,
+            lastName: record.patient_last_name,
+            middleName: record.patient_middle_name,
+            fullName: record.patient_full_name,
+            status: record.patient_status,
+          };
+        }
+        
+        if (record.form_title) {
+          (formEntry as any).form = {
+            id: formEntry.formId,
+            title: record.form_title,
+            type: record.form_type,
+            description: record.form_description,
+            schema: record.form_schema || null,
+          };
+        }
+        
+        return formEntry;
+      }),
       pagination: { page, limit, total, totalPages },
     };
   }
