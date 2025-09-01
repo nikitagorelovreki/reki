@@ -18,7 +18,7 @@ Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified In
 - **[Frontend Components](./FRONTEND_COMPONENTS.md)** - React component architecture
 
 ### Integration Guides
-- **[Flower Form Integration](./flower-form-integration.md)** - Form system integration details (if available)
+- **[Module Creation Guide](./module-creation-guide.md)** - Guide for creating new modules (if available)
 
 ### User Documentation
 - **[📖 User Guide](./USER_GUIDE.md)** - End-user documentation (if available)
