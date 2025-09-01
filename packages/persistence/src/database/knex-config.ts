@@ -15,7 +15,7 @@ const config: Knex.Config = {
     max: 10,
   },
   migrations: {
-    directory: './migrations',
+    directory: __dirname + '/../../database/migrations',
     tableName: 'knex_migrations',
     extension: 'ts',
   },

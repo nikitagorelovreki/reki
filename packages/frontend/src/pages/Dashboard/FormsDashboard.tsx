@@ -105,7 +105,7 @@ const FormsDashboard: React.FC = () => {
             Сохранить
           </Button>,
         ]}
-        destroyOnClose
+        destroyOnHidden
       >
         <div style={{ padding: 20, textAlign: 'center' }}>
           <p>
