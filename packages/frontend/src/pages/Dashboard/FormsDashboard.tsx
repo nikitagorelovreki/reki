@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Row, Col, Modal, message } from 'antd';
+import { Button, Card, Col, message, Modal, Row } from 'antd';
 import { FormOutlined, MedicineBoxOutlined } from '@ant-design/icons';
 import NativeFlowerForm from '../../components/FlowerForm/NativeFlowerForm';
 
@@ -40,14 +40,14 @@ const FormsDashboard: React.FC = () => {
               </div>
             }
             actions={[
-              <Button type="primary" onClick={() => showForm('lfk')}>
+              <Button type='primary' onClick={() => showForm('lfk')}>
                 Открыть форму
               </Button>
             ]}
           >
             <Card.Meta
-              title="Осмотр ЛФК"
-              description="Форма для осмотра и оценки двигательных навыков"
+              title='Осмотр ЛФК'
+              description='Форма для осмотра и оценки двигательных навыков'
             />
           </Card>
         </Col>
@@ -68,14 +68,14 @@ const FormsDashboard: React.FC = () => {
               </div>
             }
             actions={[
-              <Button type="primary" onClick={() => showForm('fim')}>
+              <Button type='primary' onClick={() => showForm('fim')}>
                 Открыть форму
               </Button>
             ]}
           >
             <Card.Meta
-              title="FIM — мера функциональной независимости"
-              description="Оценка функциональных возможностей пациента"
+              title='FIM — мера функциональной независимости'
+              description='Оценка функциональных возможностей пациента'
             />
           </Card>
         </Col>

@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Card,
-  Table,
   Button,
-  Space,
-  Typography,
-  Tag,
-  Input,
-  Modal,
-  Form,
-  Select,
+  Card,
   DatePicker,
-  message,
   Dropdown,
+  Form,
+  Input,
+  message,
+  Modal,
   Popconfirm,
+  Select,
+  Space,
+  Table,
+  Tag,
+  Typography,
 } from 'antd';
 import {
-  PlusOutlined,
-  SearchOutlined,
-  EditOutlined,
   DeleteOutlined,
-  MoreOutlined,
-  ReloadOutlined,
-  UserOutlined,
+  EditOutlined,
   FormOutlined,
+  MoreOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import dayjs from 'dayjs';
@@ -195,9 +195,9 @@ const ClientsPage: React.FC = () => {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
-        <Space size="middle">
+        <Space size='middle'>
           <Button
-            type="link"
+            type='link'
             icon={<EditOutlined />}
             onClick={() => {
               setEditingClient(record);
@@ -214,7 +214,7 @@ const ClientsPage: React.FC = () => {
           
           <Space>
             <Button
-              type="link"
+              type='link'
               icon={<FormOutlined />}
               onClick={() => navigate(`/forms/client/${record.id}`)}
             >
@@ -222,10 +222,10 @@ const ClientsPage: React.FC = () => {
             </Button>
             <FlowerFormButton
               clientId={record.id}
-              buttonText="Осмотр"
-              buttonType="link"
-              buttonSize="small"
-              displayMode="modal"
+              buttonText='Осмотр'
+              buttonType='link'
+              buttonSize='small'
+              displayMode='modal'
             />
           </Space>
           
@@ -238,19 +238,19 @@ const ClientsPage: React.FC = () => {
               })),
             }}
           >
-            <Button type="link">
+            <Button type='link'>
               Status <MoreOutlined />
             </Button>
           </Dropdown>
 
           <Popconfirm
-            title="Удалить клиента?"
-            description="Это действие нельзя отменить"
+            title='Удалить клиента?'
+            description='Это действие нельзя отменить'
             onConfirm={() => handleDelete(record.id)}
-            okText="Да"
-            cancelText="Нет"
+            okText='Да'
+            cancelText='Нет'
           >
-            <Button type="link" danger icon={<DeleteOutlined />}>
+            <Button type='link' danger icon={<DeleteOutlined />}>
               Delete
             </Button>
           </Popconfirm>
@@ -262,7 +262,7 @@ const ClientsPage: React.FC = () => {
   return (
     <div>
       <Card>
-        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space direction='vertical' size='large' style={{ width: '100%' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Title level={2} style={{ margin: 0 }}>
               Client Management
@@ -275,7 +275,7 @@ const ClientsPage: React.FC = () => {
                 Refresh
               </Button>
               <Button
-                type="primary"
+                type='primary'
                 icon={<PlusOutlined />}
                 onClick={() => setCreateModalVisible(true)}
               >
@@ -285,7 +285,7 @@ const ClientsPage: React.FC = () => {
           </div>
 
           <Search
-            placeholder="Search clients..."
+            placeholder='Search clients...'
             allowClear
             style={{ width: 300 }}
             onSearch={(value) => {
@@ -297,7 +297,7 @@ const ClientsPage: React.FC = () => {
           <Table
             columns={columns}
             dataSource={clients}
-            rowKey="id"
+            rowKey='id'
             pagination={{
               ...pagination,
               showSizeChanger: true,
@@ -314,7 +314,7 @@ const ClientsPage: React.FC = () => {
 
       {/* Create Client Modal */}
       <Modal
-        title="Create New Client"
+        title='Create New Client'
         open={createModalVisible}
         onCancel={() => {
           setCreateModalVisible(false);
@@ -325,45 +325,45 @@ const ClientsPage: React.FC = () => {
       >
         <Form
           form={form}
-          layout="vertical"
+          layout='vertical'
           onFinish={handleCreate}
         >
           <Form.Item
-            name="fullName"
-            label="Full Name"
+            name='fullName'
+            label='Full Name'
             rules={[{ required: true, message: 'Please enter full name' }]}
           >
-            <Input placeholder="John Doe" />
+            <Input placeholder='John Doe' />
           </Form.Item>
 
-          <Form.Item name="firstName" label="First Name">
-            <Input placeholder="John" />
+          <Form.Item name='firstName' label='First Name'>
+            <Input placeholder='John' />
           </Form.Item>
 
-          <Form.Item name="lastName" label="Last Name">
-            <Input placeholder="Doe" />
+          <Form.Item name='lastName' label='Last Name'>
+            <Input placeholder='Doe' />
           </Form.Item>
 
-          <Form.Item name="middleName" label="Middle Name">
-            <Input placeholder="Michael" />
+          <Form.Item name='middleName' label='Middle Name'>
+            <Input placeholder='Michael' />
           </Form.Item>
 
-          <Form.Item name="dob" label="Date of Birth">
+          <Form.Item name='dob' label='Date of Birth'>
             <DatePicker
               style={{ width: '100%' }}
-              placeholder="Select date of birth"
-              format="YYYY-MM-DD"
+              placeholder='Select date of birth'
+              format='YYYY-MM-DD'
             />
           </Form.Item>
 
-          <Form.Item name="diagnosis" label="Diagnosis">
+          <Form.Item name='diagnosis' label='Diagnosis'>
             <TextArea 
               rows={3}
-              placeholder="Enter primary diagnosis"
+              placeholder='Enter primary diagnosis'
             />
           </Form.Item>
 
-          <Form.Item name="status" label="Status" initialValue={ClientStatus.INTAKE}>
+          <Form.Item name='status' label='Status' initialValue={ClientStatus.INTAKE}>
             <Select>
               {Object.values(ClientStatus).map(status => (
                 <Select.Option key={status} value={status}>
@@ -375,7 +375,7 @@ const ClientsPage: React.FC = () => {
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type='primary' htmlType='submit'>
                 Create Client
               </Button>
               <Button onClick={() => setCreateModalVisible(false)}>
@@ -388,7 +388,7 @@ const ClientsPage: React.FC = () => {
 
       {/* Edit Client Modal */}
       <Modal
-        title="Edit Client"
+        title='Edit Client'
         open={editModalVisible}
         onCancel={() => {
           setEditModalVisible(false);
@@ -400,45 +400,45 @@ const ClientsPage: React.FC = () => {
       >
         <Form
           form={form}
-          layout="vertical"
+          layout='vertical'
           onFinish={handleUpdate}
         >
           <Form.Item
-            name="fullName"
-            label="Full Name"
+            name='fullName'
+            label='Full Name'
             rules={[{ required: true, message: 'Please enter full name' }]}
           >
-            <Input placeholder="John Doe" />
+            <Input placeholder='John Doe' />
           </Form.Item>
 
-          <Form.Item name="firstName" label="First Name">
-            <Input placeholder="John" />
+          <Form.Item name='firstName' label='First Name'>
+            <Input placeholder='John' />
           </Form.Item>
 
-          <Form.Item name="lastName" label="Last Name">
-            <Input placeholder="Doe" />
+          <Form.Item name='lastName' label='Last Name'>
+            <Input placeholder='Doe' />
           </Form.Item>
 
-          <Form.Item name="middleName" label="Middle Name">
-            <Input placeholder="Michael" />
+          <Form.Item name='middleName' label='Middle Name'>
+            <Input placeholder='Michael' />
           </Form.Item>
 
-          <Form.Item name="dob" label="Date of Birth">
+          <Form.Item name='dob' label='Date of Birth'>
             <DatePicker
               style={{ width: '100%' }}
-              placeholder="Select date of birth"
-              format="YYYY-MM-DD"
+              placeholder='Select date of birth'
+              format='YYYY-MM-DD'
             />
           </Form.Item>
 
-          <Form.Item name="diagnosis" label="Diagnosis">
+          <Form.Item name='diagnosis' label='Diagnosis'>
             <TextArea 
               rows={3}
-              placeholder="Enter primary diagnosis"
+              placeholder='Enter primary diagnosis'
             />
           </Form.Item>
 
-          <Form.Item name="status" label="Status">
+          <Form.Item name='status' label='Status'>
             <Select>
               {Object.values(ClientStatus).map(status => (
                 <Select.Option key={status} value={status}>
@@ -450,7 +450,7 @@ const ClientsPage: React.FC = () => {
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type='primary' htmlType='submit'>
                 Update Client
               </Button>
               <Button onClick={() => setEditModalVisible(false)}>

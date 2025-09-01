@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import {
+  Avatar,
+  Button,
   Layout,
   Menu,
+  Space,
   theme,
   Typography,
-  Space,
-  Button,
-  Avatar,
 } from 'antd';
 import {
   DashboardOutlined,
-  SettingOutlined,
-  UserOutlined,
-  TeamOutlined,
+  FormOutlined,
   LogoutOutlined,
+  MedicineBoxOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  MedicineBoxOutlined,
+  SettingOutlined,
+  TeamOutlined,
   ToolOutlined,
-  FormOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -81,7 +81,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         trigger={null} 
         collapsible 
         collapsed={collapsed}
-        theme="light"
+        theme='light'
         style={{
           boxShadow: '2px 0 8px 0 rgba(0,0,0,0.15)',
         }}
@@ -91,7 +91,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           textAlign: 'center',
           borderBottom: '1px solid #f0f0f0',
         }}>
-          <Space direction="vertical" size="small">
+          <Space direction='vertical' size='small'>
             <MedicineBoxOutlined 
               style={{ 
                 fontSize: collapsed ? '24px' : '32px', 
@@ -108,8 +108,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         </div>
         
         <Menu
-          theme="light"
-          mode="inline"
+          theme='light'
+          mode='inline'
           selectedKeys={[location.pathname]}
           items={menuItems}
           onClick={handleMenuClick}
@@ -129,7 +129,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           }}
         >
           <Button
-            type="text"
+            type='text'
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
@@ -139,21 +139,21 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             }}
           />
           
-          <Space size="middle">
+          <Space size='middle'>
             <Button 
-              type="text" 
+              type='text' 
               icon={<UserOutlined />}
               onClick={() => navigate('/profile')}
             >
               Profile
             </Button>
             <Avatar 
-              size="default" 
+              size='default' 
               icon={<UserOutlined />} 
               style={{ backgroundColor: '#1890ff' }}
             />
             <Button 
-              type="text" 
+              type='text' 
               icon={<LogoutOutlined />}
               onClick={handleLogout}
               danger

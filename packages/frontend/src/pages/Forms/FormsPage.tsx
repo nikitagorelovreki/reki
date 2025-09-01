@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { 
-  getForms, 
-  getFormsByType, 
+  Form, 
+  FormSubmission, 
+  getForms,
+  getFormsByType,
   getSubmissionsByClient,
-  getSubmissionsByForm,
   getSubmissionsByClientAndForm,
-  Form,
-  FormSubmission
+  getSubmissionsByForm
 } from '../../api/forms';
 import NativeFlowerForm from '../../components/FlowerForm/NativeFlowerForm';
 import { Button, Card, Tabs } from 'antd';
@@ -116,21 +116,21 @@ const FormsPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="forms-loading">Loading...</div>;
+    return <div className='forms-loading'>Loading...</div>;
   }
 
   if (error) {
-    return <div className="forms-error">Error: {error}</div>;
+    return <div className='forms-error'>Error: {error}</div>;
   }
 
   return (
-    <div className="forms-page">
-      <div className="forms-sidebar">
-        <div className="forms-header">
+    <div className='forms-page'>
+      <div className='forms-sidebar'>
+        <div className='forms-header'>
           <h2>Forms</h2>
           {clientId && selectedForm && (
             <Button 
-              type="primary"
+              type='primary'
               onClick={handleNewForm}
             >
               New Form
@@ -138,59 +138,59 @@ const FormsPage: React.FC = () => {
           )}
         </div>
         
-        <div className="forms-list">
+        <div className='forms-list'>
           {forms.map(form => (
             <div 
               key={form.id} 
               className={`form-item ${selectedForm?.id === form.id ? 'selected' : ''}`}
               onClick={() => handleFormSelect(form)}
             >
-              <div className="form-item-name">{form.name}</div>
-              <div className="form-item-type">{form.type.toUpperCase()}</div>
+              <div className='form-item-name'>{form.name}</div>
+              <div className='form-item-type'>{form.type.toUpperCase()}</div>
             </div>
           ))}
           
           {forms.length === 0 && (
-            <div className="no-forms">No forms available</div>
+            <div className='no-forms'>No forms available</div>
           )}
         </div>
         
         {selectedForm && (
           <>
-            <div className="submissions-header">
+            <div className='submissions-header'>
               <h3>Submissions</h3>
               {clientId && (
-                <span className="submissions-count">
+                <span className='submissions-count'>
                   {submissions.length} {submissions.length === 1 ? 'submission' : 'submissions'}
                 </span>
               )}
             </div>
             
-            <div className="submissions-list">
+            <div className='submissions-list'>
               {submissions.map(submission => (
                 <div 
                   key={submission.id} 
                   className={`submission-item ${selectedSubmission?.id === submission.id ? 'selected' : ''}`}
                   onClick={() => handleSubmissionSelect(submission)}
                 >
-                  <div className="submission-date">
+                  <div className='submission-date'>
                     {new Date(submission.submissionDate).toLocaleDateString()}
                   </div>
                   {submission.therapistName && (
-                    <div className="submission-therapist">{submission.therapistName}</div>
+                    <div className='submission-therapist'>{submission.therapistName}</div>
                   )}
                 </div>
               ))}
               
               {submissions.length === 0 && (
-                <div className="no-submissions">No submissions available</div>
+                <div className='no-submissions'>No submissions available</div>
               )}
             </div>
           </>
         )}
       </div>
       
-      <div className="forms-content">
+      <div className='forms-content'>
         {showFlowerForm && selectedForm && clientId ? (
           <NativeFlowerForm
             clientId={clientId}
@@ -199,29 +199,29 @@ const FormsPage: React.FC = () => {
             onClose={handleCloseFlowerForm}
           />
         ) : selectedSubmission ? (
-          <div className="submission-details">
-            <div className="submission-details-header">
+          <div className='submission-details'>
+            <div className='submission-details-header'>
               <h2>{selectedForm?.name || 'Form'} Submission</h2>
-              <div className="submission-details-meta">
-                <div className="submission-details-date">
-                  <span className="label">Date:</span> 
+              <div className='submission-details-meta'>
+                <div className='submission-details-date'>
+                  <span className='label'>Date:</span> 
                   {new Date(selectedSubmission.submissionDate).toLocaleDateString()}
                 </div>
                 {selectedSubmission.therapistName && (
-                  <div className="submission-details-therapist">
-                    <span className="label">Therapist:</span> 
+                  <div className='submission-details-therapist'>
+                    <span className='label'>Therapist:</span> 
                     {selectedSubmission.therapistName}
                   </div>
                 )}
               </div>
             </div>
             
-            <div className="submission-details-content">
+            <div className='submission-details-content'>
               <pre>{JSON.stringify(selectedSubmission.data, null, 2)}</pre>
             </div>
           </div>
         ) : (
-          <div className="no-selection">
+          <div className='no-selection'>
             {selectedForm ? (
               <div>
                 <h2>No submission selected</h2>

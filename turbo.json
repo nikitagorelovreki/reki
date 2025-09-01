@@ -3,20 +3,54 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "build/**"],
+      "inputs": ["src/**", "!src/**/*.test.ts", "!src/**/*.spec.ts"]
     },
     "dev": {
       "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "outputs": [],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]
+    },
+    "lint:fix": {
+      "outputs": [],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]
+    },
+    "format": {
+      "outputs": [],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json", "src/**/*.md"]
+    },
+    "format:check": {
+      "outputs": [],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json", "src/**/*.md"]
+    },
+    "type-check": {
+      "outputs": [],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json", "tsconfig.*.json"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "__tests__/**/*.ts"]
+    },
+    "test:watch": {
+      "cache": false,
       "persistent": true
     },
-    "lint": {},
-    "test": {
-      "dependsOn": ["build"],
-      "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts"]
-    },
     "clean": {
-      "cache": false
+      "cache": false,
+      "outputs": []
     }
-  }
+  },
+  "globalDependencies": [
+    "eslint.config.js",
+    ".prettierrc.js",
+    ".prettierignore",
+    "tsconfig.base.json",
+    "tsconfig.frontend.json",
+    "tsconfig.backend.json"
+  ]
 }

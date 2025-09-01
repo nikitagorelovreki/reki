@@ -1,25 +1,25 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  ParseIntPipe,
+  Controller,
   DefaultValuePipe,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiQuery,
   ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { DeviceService } from '@cuis/use-cases';
 import { DeviceStatus } from '@cuis/domain';
-import { CreateDeviceDto, UpdateDeviceDto, DeviceResponseDto } from './dto/device.dto';
+import { CreateDeviceDto, DeviceResponseDto, UpdateDeviceDto } from './dto/device.dto';
 import { convertDtoTypes } from '../common/dto-converter';
 
 @ApiTags('devices')

@@ -93,8 +93,3 @@ npm run api:start
 - Интеграция с карточками пациентов
 
 Подробная документация по интеграции доступна в файле [docs/flower-form-integration.md](docs/flower-form-integration.md).
-
-## Документация API
-
-После запуска API сервера, документация Swagger доступна по адресу:
-http://localhost:3002/api/docs
