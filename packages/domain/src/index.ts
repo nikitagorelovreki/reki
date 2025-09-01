@@ -1,6 +1,9 @@
 // Models
 export * from './models/device.model';
 export * from './models/client.model';
+
+// Errors
+export * from './errors';
 export * from './models/examination.model';
 export * from './models/form.model';
 export * from './models/form-entry.model';

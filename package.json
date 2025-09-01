@@ -36,6 +36,8 @@
     "packages:dev": "turbo run dev --filter=./packages/*",
     "packages:lint": "turbo run lint --filter=./packages/*",
     "packages:format": "turbo run format --filter=./packages/*",
+    "packages:test": "turbo run test --filter=./packages/*",
+    "test": "turbo run test",
     
     "create:package": "node scripts/create-package.js",
     

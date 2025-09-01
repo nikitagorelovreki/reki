@@ -26,5 +26,21 @@
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "rimraf": "^5.0.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src"],
+    "testMatch": ["**/__tests__/**/*.ts", "**/*.spec.ts", "**/*.test.ts"],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts",
+      "!src/index.ts"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
   }
 }
