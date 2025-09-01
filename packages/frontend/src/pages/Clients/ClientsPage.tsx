@@ -159,10 +159,10 @@ const ClientsPage: React.FC = () => {
       dataIndex: 'fullName',
       key: 'fullName',
       sorter: true,
-      render: (text, _record) => (
+      render: (text, record) => (
         <Space>
           <UserOutlined />
-          {text}
+          {`${record.lastName || ''} ${record.firstName || ''}`.trim()}
         </Space>
       ),
     },
@@ -330,18 +330,18 @@ const ClientsPage: React.FC = () => {
       >
         <Form form={form} layout='vertical' onFinish={handleCreate}>
           <Form.Item
-            name='fullName'
-            label='Full Name'
-            rules={[{ required: true, message: 'Please enter full name' }]}
+            name='firstName'
+            label='First Name'
+            rules={[{ required: true, message: 'Please enter first name' }]}
           >
-            <Input placeholder='John Doe' />
-          </Form.Item>
-
-          <Form.Item name='firstName' label='First Name'>
             <Input placeholder='John' />
           </Form.Item>
 
-          <Form.Item name='lastName' label='Last Name'>
+          <Form.Item
+            name='lastName'
+            label='Last Name'
+            rules={[{ required: true, message: 'Please enter last name' }]}
+          >
             <Input placeholder='Doe' />
           </Form.Item>
 
@@ -401,18 +401,18 @@ const ClientsPage: React.FC = () => {
       >
         <Form form={form} layout='vertical' onFinish={handleUpdate}>
           <Form.Item
-            name='fullName'
-            label='Full Name'
-            rules={[{ required: true, message: 'Please enter full name' }]}
+            name='firstName'
+            label='First Name'
+            rules={[{ required: true, message: 'Please enter first name' }]}
           >
-            <Input placeholder='John Doe' />
-          </Form.Item>
-
-          <Form.Item name='firstName' label='First Name'>
             <Input placeholder='John' />
           </Form.Item>
 
-          <Form.Item name='lastName' label='Last Name'>
+          <Form.Item
+            name='lastName'
+            label='Last Name'
+            rules={[{ required: true, message: 'Please enter last name' }]}
+          >
             <Input placeholder='Doe' />
           </Form.Item>
 
