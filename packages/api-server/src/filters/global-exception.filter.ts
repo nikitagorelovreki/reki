@@ -12,7 +12,7 @@ import {
   ApplicationError, 
   ErrorUtils, 
   formatErrorForLogging 
-} from '@cuis/domain';
+} from '@reki/domain';
 
 /**
  * Глобальный фильтр исключений для обработки всех ошибок в приложении

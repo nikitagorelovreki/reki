@@ -5,7 +5,7 @@ import {
   ClientStatus, 
   PaginatedResult, 
   PaginationOptions 
-} from '@cuis/domain';
+} from '@reki/domain';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

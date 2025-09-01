@@ -29,7 +29,7 @@ async function bootstrap() {
 
   // Swagger setup
   const config = new DocumentBuilder()
-    .setTitle('CUIS API')
+    .setTitle('REKI API')
     .setDescription('Cosyma Unified Info-System API Documentation')
     .setVersion('0.9.0')
     .addBearerAuth()
@@ -49,7 +49,7 @@ async function bootstrap() {
   const port = configService.get('PORT', 3002);
   await app.listen(port);
   
-  console.log(`🚀 CUIS API Server is running on: http://localhost:${port}`);
+  console.log(`🚀 REKI API Server is running on: http://localhost:${port}`);
   console.log(`📚 API Documentation: http://localhost:${port}/api/docs`);
 }
 

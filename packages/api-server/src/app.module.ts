@@ -3,9 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import { PersistenceModule } from '@cuis/persistence';
-import { UseCasesModule } from '@cuis/use-cases';
-import { ApiModule } from '@cuis/api';
+import { PersistenceModule } from '@reki/persistence';
+import { UseCasesModule } from '@reki/use-cases';
+import { ApiModule } from '@reki/api';
 
 @Module({
   imports: [

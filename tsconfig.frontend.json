@@ -28,8 +28,8 @@
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/hooks/*": ["./src/hooks/*"],
-      "@cuis/domain": ["../domain/src"],
-      "@cuis/domain/*": ["../domain/src/*"]
+      "@reki/domain": ["../domain/src"],
+      "@reki/domain/*": ["../domain/src/*"]
     }
   },
   "include": [

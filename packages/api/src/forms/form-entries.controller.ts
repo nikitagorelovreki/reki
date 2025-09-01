@@ -17,8 +17,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FormEntryService } from '@cuis/use-cases';
-import { FormEntryStatus } from '@cuis/domain';
+import { FormEntryService } from '@reki/use-cases';
+import { FormEntryStatus } from '@reki/domain';
 import { 
   CreateFormEntryDto, 
   FormEntryResponseDto, 

@@ -1,8 +1,8 @@
-# Comprehensive Code Review and Refactoring Plan for Reki (CUIS)
+# Comprehensive Code Review and Refactoring Plan for Reki
 
 ## Overview
 
-This document presents a comprehensive code review of the Reki (CUIS - Cosyma Unified Info-System) project and provides a structured refactoring plan. The review is organized into three main phases:
+This document presents a comprehensive code review of the Reki (Medical Device Management System) project and provides a structured refactoring plan. The review is organized into three main phases:
 
 1. System Design Review
 2. Architecture Review
@@ -337,7 +337,7 @@ The implementation of these refactoring tasks should follow these guidelines:
 
 ## Conclusion
 
-This refactoring plan provides a structured approach to improving the Reki (CUIS) codebase while maintaining its functionality. By addressing these issues in a prioritized manner, the project will become more maintainable, secure, and performant over time.
+This refactoring plan provides a structured approach to improving the Reki codebase while maintaining its functionality. By addressing these issues in a prioritized manner, the project will become more maintainable, secure, and performant over time.
 
 The backlog items are designed to be actionable and can be directly imported into a project management tool for tracking and assignment.
 

@@ -1,4 +1,4 @@
-# Reki (CUIS) Refactoring Progress Guide
+# Reki Refactoring Progress Guide
 
 ## Overview
 

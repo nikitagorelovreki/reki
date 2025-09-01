@@ -1,6 +1,6 @@
 import { ClientRepository } from '../repositories/client.repository';
 import { DatabaseService } from '../database/database.service';
-import { Client, ClientStatus, PaginationOptions } from '@cuis/domain';
+import { Client, ClientStatus, PaginationOptions } from '@reki/domain';
 
 // Mock the DatabaseService
 jest.mock('../database/database.service');

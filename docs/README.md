@@ -1,6 +1,6 @@
-# CUIS Documentation Hub
+# REKI Documentation Hub
 
-Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified Info-System). This documentation covers all aspects of the system architecture, development practices, and implementation details.
+Welcome to the comprehensive developer documentation for REKI (Medical Device Management System). This documentation covers all aspects of the system architecture, development practices, and implementation details.
 
 > **[🔙 Назад к главной странице проекта](../README.md)** | **[🏠 Project Overview](../README.md)**
 
@@ -30,7 +30,7 @@ Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified In
 
 ## 🏗️ System Overview
 
-CUIS is a modular medical device and patient management system built with:
+REKI is a modular medical device and patient management system built with:
 
 - **Clean Architecture** principles
 - **Domain-Driven Design** (DDD) patterns  
@@ -78,7 +78,7 @@ CUIS is a modular medical device and patient management system built with:
 
 ### Package Architecture
 ```
-@cuis/
+@reki/
 ├── domain          # Core business logic (entities, interfaces)
 ├── persistence     # Data access layer (repositories, database)
 ├── use-cases       # Application services (business workflows)
@@ -112,11 +112,11 @@ npm run frontend:dev
 ### Common Tasks
 
 **Adding New Feature**:
-1. Create domain entities in `@cuis/domain`
-2. Implement repositories in `@cuis/persistence`  
-3. Create services in `@cuis/use-cases`
-4. Add API endpoints in `@cuis/api`
-5. Build UI components in `@cuis/frontend`
+1. Create domain entities in `@reki/domain`
+2. Implement repositories in `@reki/persistence`  
+3. Create services in `@reki/use-cases`
+4. Add API endpoints in `@reki/api`
+5. Build UI components in `@reki/frontend`
 
 **Database Changes**:
 1. Create migration in `packages/persistence/database/migrations/`
@@ -125,7 +125,7 @@ npm run frontend:dev
 4. Test migration on development data
 
 **API Changes**:
-1. Update DTOs in `@cuis/api`
+1. Update DTOs in `@reki/api`
 2. Modify controllers as needed
 3. Update Swagger documentation
 4. Update frontend API clients

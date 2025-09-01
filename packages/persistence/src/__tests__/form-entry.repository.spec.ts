@@ -1,6 +1,6 @@
 import { FormEntryRepository } from '../repositories/form-entry.repository';
 import { DatabaseService } from '../database/database.service';
-import { FormEntryModel, FormEntryStatus } from '@cuis/domain';
+import { FormEntryModel, FormEntryStatus } from '@reki/domain';
 
 // Mock the DatabaseService
 jest.mock('../database/database.service');
