@@ -1,0 +1,58 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": ["ES2021"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    
+    // Backend specific
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    
+    // Emit configuration
+    "declaration": true,
+    "outDir": "./dist",
+    "incremental": true,
+    
+    // Type checking - stricter for backend
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Node.js specific
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    // Paths for backend packages
+    "baseUrl": ".",
+    "paths": {
+      "@cuis/domain": ["./packages/domain/src"],
+      "@cuis/domain/*": ["./packages/domain/src/*"],
+      "@cuis/persistence": ["./packages/persistence/src"],
+      "@cuis/persistence/*": ["./packages/persistence/src/*"],
+      "@cuis/use-cases": ["./packages/use-cases/src"],
+      "@cuis/use-cases/*": ["./packages/use-cases/src/*"],
+      "@cuis/api": ["./packages/api/src"],
+      "@cuis/api/*": ["./packages/api/src/*"]
+    }
+  },
+  "include": [
+    "packages/api-server/src/**/*",
+    "packages/use-cases/src/**/*",
+    "packages/persistence/src/**/*",
+    "packages/api/src/**/*",
+    "packages/domain/src/**/*"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/test",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
+}

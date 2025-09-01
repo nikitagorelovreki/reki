@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { 
+  Button, 
   Card, 
-  Tabs, 
+  Checkbox, 
+  Col, 
+  DatePicker, 
   Form, 
   Input, 
-  DatePicker, 
-  Checkbox, 
-  Button, 
+  InputNumber, 
+  message, 
   Row, 
-  Col, 
-  Typography, 
   Space,
-  InputNumber,
-  message
+  Tabs,
+  Typography
 } from 'antd';
-import { SaveOutlined, PrinterOutlined, ReloadOutlined } from '@ant-design/icons';
+import { PrinterOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { importFlowerFormData } from '../../api/forms';
 
@@ -226,14 +226,14 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
   };
 
   return (
-    <div className="lfk-form">
+    <div className='lfk-form'>
       <Card 
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Title level={4} style={{ margin: 0 }}>Осмотр ЛФК</Title>
             <Space>
               <Button 
-                type="primary" 
+                type='primary' 
                 icon={<SaveOutlined />} 
                 onClick={() => form.submit()}
                 loading={loading}
@@ -248,66 +248,66 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
       >
         <Form
           form={form}
-          layout="vertical"
+          layout='vertical'
           onFinish={handleSubmit}
           initialValues={{}}
         >
           <Tabs activeKey={activeTab} onChange={setActiveTab}>
-            <TabPane tab="1) Осмотр и двигательные навыки" key="exam">
-              <Card title="Двигательные навыки" style={{ marginBottom: 16 }}>
+            <TabPane tab='1) Осмотр и двигательные навыки' key='exam'>
+              <Card title='Двигательные навыки' style={{ marginBottom: 16 }}>
                 <Row gutter={[16, 16]}>
                   <Col span={12}>
-                    <Form.Item label="Удержание головы" name="head_hold">
+                    <Form.Item label='Удержание головы' name='head_hold'>
                       <Checkbox.Group options={headHoldOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Перевороты" name="rollover">
+                    <Form.Item label='Перевороты' name='rollover'>
                       <Checkbox.Group options={rolloverOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Лёжа на животе" name="prone">
+                    <Form.Item label='Лёжа на животе' name='prone'>
                       <Checkbox.Group options={proneOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Переход в позу сидя на пятках" name="sitting_on_heels">
+                    <Form.Item label='Переход в позу сидя на пятках' name='sitting_on_heels'>
                       <Checkbox.Group options={sittingOnHeelsOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Переход в позу стоя на коленях" name="kneeling">
+                    <Form.Item label='Переход в позу стоя на коленях' name='kneeling'>
                       <Checkbox.Group options={kneelingOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Переход в положение сидя" name="to_sit">
+                    <Form.Item label='Переход в положение сидя' name='to_sit'>
                       <Checkbox.Group options={toSitOptions} />
                     </Form.Item>
                   </Col>
                   
                   <Col span={12}>
-                    <Form.Item label="Сидит" name="sitting">
+                    <Form.Item label='Сидит' name='sitting'>
                       <Checkbox.Group options={sittingOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Стоит" name="standing">
+                    <Form.Item label='Стоит' name='standing'>
                       <Checkbox.Group options={standingOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Ходит" name="walking">
+                    <Form.Item label='Ходит' name='walking'>
                       <Checkbox.Group options={walkingOptions} />
                     </Form.Item>
                     
                     <Row gutter={16}>
                       <Col span={8}>
-                        <Form.Item label="Рост (см)" name="height_cm">
+                        <Form.Item label='Рост (см)' name='height_cm'>
                           <InputNumber min={0} />
                         </Form.Item>
                       </Col>
                       <Col span={8}>
-                        <Form.Item label="Вес (кг)" name="weight_kg">
+                        <Form.Item label='Вес (кг)' name='weight_kg'>
                           <InputNumber min={0} step={0.1} />
                         </Form.Item>
                       </Col>
                       <Col span={8}>
-                        <Form.Item label="Окружность головы (см)" name="head_circ">
+                        <Form.Item label='Окружность головы (см)' name='head_circ'>
                           <InputNumber min={0} step={0.1} />
                         </Form.Item>
                       </Col>
@@ -316,45 +316,45 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
                 </Row>
               </Card>
               
-              <Card title="Комментарий" style={{ marginBottom: 16 }}>
-                <Form.Item name="notes">
-                  <TextArea rows={3} placeholder="Дополнительные наблюдения…" />
+              <Card title='Комментарий' style={{ marginBottom: 16 }}>
+                <Form.Item name='notes'>
+                  <TextArea rows={3} placeholder='Дополнительные наблюдения…' />
                 </Form.Item>
               </Card>
               
               <Card>
                 <Row gutter={16}>
                   <Col span={12}>
-                    <Form.Item label="Методист ЛФК" name="therapist_name">
-                      <Input placeholder="ФИО" />
+                    <Form.Item label='Методист ЛФК' name='therapist_name'>
+                      <Input placeholder='ФИО' />
                     </Form.Item>
                   </Col>
                   <Col span={6}>
-                    <Form.Item label="Дата" name="exam_date">
+                    <Form.Item label='Дата' name='exam_date'>
                       <DatePicker style={{ width: '100%' }} />
                     </Form.Item>
                   </Col>
                   <Col span={6}>
-                    <Form.Item label="Подпись (примечание)" name="signature_ref">
-                      <Input placeholder="напр. хранится в Media" />
+                    <Form.Item label='Подпись (примечание)' name='signature_ref'>
+                      <Input placeholder='напр. хранится в Media' />
                     </Form.Item>
                   </Col>
                 </Row>
               </Card>
             </TabPane>
             
-            <TabPane tab="2) Походка / установка конечностей" key="gait">
-              <Card title="Походка — визуальная оценка" style={{ marginBottom: 16 }}>
+            <TabPane tab='2) Походка / установка конечностей' key='gait'>
+              <Card title='Походка — визуальная оценка' style={{ marginBottom: 16 }}>
                 <Row gutter={[16, 16]}>
                   <Col span={12}>
                     <Form.Item 
                       label={
                         <Space>
                           <span>Спина</span>
-                          <Text type="secondary">(гиперлордоз/гиперкифоз/осевая асимметрия и пр.)</Text>
+                          <Text type='secondary'>(гиперлордоз/гиперкифоз/осевая асимметрия и пр.)</Text>
                         </Space>
                       } 
-                      name="gait_spine"
+                      name='gait_spine'
                     >
                       <Checkbox.Group options={gaitSpineOptions} />
                     </Form.Item>
@@ -363,20 +363,20 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
                       label={
                         <Space>
                           <span>Установка нижних конечностей</span>
-                          <Text type="secondary">(точные формулировки можно дополнить)</Text>
+                          <Text type='secondary'>(точные формулировки можно дополнить)</Text>
                         </Space>
                       } 
-                      name="gait_lower_limbs"
+                      name='gait_lower_limbs'
                     >
                       <Checkbox.Group options={gaitLowerLimbsOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Наличие контрактур (суставы)" name="gait_contractures">
-                      <Input placeholder="Например: коленный D 10°, голеностоп S 5°…" />
+                    <Form.Item label='Наличие контрактур (суставы)' name='gait_contractures'>
+                      <Input placeholder='Например: коленный D 10°, голеностоп S 5°…' />
                     </Form.Item>
                     
-                    <Form.Item label="Нестабильность в суставах" name="gait_instability">
-                      <Input placeholder="Например: нестабильность плечевого, коленного…" />
+                    <Form.Item label='Нестабильность в суставах' name='gait_instability'>
+                      <Input placeholder='Например: нестабильность плечевого, коленного…' />
                     </Form.Item>
                   </Col>
                   
@@ -385,46 +385,46 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
                       label={
                         <Space>
                           <span>Установка стоп</span>
-                          <Text type="secondary">(вальгус/варус/пронация/супинация и др.)</Text>
+                          <Text type='secondary'>(вальгус/варус/пронация/супинация и др.)</Text>
                         </Space>
                       } 
-                      name="gait_feet"
+                      name='gait_feet'
                     >
                       <Checkbox.Group options={gaitFeetOptions} />
                     </Form.Item>
                     
-                    <Form.Item label="Прочее (походка)" name="gait_comment">
-                      <TextArea rows={6} placeholder="Запишите особенности походки (темп, симметрия шага, опора и т.д.)" />
+                    <Form.Item label='Прочее (походка)' name='gait_comment'>
+                      <TextArea rows={6} placeholder='Запишите особенности походки (темп, симметрия шага, опора и т.д.)' />
                     </Form.Item>
                   </Col>
                 </Row>
               </Card>
               
-              <Card title="Вложения">
-                <Form.Item name="media_refs">
-                  <Input placeholder="Ссылка(и) на видео походки/фото в Media (ID, URL)…" />
+              <Card title='Вложения'>
+                <Form.Item name='media_refs'>
+                  <Input placeholder='Ссылка(и) на видео походки/фото в Media (ID, URL)…' />
                 </Form.Item>
               </Card>
             </TabPane>
             
-            <TabPane tab="3) План терапии / задачи" key="plan">
-              <Card title="План терапии / задачи курса" style={{ marginBottom: 16 }}>
-                <Text type="secondary">Ниже — план с возможностью добавлять пункты</Text>
+            <TabPane tab='3) План терапии / задачи' key='plan'>
+              <Card title='План терапии / задачи курса' style={{ marginBottom: 16 }}>
+                <Text type='secondary'>Ниже — план с возможностью добавлять пункты</Text>
                 <div style={{ margin: '16px 0', borderBottom: '1px solid #f0f0f0' }} />
                 
                 <Row gutter={16} style={{ marginBottom: 8 }}>
-                  <Col flex="auto">
-                    <Form.Item label="Цель курса" name="course_goal">
-                      <Input placeholder="Например: улучшение устойчивости, ↓ спастики…" />
+                  <Col flex='auto'>
+                    <Form.Item label='Цель курса' name='course_goal'>
+                      <Input placeholder='Например: улучшение устойчивости, ↓ спастики…' />
                     </Form.Item>
                   </Col>
                   <Col span={6}>
-                    <Form.Item label="Длительность (нед.)" name="course_duration_weeks">
+                    <Form.Item label='Длительность (нед.)' name='course_duration_weeks'>
                       <InputNumber min={0} style={{ width: '100%' }} />
                     </Form.Item>
                   </Col>
                   <Col span={6}>
-                    <Form.Item label="Сессий в неделю" name="sessions_per_week">
+                    <Form.Item label='Сессий в неделю' name='sessions_per_week'>
                       <InputNumber min={0} style={{ width: '100%' }} />
                     </Form.Item>
                   </Col>
@@ -432,24 +432,24 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
                 
                 {tasks.map((task, index) => (
                   <Row key={task.key} gutter={16} style={{ marginBottom: 16 }}>
-                    <Col flex="auto">
-                      <Form.Item name={`task_title_${index}`} label={index === 0 ? "Задача" : ""}>
-                        <Input placeholder="Например: улучшить переход в положение сидя" />
+                    <Col flex='auto'>
+                      <Form.Item name={`task_title_${index}`} label={index === 0 ? 'Задача' : ''}>
+                        <Input placeholder='Например: улучшить переход в положение сидя' />
                       </Form.Item>
                     </Col>
                     <Col span={5}>
-                      <Form.Item name={`task_metric_${index}`} label={index === 0 ? "Метрика" : ""}>
-                        <Input placeholder="напр. пройти 10 м" />
+                      <Form.Item name={`task_metric_${index}`} label={index === 0 ? 'Метрика' : ''}>
+                        <Input placeholder='напр. пройти 10 м' />
                       </Form.Item>
                     </Col>
                     <Col span={5}>
-                      <Form.Item name={`task_target_${index}`} label={index === 0 ? "Цель" : ""}>
-                        <Input placeholder="напр. без опоры" />
+                      <Form.Item name={`task_target_${index}`} label={index === 0 ? 'Цель' : ''}>
+                        <Input placeholder='напр. без опоры' />
                       </Form.Item>
                     </Col>
                     <Col span={5}>
-                      <Form.Item name={`task_notes_${index}`} label={index === 0 ? "Примечание" : ""}>
-                        <Input placeholder="…" />
+                      <Form.Item name={`task_notes_${index}`} label={index === 0 ? 'Примечание' : ''}>
+                        <Input placeholder='…' />
                       </Form.Item>
                     </Col>
                     <Col span={2} style={{ display: 'flex', alignItems: 'center' }}>
@@ -458,7 +458,7 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
                   </Row>
                 ))}
                 
-                <Button type="dashed" block onClick={addTask} style={{ marginTop: 16 }}>
+                <Button type='dashed' block onClick={addTask} style={{ marginTop: 16 }}>
                   + Добавить пункт
                 </Button>
               </Card>
@@ -466,12 +466,12 @@ const LFKExamForm: React.FC<LFKExamFormProps> = ({
               <Card>
                 <Row gutter={16}>
                   <Col span={12}>
-                    <Form.Item label="Составил(а)" name="plan_author">
-                      <Input placeholder="ФИО" />
+                    <Form.Item label='Составил(а)' name='plan_author'>
+                      <Input placeholder='ФИО' />
                     </Form.Item>
                   </Col>
                   <Col span={6}>
-                    <Form.Item label="Дата" name="plan_date">
+                    <Form.Item label='Дата' name='plan_date'>
                       <DatePicker style={{ width: '100%' }} />
                     </Form.Item>
                   </Col>

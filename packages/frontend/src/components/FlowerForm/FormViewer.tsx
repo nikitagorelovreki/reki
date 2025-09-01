@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Tabs, Button, Space } from 'antd';
-import { FormSubmission, Form } from '../../api/forms';
+import { Button, Card, Space, Tabs } from 'antd';
+import { Form, FormSubmission } from '../../api/forms';
 import FlowerFormIntegration from './FlowerFormIntegration';
 
 interface FormViewerProps {
@@ -70,7 +70,7 @@ const FormViewer: React.FC<FormViewerProps> = ({
                   </p>
                 )}
               </div>
-              <Card title="Данные формы" style={{ marginTop: '16px' }}>
+              <Card title='Данные формы' style={{ marginTop: '16px' }}>
                 <pre style={{ 
                   whiteSpace: 'pre-wrap',
                   backgroundColor: '#f5f5f5',
@@ -96,7 +96,7 @@ const FormViewer: React.FC<FormViewerProps> = ({
               )}
               {clientId && (
                 <Button 
-                  type="primary" 
+                  type='primary' 
                   onClick={() => setShowFlowerForm(true)}
                   style={{ marginTop: '16px' }}
                 >
@@ -117,7 +117,7 @@ const FormViewer: React.FC<FormViewerProps> = ({
           {submission?.data?.type === 'lfk' && (
             <div>
               <h3>Осмотр ЛФК</h3>
-              <Card title="Двигательные навыки" style={{ marginBottom: '16px' }}>
+              <Card title='Двигательные навыки' style={{ marginBottom: '16px' }}>
                 {submission.data.head_hold && (
                   <p><strong>Удержание головы:</strong> {Array.isArray(submission.data.head_hold) ? submission.data.head_hold.join(', ') : submission.data.head_hold}</p>
                 )}
@@ -135,7 +135,7 @@ const FormViewer: React.FC<FormViewerProps> = ({
                 )}
               </Card>
               {submission.data.notes && (
-                <Card title="Комментарий" style={{ marginBottom: '16px' }}>
+                <Card title='Комментарий' style={{ marginBottom: '16px' }}>
                   <p>{submission.data.notes}</p>
                 </Card>
               )}
@@ -151,7 +151,7 @@ const FormViewer: React.FC<FormViewerProps> = ({
           {submission?.data?.type === 'fim' && (
             <div>
               <h3>FIM — мера функциональной независимости</h3>
-              <Card title="Показатели" style={{ marginBottom: '16px' }}>
+              <Card title='Показатели' style={{ marginBottom: '16px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
                   <div>
                     <p><strong>Двигательные (1–13), поступление:</strong> {submission.data._fim_motor_adm || 0}</p>
@@ -166,7 +166,7 @@ const FormViewer: React.FC<FormViewerProps> = ({
                 </div>
               </Card>
               {submission.data.fim_notes && (
-                <Card title="Комментарий" style={{ marginBottom: '16px' }}>
+                <Card title='Комментарий' style={{ marginBottom: '16px' }}>
                   <p>{submission.data.fim_notes}</p>
                 </Card>
               )}

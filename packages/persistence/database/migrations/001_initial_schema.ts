@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { ClientStatus, DeviceStatus, FormStatus, FormType, FormEntryStatus } from '@cuis/domain';
+import { ClientStatus, DeviceStatus, FormEntryStatus, FormStatus, FormType } from '@cuis/domain';
 
 /**
  * Миграция для создания начальной схемы базы данных

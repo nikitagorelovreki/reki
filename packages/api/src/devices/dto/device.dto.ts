@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEnum, IsDateString, IsObject } from 'class-validator';
+import { IsDateString, IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 
 export enum DeviceStatus {
   REGISTERED = 'REGISTERED',
