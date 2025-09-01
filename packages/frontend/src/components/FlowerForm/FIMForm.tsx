@@ -1,32 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
+  Button, 
   Card, 
+  Col, 
+  DatePicker, 
   Form, 
   Input, 
-  DatePicker, 
-  Button, 
-  Row, 
-  Col, 
-  Typography, 
-  Space,
+  InputNumber, 
+  message, 
+  Row,
   Select,
-  InputNumber,
-  message,
+  Space,
   Table,
-  Tabs
+  Tabs,
+  Typography
 } from 'antd';
 
-import { SaveOutlined, PrinterOutlined, ReloadOutlined } from '@ant-design/icons';
+import { PrinterOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { importFlowerFormData } from '../../api/forms';
 import {
   Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
   Filler,
-  Tooltip,
-  Legend
+  Legend,
+  LineElement,
+  PointElement,
+  RadialLinearScale,
+  Tooltip
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 
@@ -251,7 +251,7 @@ const FIMForm: React.FC<FIMFormProps> = ({
       render: (_: any, record: any) => (
         <Form.Item name={`fim_${record.key}_adm`} noStyle>
           <Select style={{ width: '100%' }}>
-            <Option value="">—</Option>
+            <Option value=''>—</Option>
             {[1, 2, 3, 4, 5, 6, 7].map(val => (
               <Option key={val} value={String(val)}>{val}</Option>
             ))}
@@ -267,7 +267,7 @@ const FIMForm: React.FC<FIMFormProps> = ({
       render: (_: any, record: any) => (
         <Form.Item name={`fim_${record.key}_dis`} noStyle>
           <Select style={{ width: '100%' }}>
-            <Option value="">—</Option>
+            <Option value=''>—</Option>
             {[1, 2, 3, 4, 5, 6, 7].map(val => (
               <Option key={val} value={String(val)}>{val}</Option>
             ))}
@@ -283,14 +283,14 @@ const FIMForm: React.FC<FIMFormProps> = ({
   }));
 
   return (
-    <div className="fim-form">
+    <div className='fim-form'>
       <Card 
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Title level={4} style={{ margin: 0 }}>FIM — мера функциональной независимости</Title>
             <Space>
               <Button 
-                type="primary" 
+                type='primary' 
                 icon={<SaveOutlined />} 
                 onClick={() => form.submit()}
                 loading={loading}
@@ -305,27 +305,27 @@ const FIMForm: React.FC<FIMFormProps> = ({
       >
         <Form
           form={form}
-          layout="vertical"
+          layout='vertical'
           onFinish={handleSubmit}
           initialValues={{}}
           onValuesChange={handleValuesChange}
         >
-          <Card title="Метаданные" style={{ marginBottom: 16 }}>
+          <Card title='Метаданные' style={{ marginBottom: 16 }}>
             <Row gutter={16}>
-              <Col flex="auto">
-                <Form.Item label="Пациент" name="fim_patient_ref">
-                  <Input placeholder="ID/ФИО (позже подтянется из базы)" />
+              <Col flex='auto'>
+                <Form.Item label='Пациент' name='fim_patient_ref'>
+                  <Input placeholder='ID/ФИО (позже подтянется из базы)' />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="Дата" name="fim_date">
+                <Form.Item label='Дата' name='fim_date'>
                   <DatePicker style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
             </Row>
           </Card>
           
-          <Card title="Оценка FIM" style={{ marginBottom: 16 }}>
+          <Card title='Оценка FIM' style={{ marginBottom: 16 }}>
             <div style={{ marginBottom: 20 }}>
               <Title level={5}>Визуализация</Title>
               <div style={{ height: '400px', padding: '20px' }}>
@@ -362,7 +362,7 @@ const FIMForm: React.FC<FIMFormProps> = ({
                   />
                 ) : (
                   <div style={{ textAlign: 'center', padding: '20px', background: '#f5f5f5', borderRadius: '4px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Text type="secondary">Заполните форму для отображения диаграммы</Text>
+                    <Text type='secondary'>Заполните форму для отображения диаграммы</Text>
                   </div>
                 )}
               </div>
@@ -373,7 +373,7 @@ const FIMForm: React.FC<FIMFormProps> = ({
               dataSource={dataSource} 
               pagination={false}
               bordered
-              size="small"
+              size='small'
               style={{ marginBottom: 20 }}
             />
             
@@ -381,49 +381,49 @@ const FIMForm: React.FC<FIMFormProps> = ({
             
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item label="Двигательные (1–13), поступление" name="fim_motor_adm">
+                <Form.Item label='Двигательные (1–13), поступление' name='fim_motor_adm'>
                   <InputNumber style={{ width: '100%' }} readOnly />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="Двигательные (1–13), выписка" name="fim_motor_dis">
-                  <InputNumber style={{ width: '100%' }} readOnly />
-                </Form.Item>
-              </Col>
-              <Col span={8}></Col>
-              
-              <Col span={8}>
-                <Form.Item label="Когнитивные (14–18), поступление" name="fim_cog_adm">
-                  <InputNumber style={{ width: '100%' }} readOnly />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="Когнитивные (14–18), выписка" name="fim_cog_dis">
+                <Form.Item label='Двигательные (1–13), выписка' name='fim_motor_dis'>
                   <InputNumber style={{ width: '100%' }} readOnly />
                 </Form.Item>
               </Col>
               <Col span={8}></Col>
               
               <Col span={8}>
-                <Form.Item label="Итого (18), поступление" name="fim_total_adm">
+                <Form.Item label='Когнитивные (14–18), поступление' name='fim_cog_adm'>
                   <InputNumber style={{ width: '100%' }} readOnly />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="Итого (18), выписка" name="fim_total_dis">
+                <Form.Item label='Когнитивные (14–18), выписка' name='fim_cog_dis'>
+                  <InputNumber style={{ width: '100%' }} readOnly />
+                </Form.Item>
+              </Col>
+              <Col span={8}></Col>
+              
+              <Col span={8}>
+                <Form.Item label='Итого (18), поступление' name='fim_total_adm'>
+                  <InputNumber style={{ width: '100%' }} readOnly />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Итого (18), выписка' name='fim_total_dis'>
                   <InputNumber style={{ width: '100%' }} readOnly />
                 </Form.Item>
               </Col>
             </Row>
           </Card>
           
-          <Card title="Комментарий" style={{ marginBottom: 16 }}>
-            <Form.Item name="fim_notes">
-              <TextArea rows={3} placeholder="Замечания по FIM…" />
+          <Card title='Комментарий' style={{ marginBottom: 16 }}>
+            <Form.Item name='fim_notes'>
+              <TextArea rows={3} placeholder='Замечания по FIM…' />
             </Form.Item>
           </Card>
           
-          <Card title="Шкала оценки FIM">
+          <Card title='Шкала оценки FIM'>
             <Row gutter={16}>
               <Col span={8}>
                 <div style={{ marginBottom: 8, padding: 8, background: '#f5f5f5', borderRadius: 4 }}>

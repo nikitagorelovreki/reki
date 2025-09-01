@@ -18,7 +18,12 @@ Welcome to the comprehensive developer documentation for CUIS (Cosyma Unified In
 - **[Frontend Components](./FRONTEND_COMPONENTS.md)** - React component architecture
 
 ### Integration Guides
-- **[Flower Form Integration](./flower-form-integration.md)** - Form system integration details
+- **[Flower Form Integration](./flower-form-integration.md)** - Form system integration details (if available)
+
+### User Documentation
+- **[📖 User Guide](./USER_GUIDE.md)** - End-user documentation (if available)
+- **[📖 Руководство пользователя](./РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md)** - Russian user guide (if available)
+- **[⚡ Quick Reference](./QUICK_REFERENCE.md)** - Quick reference guide (if available)
 
 ### Meta Documentation
 - **[README Structure Guide](./README_STRUCTURE.md)** - Guide to all README files in the repository
@@ -58,6 +63,11 @@ CUIS is a modular medical device and patient management system built with:
 2. Use [New Package Guide](./NEW_PACKAGE_GUIDE.md) when creating new features
 3. Follow [Frontend Components](./FRONTEND_COMPONENTS.md) for UI development
 
+### For End Users
+1. Check [User Guide](./USER_GUIDE.md) for complete user documentation (if available)
+2. Use [Quick Reference](./QUICK_REFERENCE.md) for daily tasks (if available)
+3. See [Russian User Guide](./РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md) for Russian documentation (if available)
+
 ## 📋 System Components
 
 ### Core Domain Entities
@@ -79,7 +89,7 @@ CUIS is a modular medical device and patient management system built with:
 ### Key Technologies
 - **Backend**: Node.js, NestJS, TypeScript, PostgreSQL, Knex.js
 - **Frontend**: React, TypeScript, Ant Design, Vite
-- **DevOps**: Docker, Turborepo, ESLint, Jest
+- **DevOps**: Docker, Turborepo, ESLint, Jest, Prettier
 - **Integration**: Flower Form (iframe-based patient assessments)
 
 ## 🚀 Development Workflow
@@ -161,7 +171,7 @@ npm run create:package       # Create new package
 ### IDE Configuration
 - **VSCode**: Recommended with ESLint and TypeScript extensions
 - **Prettier**: Code formatting (configured in `.prettierrc`)
-- **ESLint**: Code linting (configured in `.eslintrc.js`)
+- **ESLint**: Code linting (configured in `eslint.config.js`)
 
 ## 🐛 Troubleshooting
 
@@ -185,7 +195,7 @@ npm run create:package       # Create new package
 ## 🤝 Contributing
 
 ### Code Style
-- Follow existing code patterns
+- Follow the [Code Style Guide](../CODE_STYLE_GUIDE.md) (if available)
 - Use TypeScript for type safety
 - Write comprehensive JSDoc comments
 - Include unit tests for new features

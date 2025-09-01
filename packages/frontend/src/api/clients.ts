@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { Client, CreateClientDto, PaginatedResponse, ClientStatus } from '../types';
+import { Client, ClientStatus, CreateClientDto, PaginatedResponse } from '../types';
 
 export const clientsApi = {
   // Get all clients with pagination

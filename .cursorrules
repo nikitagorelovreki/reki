@@ -1,0 +1,330 @@
+# Reki Control Panel - Cursor AI Rules
+
+You are an AI assistant helping with the Reki Control Panel project, a comprehensive medical device management and patient assessment system built with TypeScript and following Clean Architecture principles.
+
+## Project Structure & Architecture
+
+This is a TypeScript monorepo with the following packages:
+- `packages/frontend/` - React + Vite + Ant Design + TypeScript frontend
+- `packages/api-server/` - NestJS backend application server
+- `packages/domain/` - Domain entities, value objects, and ports (DDD)
+- `packages/use-cases/` - Application business logic and services
+- `packages/persistence/` - Data access layer and repository implementations
+- `packages/api/` - API controllers and DTOs
+
+## Technology Stack
+
+### Frontend
+- React 18 with TypeScript
+- Vite for bundling and development
+- Ant Design (antd) for UI components
+- React Router for routing
+- Axios for HTTP requests
+- Day.js for date handling
+
+### Backend
+- NestJS framework
+- TypeScript with decorators
+- Class-validator and class-transformer for validation
+- Swagger/OpenAPI for documentation
+- PostgreSQL with custom query builders
+- Clean Architecture with DDD patterns
+
+### Build & Development
+- Turbo for monorepo management
+- ESLint for linting
+- Prettier for code formatting
+- Jest for testing
+
+## Code Style Guidelines
+
+### General TypeScript Rules
+
+1. **Interfaces and Types**
+   - Use `interface` for object shapes that might be extended
+   - Use `type` for unions, primitives, and computed types
+   - Always export public interfaces/types
+   - Use PascalCase for interfaces and types
+   - Use descriptive names (e.g., `CreateDeviceDto` not `DeviceCreate`)
+
+2. **Naming Conventions**
+   - Variables/functions: camelCase
+   - Classes/Interfaces/Types: PascalCase
+   - Constants: UPPER_SNAKE_CASE
+   - Files: kebab-case.extension or PascalCase.extension for components
+   - Directories: kebab-case
+
+3. **Import Organization**
+   ```typescript
+   // 1. External libraries
+   import React from 'react';
+   import { Injectable } from '@nestjs/common';
+
+   // 2. Internal packages (from other workspace packages)
+   import { Device, DeviceStatus } from '@cuis/domain';
+   import { DeviceService } from '@cuis/use-cases';
+
+   // 3. Relative imports
+   import { DeviceCard } from './DeviceCard';
+   import type { DeviceProps } from '../types';
+   ```
+
+### Frontend (React) Guidelines
+
+1. **Component Structure**
+   ```typescript
+   import React, { useState, useEffect } from 'react';
+   import type { ComponentProps } from './types';
+
+   interface ComponentNameProps {
+     // Props definition
+   }
+
+   const ComponentName: React.FC<ComponentNameProps> = ({ prop1, prop2 }) => {
+     // State hooks first
+     const [state, setState] = useState<Type>(initialValue);
+
+     // Effect hooks
+     useEffect(() => {
+       // Effect logic
+     }, [dependencies]);
+
+     // Event handlers
+     const handleEvent = () => {
+       // Handler logic
+     };
+
+     // Render
+     return (
+       <div>
+         {/* Component JSX */}
+       </div>
+     );
+   };
+
+   export default ComponentName;
+   ```
+
+2. **State Management**
+   - Use `useState` for local component state
+   - Always provide type annotations for state
+   - Use descriptive state names
+   - Group related state together
+
+3. **Event Handlers**
+   - Prefix with `handle` (e.g., `handleSubmit`, `handleChange`)
+   - Use arrow functions for inline handlers
+   - Extract complex logic into separate functions
+
+4. **Ant Design Patterns**
+   - Import specific components: `import { Button, Card } from 'antd';`
+   - Use Ant Design's TypeScript types when available
+   - Follow Ant Design naming conventions for props
+
+### Backend (NestJS) Guidelines
+
+1. **Module Structure**
+   ```typescript
+   @Module({
+     imports: [
+       // External modules first
+       ConfigModule,
+       // Internal modules
+       DomainModule,
+     ],
+     controllers: [ControllerName],
+     providers: [ServiceName],
+     exports: [ServiceName],
+   })
+   export class ModuleName {}
+   ```
+
+2. **Service Structure**
+   ```typescript
+   @Injectable()
+   export class ServiceName {
+     constructor(
+       private readonly repository: RepositoryPort,
+       private readonly otherService: OtherService,
+     ) {}
+
+     async methodName(param: Type): Promise<ReturnType> {
+       // Method implementation
+     }
+   }
+   ```
+
+3. **Controller Structure**
+   ```typescript
+   @Controller('resource')
+   @ApiTags('resource')
+   export class ResourceController {
+     constructor(private readonly service: ResourceService) {}
+
+     @Get()
+     @ApiOperation({ summary: 'Get all resources' })
+     @ApiResponse({ status: 200, type: [ResourceDto] })
+     async getAll(@Query() query: GetAllDto): Promise<ResourceDto[]> {
+       return this.service.getAll(query);
+     }
+   }
+   ```
+
+### Domain Layer Guidelines
+
+1. **Entities and Value Objects**
+   ```typescript
+   export class EntityName {
+     // Properties with explicit types
+     id: string;
+     name: string;
+     status: EntityStatus;
+     createdAt: Date;
+     updatedAt: Date;
+
+     constructor(data: Partial<EntityName>) {
+       // Initialize with defaults
+       this.id = data.id || uuidv4();
+       this.createdAt = data.createdAt || new Date();
+       this.updatedAt = data.updatedAt || new Date();
+       // ... other properties
+     }
+
+     // Business methods
+     updateStatus(status: EntityStatus): void {
+       this.status = status;
+       this.updatedAt = new Date();
+     }
+   }
+   ```
+
+2. **Repository Ports**
+   ```typescript
+   export interface EntityRepositoryPort {
+     findById(id: string): Promise<Entity | null>;
+     findAll(options: PaginationOptions): Promise<PaginatedResult<Entity>>;
+     save(entity: Entity): Promise<Entity>;
+     delete(id: string): Promise<void>;
+   }
+   ```
+
+### Error Handling
+
+1. **Frontend Error Handling**
+   ```typescript
+   try {
+     const result = await apiCall();
+     // Handle success
+   } catch (error) {
+     console.error('Error description:', error);
+     message.error('User-friendly error message');
+   }
+   ```
+
+2. **Backend Error Handling**
+   ```typescript
+   async methodName(): Promise<Type> {
+     try {
+       return await this.operation();
+     } catch (error) {
+       throw new NotFoundException('Resource not found');
+     }
+   }
+   ```
+
+### File Organization
+
+1. **Frontend Structure**
+   ```
+   src/
+   ├── components/          # Reusable components
+   │   ├── Layout/
+   │   └── Common/
+   ├── pages/              # Page components
+   ├── types/              # TypeScript type definitions
+   ├── api/                # API client functions
+   ├── hooks/              # Custom React hooks
+   └── utils/              # Utility functions
+   ```
+
+2. **Backend Structure**
+   ```
+   src/
+   ├── controllers/        # NestJS controllers
+   ├── services/          # Application services
+   ├── modules/           # NestJS modules
+   ├── dtos/              # Data Transfer Objects
+   └── config/            # Configuration files
+   ```
+
+## Russian Language Support
+
+- Use Russian comments and documentation where appropriate
+- UI text should be in Russian
+- API documentation can be in English
+- Variable names should be in English for consistency
+
+## Database and API Conventions
+
+1. **Database Fields**
+   - Use snake_case for database column names
+   - Use camelCase in TypeScript code
+   - Provide field mappings in models
+
+2. **API Design**
+   - RESTful endpoints with proper HTTP methods
+   - Use `/api` prefix
+   - Swagger documentation for all endpoints
+   - Consistent error response format
+
+## Performance Considerations
+
+1. **Frontend**
+   - Use React.memo for expensive components
+   - Implement proper dependency arrays in useEffect
+   - Lazy load components where appropriate
+
+2. **Backend**
+   - Use proper database indexing
+   - Implement pagination for list endpoints
+   - Use proper caching strategies
+
+## Testing Guidelines
+
+1. Write unit tests for business logic
+2. Integration tests for API endpoints
+3. Component tests for React components
+4. Use descriptive test names in Russian or English
+
+## Clean Architecture Principles
+
+1. **Dependency Direction**
+   - Domain layer has no dependencies
+   - Use-cases depend only on domain
+   - Infrastructure depends on use-cases and domain
+   - UI depends on use-cases
+
+2. **Ports and Adapters**
+   - Define ports in domain layer
+   - Implement adapters in infrastructure layer
+   - Use dependency injection for loose coupling
+
+## Common Patterns to Follow
+
+1. **Repository Pattern**: Use for data access
+2. **Service Layer**: Business logic in use-cases
+3. **DTO Pattern**: For API data transfer
+4. **Entity Pattern**: Rich domain models
+5. **Factory Pattern**: For complex object creation
+
+## Code Quality Checklist
+
+- [ ] All functions have proper TypeScript types
+- [ ] Error handling is implemented
+- [ ] Comments are clear and in appropriate language
+- [ ] Tests are written for new functionality
+- [ ] Swagger documentation is updated for API changes
+- [ ] Database migrations are created for schema changes
+- [ ] Performance implications are considered
+
+When writing code, always consider the clean architecture principles and maintain consistency with the existing codebase patterns.

@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Card,
-  Table,
   Button,
-  Space,
-  Typography,
-  Tag,
-  Input,
-  Modal,
-  Form,
-  Select,
-  message,
+  Card,
   Dropdown,
+  Form,
+  Input,
+  message,
+  Modal,
   Popconfirm,
+  Select,
+  Space,
+  Table,
+  Tag,
+  Typography,
 } from 'antd';
 
 const { Option } = Select;
 
 import {
-  PlusOutlined,
-  SearchOutlined,
-  EditOutlined,
   DeleteOutlined,
+  EditOutlined,
   MoreOutlined,
+  PlusOutlined,
   ReloadOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import { Device, DeviceStatus, CreateDeviceDto } from '../../types';
+import { CreateDeviceDto, Device, DeviceStatus } from '../../types';
 import { devicesApi } from '../../api/devices';
 
 const { Title } = Typography;
@@ -184,9 +184,9 @@ const DevicesPage: React.FC = () => {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
-        <Space size="middle">
+        <Space size='middle'>
           <Button
-            type="link"
+            type='link'
             icon={<EditOutlined />}
             onClick={() => {
               setEditingDevice(record);
@@ -206,19 +206,19 @@ const DevicesPage: React.FC = () => {
               })),
             }}
           >
-            <Button type="link">
+            <Button type='link'>
               Status <MoreOutlined />
             </Button>
           </Dropdown>
 
           <Popconfirm
-            title="Удалить устройство?"
-            description="Это действие нельзя отменить"
+            title='Удалить устройство?'
+            description='Это действие нельзя отменить'
             onConfirm={() => handleDelete(record.id)}
-            okText="Да"
-            cancelText="Нет"
+            okText='Да'
+            cancelText='Нет'
           >
-            <Button type="link" danger icon={<DeleteOutlined />}>
+            <Button type='link' danger icon={<DeleteOutlined />}>
               Delete
             </Button>
           </Popconfirm>
@@ -230,7 +230,7 @@ const DevicesPage: React.FC = () => {
   return (
     <div>
       <Card>
-        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space direction='vertical' size='large' style={{ width: '100%' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Title level={2} style={{ margin: 0 }}>
               Device Management
@@ -243,7 +243,7 @@ const DevicesPage: React.FC = () => {
                 Refresh
               </Button>
               <Button
-                type="primary"
+                type='primary'
                 icon={<PlusOutlined />}
                 onClick={() => setCreateModalVisible(true)}
               >
@@ -253,7 +253,7 @@ const DevicesPage: React.FC = () => {
           </div>
 
           <Search
-            placeholder="Search devices..."
+            placeholder='Search devices...'
             allowClear
             style={{ width: 300 }}
             onSearch={(value) => {
@@ -265,7 +265,7 @@ const DevicesPage: React.FC = () => {
           <Table
             columns={columns}
             dataSource={devices}
-            rowKey="id"
+            rowKey='id'
             pagination={{
               ...pagination,
               showSizeChanger: true,
@@ -282,7 +282,7 @@ const DevicesPage: React.FC = () => {
 
       {/* Create Device Modal */}
       <Modal
-        title="Create New Device"
+        title='Create New Device'
         open={createModalVisible}
         onCancel={() => {
           setCreateModalVisible(false);
@@ -293,38 +293,38 @@ const DevicesPage: React.FC = () => {
       >
         <Form
           form={form}
-          layout="vertical"
+          layout='vertical'
           onFinish={handleCreate}
         >
           <Form.Item
-            name="serial"
-            label="Serial Number"
+            name='serial'
+            label='Serial Number'
             rules={[{ required: true, message: 'Please enter serial number' }]}
           >
-            <Input placeholder="DEV-001-2024" />
+            <Input placeholder='DEV-001-2024' />
           </Form.Item>
 
           <Form.Item
-            name="model"
-            label="Model"
+            name='model'
+            label='Model'
             rules={[{ required: true, message: 'Please enter model' }]}
           >
-            <Input placeholder="Model X1" />
+            <Input placeholder='Model X1' />
           </Form.Item>
 
-          <Form.Item name="qrCode" label="QR Code">
-            <Input placeholder="QR123456" />
+          <Form.Item name='qrCode' label='QR Code'>
+            <Input placeholder='QR123456' />
           </Form.Item>
 
-          <Form.Item name="hardwareRevision" label="Hardware Revision">
-            <Input placeholder="v1.0" />
+          <Form.Item name='hardwareRevision' label='Hardware Revision'>
+            <Input placeholder='v1.0' />
           </Form.Item>
 
-          <Form.Item name="firmwareVersion" label="Firmware Version">
-            <Input placeholder="1.2.3" />
+          <Form.Item name='firmwareVersion' label='Firmware Version'>
+            <Input placeholder='1.2.3' />
           </Form.Item>
 
-          <Form.Item name="status" label="Status" initialValue={DeviceStatus.REGISTERED}>
+          <Form.Item name='status' label='Status' initialValue={DeviceStatus.REGISTERED}>
             <Select>
               {Object.values(DeviceStatus).map(status => (
                 <Option key={status} value={status}>
@@ -334,17 +334,17 @@ const DevicesPage: React.FC = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item name="currentLocation" label="Current Location">
-            <Input placeholder="Main Lab" />
+          <Form.Item name='currentLocation' label='Current Location'>
+            <Input placeholder='Main Lab' />
           </Form.Item>
 
-          <Form.Item name="telemetryEndpoint" label="Telemetry Endpoint">
-            <Input placeholder="https://api.example.com/telemetry" />
+          <Form.Item name='telemetryEndpoint' label='Telemetry Endpoint'>
+            <Input placeholder='https://api.example.com/telemetry' />
           </Form.Item>
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type='primary' htmlType='submit'>
                 Create Device
               </Button>
               <Button onClick={() => setCreateModalVisible(false)}>
@@ -357,7 +357,7 @@ const DevicesPage: React.FC = () => {
 
       {/* Edit Device Modal */}
       <Modal
-        title="Edit Device"
+        title='Edit Device'
         open={editModalVisible}
         onCancel={() => {
           setEditModalVisible(false);
@@ -369,38 +369,38 @@ const DevicesPage: React.FC = () => {
       >
         <Form
           form={form}
-          layout="vertical"
+          layout='vertical'
           onFinish={handleUpdate}
         >
           <Form.Item
-            name="serial"
-            label="Serial Number"
+            name='serial'
+            label='Serial Number'
             rules={[{ required: true, message: 'Please enter serial number' }]}
           >
-            <Input placeholder="DEV-001-2024" />
+            <Input placeholder='DEV-001-2024' />
           </Form.Item>
 
           <Form.Item
-            name="model"
-            label="Model"
+            name='model'
+            label='Model'
             rules={[{ required: true, message: 'Please enter model' }]}
           >
-            <Input placeholder="Model X1" />
+            <Input placeholder='Model X1' />
           </Form.Item>
 
-          <Form.Item name="qrCode" label="QR Code">
-            <Input placeholder="QR123456" />
+          <Form.Item name='qrCode' label='QR Code'>
+            <Input placeholder='QR123456' />
           </Form.Item>
 
-          <Form.Item name="hardwareRevision" label="Hardware Revision">
-            <Input placeholder="v1.0" />
+          <Form.Item name='hardwareRevision' label='Hardware Revision'>
+            <Input placeholder='v1.0' />
           </Form.Item>
 
-          <Form.Item name="firmwareVersion" label="Firmware Version">
-            <Input placeholder="1.2.3" />
+          <Form.Item name='firmwareVersion' label='Firmware Version'>
+            <Input placeholder='1.2.3' />
           </Form.Item>
 
-          <Form.Item name="status" label="Status">
+          <Form.Item name='status' label='Status'>
             <Select>
               {Object.values(DeviceStatus).map(status => (
                 <Option key={status} value={status}>
@@ -410,17 +410,17 @@ const DevicesPage: React.FC = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item name="currentLocation" label="Current Location">
-            <Input placeholder="Main Lab" />
+          <Form.Item name='currentLocation' label='Current Location'>
+            <Input placeholder='Main Lab' />
           </Form.Item>
 
-          <Form.Item name="telemetryEndpoint" label="Telemetry Endpoint">
-            <Input placeholder="https://api.example.com/telemetry" />
+          <Form.Item name='telemetryEndpoint' label='Telemetry Endpoint'>
+            <Input placeholder='https://api.example.com/telemetry' />
           </Form.Item>
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type='primary' htmlType='submit'>
                 Update Device
               </Button>
               <Button onClick={() => setEditModalVisible(false)}>
