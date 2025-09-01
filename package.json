@@ -9,19 +9,49 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "turbo run format",
+    "format:check": "turbo run format:check",
+    "type-check": "turbo run type-check",
     "test": "turbo run test",
     "clean": "turbo run clean",
+    
+    "lint:root": "eslint . --fix",
+    "format:root": "prettier --write .",
+    "format:check:root": "prettier --check .",
+    
     "api:dev": "turbo run dev --filter=@cuis/api-server",
     "api:build": "turbo run build --filter=@cuis/api-server",
     "api:start": "node packages/api-server/dist/main.js",
+    "api:lint": "turbo run lint --filter=@cuis/api-server",
+    "api:format": "turbo run format --filter=@cuis/api-server",
+    
     "frontend:dev": "turbo run dev --filter=@cuis/frontend",
     "frontend:build": "turbo run build --filter=@cuis/frontend",
+    "frontend:lint": "turbo run lint --filter=@cuis/frontend",
+    "frontend:format": "turbo run format --filter=@cuis/frontend",
+    
     "packages:build": "turbo run build --filter=./packages/*",
     "packages:dev": "turbo run dev --filter=./packages/*",
-    "create:package": "node scripts/create-package.js"
+    "packages:lint": "turbo run lint --filter=./packages/*",
+    "packages:format": "turbo run format --filter=./packages/*",
+    
+    "create:package": "node scripts/create-package.js",
+    
+    "prepare": "husky install || true"
   },
   "devDependencies": {
-    "turbo": "^1.10.0"
+    "turbo": "^1.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "prettier": "^3.0.0",
+    "typescript": "^5.8.3",
+    "globals": "^16.3.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.0"
   },
   "dependencies": {
     "better-sqlite3": "^12.2.0",
