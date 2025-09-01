@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cuis}
+      POSTGRES_USER: ${POSTGRES_USER:-cuis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cuis}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

@@ -1,0 +1,33 @@
+{
+  "name": "cuis-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "api:dev": "turbo run dev --filter=@cuis/api-server",
+    "api:build": "turbo run build --filter=@cuis/api-server",
+    "api:start": "node packages/api-server/dist/main.js",
+    "frontend:dev": "turbo run dev --filter=@cuis/frontend",
+    "frontend:build": "turbo run build --filter=@cuis/frontend",
+    "packages:build": "turbo run build --filter=./packages/*",
+    "packages:dev": "turbo run dev --filter=./packages/*",
+    "create:package": "node scripts/create-package.js"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.2.0",
+    "chart.js": "^4.5.0",
+    "pg": "^8.16.3",
+    "pg-query-stream": "^4.10.3",
+    "react-chartjs-2": "^5.3.0"
+  }
+}
