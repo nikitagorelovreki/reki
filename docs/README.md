@@ -11,6 +11,12 @@ This directory contains comprehensive documentation for the Reki Medical Device 
 - `README.md` - Complete guide for AI agents working with the system
 - Rules, patterns, and best practices for AI development
 
+### 📁 [api/](api/)
+
+**API Documentation**
+
+- `API_DOCUMENTATION.md` - Complete API reference and documentation
+
 ### 📁 [architecture/](architecture/)
 
 **System Architecture and Design**
@@ -21,40 +27,40 @@ This directory contains comprehensive documentation for the Reki Medical Device 
 - `ARCHITECTURE_MAPPING.md` - Architecture mapping guide
 - `UML_SCHEMA.md` - UML diagrams and schemas
 
-### 📁 [api/](api/)
+### 📁 [deployment/](deployment/)
 
-**API Documentation and Database**
+**Deployment and Setup**
 
-- `API_DOCUMENTATION.md` - Complete API reference
-- `DATABASE_SCHEMA.md` - Database schema documentation
-- `FRONTEND_COMPONENTS.md` - Frontend component documentation
+- `SETUP.md` - General setup instructions
 
 ### 📁 [development/](development/)
 
 **Development Guides and Standards**
 
 - `DEVELOPMENT_GUIDE.md` - Complete development guide
-- `DEVELOPER_GUIDE.md` - Developer onboarding guide
-- `CODE_STYLE_GUIDE.md` - Code style and standards
-- `CODE_STYLE_INDEX.md` - Quick code style reference
-- `module-creation-guide.md` - Guide for creating new modules
-- `NEW_PACKAGE_GUIDE.md` - Guide for creating new packages
-- `PACKAGE_REFERENCE.md` - Package reference documentation
-- `code-review-and-refactoring-plan.md` - Code review guidelines
+- `README_STRUCTURE.md` - Project structure documentation
 
-### 📁 [deployment/](deployment/)
+### 📁 [integrations/](integrations/)
 
-**Deployment and Setup**
+**External Integrations**
 
-- `DOCKER_SETUP.md` - Docker setup instructions
-- `SETUP.md` - General setup instructions
+- `TELEGRAM_BOT.md` - Telegram bot documentation and setup
 
 ### 📁 [testing/](testing/)
 
 **Testing Documentation**
 
+- `TESTING.md` - Complete testing guide
+- `TEST_CASES.md` - Test cases documentation
+- `TEST_MAP.md` - Test coverage map
 - `README_TESTING.md` - Testing quick reference
 - `TESTING_SUMMARY.md` - Testing overview and summary
+
+### 📁 [user-guides/](user-guides/)
+
+**End User Documentation**
+
+- User guides and documentation (English and Russian)
 
 ## 🎯 Quick Navigation
 
@@ -67,20 +73,18 @@ This directory contains comprehensive documentation for the Reki Medical Device 
 ### For AI Agents
 
 - Read [ai-agents/README.md](ai-agents/README.md) first
-- Follow [development/CODE_STYLE_GUIDE.md](development/CODE_STYLE_GUIDE.md)
-- Check [testing/README_TESTING.md](testing/README_TESTING.md)
+- Check [development/DEVELOPMENT_GUIDE.md](development/DEVELOPMENT_GUIDE.md)
+- Review [testing/TESTING.md](testing/TESTING.md)
 
 ### For System Administrators
 
 - Start with [deployment/SETUP.md](deployment/SETUP.md)
-- Check [deployment/DOCKER_SETUP.md](deployment/DOCKER_SETUP.md)
 - Review [architecture/SYSTEM_ARCHITECTURE.md](architecture/SYSTEM_ARCHITECTURE.md)
+- Check [integrations/TELEGRAM_BOT.md](integrations/TELEGRAM_BOT.md)
 
 ### For End Users
 
-- Read [user-guides/USER_GUIDE.md](user-guides/USER_GUIDE.md)
-- Check [user-guides/QUICK_REFERENCE.md](user-guides/QUICK_REFERENCE.md)
-- Для русскоязычных пользователей: [user-guides/РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md](user-guides/РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ.md)
+- Read user guides in [user-guides/](user-guides/) directory
 
 ## 🔄 Documentation Maintenance
 
@@ -112,19 +116,4 @@ For questions about documentation:
 ---
 
 **Last Updated**: May 2024  
-**Version**: 1.2.0
-
-# Структура документации
-
-Документация организована по папкам:
-
-- `ai-agents/` — AI-агенты и их описание
-- `api/` — Документация по API
-- `architecture/` — Архитектурные схемы и описания
-- `deployment/` — Руководства по развертыванию
-- `development/` — Руководства для разработчиков
-- `testing/` — Всё о тестировании
-- `user-guides/` — Руководства пользователя
-- `integrations/` — Интеграции (например, Telegram-бот)
-- `fixes/` — Описания исправлений и обновлений
-- Корневой `README.md` — краткое описание структуры
+**Version**: 1.3.0
