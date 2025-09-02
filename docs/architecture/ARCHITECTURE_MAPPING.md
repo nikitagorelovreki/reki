@@ -3,10 +3,12 @@
 ## Архитектурные слои
 
 ### 1. Database Layer (База данных)
+
 **Назначение**: Хранение данных в PostgreSQL
 **Файлы**: `packages/persistence/database/migrations/`
 
 #### Таблицы:
+
 - `clients` - клиенты
 - `devices` - устройства
 - `clinics` - клиники
@@ -15,6 +17,7 @@
 - `form_entries` - заполненные формы
 
 #### Поля (snake_case):
+
 ```sql
 clients: id, full_name, first_name, last_name, middle_name, dob, contacts, status, clinic_id, created_at, updated_at
 devices: id, serial, model, status, current_location, clinic_id, assigned_patient_id, created_at, updated_at
@@ -23,21 +26,25 @@ devices: id, serial, model, status, current_location, clinic_id, assigned_patien
 ---
 
 ### 2. Domain Layer (Доменная модель)
+
 **Назначение**: Бизнес-логика и основные классы
 **Файлы**: `packages/domain/src/models/*.model.ts`
 
 #### Модели:
+
 - `Client` - доменная модель клиента
 - `Device` - доменная модель устройства
 - `Form` - доменная модель формы
 - `FormEntry` - доменная модель заполнения формы
 
 #### Enums:
+
 - `ClientStatus` - статусы клиентов
 - `DeviceStatus` - статусы устройств
 - `FormStatus` - статусы форм
 
 #### Особенности:
+
 - Богатые модели с бизнес-методами
 - Используют TypeScript классы
 - Содержат валидацию и бизнес-логику
@@ -45,15 +52,18 @@ devices: id, serial, model, status, current_location, clinic_id, assigned_patien
 ---
 
 ### 3. Service Layer (Слой сервисов)
+
 **Назначение**: Бизнес-операции и оркестрация
 **Файлы**: `packages/use-cases/src/services/*.service.ts`
 
 #### Сервисы:
+
 - `ClientService` - операции с клиентами
 - `DeviceService` - операции с устройствами
 - `FormService` - операции с формами
 
 #### Особенности:
+
 - Работают только с domain моделями
 - Создают новые domain модели
 - Не знают про API или базу данных
@@ -62,15 +72,18 @@ devices: id, serial, model, status, current_location, clinic_id, assigned_patien
 ---
 
 ### 4. API Layer (API слой)
+
 **Назначение**: HTTP API, валидация, документация
 **Файлы**: `packages/api/src/*/`
 
 #### Компоненты:
+
 - `Controllers` - HTTP endpoints
 - `DTOs` - Data Transfer Objects
 - `Services` - API сервисы (адаптеры)
 
 #### Особенности:
+
 - Преобразуют domain модели в DTOs
 - Валидируют входящие данные
 - Документируют API (Swagger)
@@ -80,6 +93,7 @@ devices: id, serial, model, status, current_location, clinic_id, assigned_patien
 ## Схема потока данных
 
 ### Создание клиента:
+
 ```
 HTTP Request (CreateClientDto)
     ↓
@@ -103,6 +117,7 @@ HTTP Response (ClientResponseDto)
 ```
 
 ### Получение списка клиентов:
+
 ```
 HTTP Request (GET /api/clients)
     ↓
@@ -128,6 +143,7 @@ HTTP Response (ClientResponseDto[])
 ## Маппинг между слоями
 
 ### Database ↔ Domain:
+
 ```typescript
 // Repository преобразует
 Database: { full_name: "Иванов Иван", first_name: "Иван", last_name: "Иванов" }
@@ -136,6 +152,7 @@ Domain: Client { fullName: "Иванов Иван", firstName: "Иван", lastN
 ```
 
 ### Domain ↔ API DTOs:
+
 ```typescript
 // API Service преобразует
 Domain: Client { fullName: "Иванов Иван", dob: Date, contacts: { phone: "123" } }
@@ -144,6 +161,7 @@ API: ClientResponseDto { firstName: "Иван", lastName: "Иванов", dateOf
 ```
 
 ### API DTOs ↔ HTTP:
+
 ```typescript
 // Controller валидирует
 HTTP: { firstName: "Иван", lastName: "Иванов", dateOfBirth: "1990-01-01" }

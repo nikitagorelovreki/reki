@@ -40,7 +40,7 @@ export class Device {
   assignToPatient(patientId: string): void {
     // Business rule: Only active devices can be assigned
     if (!this.isActive()) {
-      throw new Error('Cannot assign inactive device');
+      throw new Error("Cannot assign inactive device");
     }
     this.assignedPatientId = patientId;
     this.updatedAt = new Date();
@@ -65,7 +65,10 @@ export class Device {
 export class DeviceService {
   constructor(private deviceRepo: DeviceRepositoryPort) {}
 
-  async assignDeviceToPatient(deviceId: string, patientId: string): Promise<Device> {
+  async assignDeviceToPatient(
+    deviceId: string,
+    patientId: string,
+  ): Promise<Device> {
     // Orchestrate domain entities
     const device = await this.deviceRepo.findById(deviceId);
     device.assignToPatient(patientId);
@@ -93,7 +96,7 @@ export class DeviceRepository implements DeviceRepositoryPort {
 
   async create(device: Device): Promise<Device> {
     const dbData = this.mapToDatabase(device);
-    const result = await this.db.knex('devices').insert(dbData).returning('*');
+    const result = await this.db.knex("devices").insert(dbData).returning("*");
     return this.mapToDomain(result[0]);
   }
 }
@@ -112,12 +115,12 @@ export class DeviceRepository implements DeviceRepositoryPort {
 
 ```typescript
 // API Controller Example
-@Controller('devices')
+@Controller("devices")
 export class DevicesController {
   constructor(private deviceService: DeviceService) {}
 
-  @Post(':id/assign-patient')
-  async assignPatient(@Param('id') id: string, @Body() dto: AssignPatientDto) {
+  @Post(":id/assign-patient")
+  async assignPatient(@Param("id") id: string, @Body() dto: AssignPatientDto) {
     return await this.deviceService.assignDeviceToPatient(id, dto.patientId);
   }
 }
@@ -256,10 +259,10 @@ sequenceDiagram
 ```typescript
 // Role-based access control
 enum UserRole {
-  ADMIN = 'admin',
-  CLINICIAN = 'clinician',
-  THERAPIST = 'therapist',
-  VIEWER = 'viewer',
+  ADMIN = "admin",
+  CLINICIAN = "clinician",
+  THERAPIST = "therapist",
+  VIEWER = "viewer",
 }
 
 // Permission-based access
@@ -336,7 +339,7 @@ graph TB
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
+version: "3.8"
 services:
   postgres:
     image: postgres:15
@@ -345,12 +348,12 @@ services:
       POSTGRES_USER: reki
       POSTGRES_PASSWORD: reki
     ports:
-      - '5432:5432'
+      - "5432:5432"
 
   api:
     build: ./packages/api-server
     ports:
-      - '3002:3002'
+      - "3002:3002"
     environment:
       NODE_ENV: development
       POSTGRES_HOST: postgres
@@ -360,7 +363,7 @@ services:
   frontend:
     build: ./packages/frontend
     ports:
-      - '5173:5173'
+      - "5173:5173"
     environment:
       VITE_API_BASE_URL: http://localhost:3002/api
 ```
@@ -412,7 +415,7 @@ graph TB
 export class DomainError extends Error {
   constructor(message: string, code: string) {
     super(message);
-    this.name = 'DomainError';
+    this.name = "DomainError";
     this.code = code;
   }
 }
@@ -421,7 +424,7 @@ export class DomainError extends Error {
 export class ApplicationError extends Error {
   constructor(message: string, cause?: Error) {
     super(message);
-    this.name = 'ApplicationError';
+    this.name = "ApplicationError";
     this.cause = cause;
   }
 }
@@ -437,7 +440,7 @@ export class EntityController {
       if (error instanceof DomainError) {
         throw new BadRequestException(error.message);
       }
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException("Internal server error");
     }
   }
 }
@@ -463,7 +466,7 @@ interface ErrorResponse {
 
 ```typescript
 // Structured logging
-import { Logger } from '@nestjs/common';
+import { Logger } from "@nestjs/common";
 
 @Injectable()
 export class DeviceService {
@@ -477,7 +480,10 @@ export class DeviceService {
       this.logger.log(`Device created successfully: ${device.id}`);
       return device;
     } catch (error) {
-      this.logger.error(`Failed to create device: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to create device: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }
@@ -488,28 +494,28 @@ export class DeviceService {
 
 ```typescript
 // Health check endpoints
-@Controller('health')
+@Controller("health")
 export class HealthController {
   constructor(private db: DatabaseService) {}
 
   @Get()
   async check() {
     return {
-      status: 'ok',
+      status: "ok",
       timestamp: new Date().toISOString(),
       services: {
         database: await this.checkDatabase(),
-        api: 'healthy',
+        api: "healthy",
       },
     };
   }
 
   private async checkDatabase(): Promise<string> {
     try {
-      await this.db.knex.raw('SELECT 1');
-      return 'healthy';
+      await this.db.knex.raw("SELECT 1");
+      return "healthy";
     } catch {
-      return 'unhealthy';
+      return "unhealthy";
     }
   }
 }
@@ -546,11 +552,11 @@ graph LR
 export class NotificationService {
   constructor(
     private httpService: HttpService,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {}
 
   async sendDeviceAlert(device: Device, alertType: string): Promise<void> {
-    const endpoint = this.configService.get('NOTIFICATION_SERVICE_URL');
+    const endpoint = this.configService.get("NOTIFICATION_SERVICE_URL");
 
     await this.httpService
       .post(endpoint, {
@@ -598,7 +604,7 @@ export class NotificationService {
 @Injectable()
 export class FormSubmissionService {
   async submitForm(data: FormSubmissionData): Promise<FormEntry> {
-    return await this.db.knex.transaction(async trx => {
+    return await this.db.knex.transaction(async (trx) => {
       // Create form entry
       const entry = await this.formEntryRepo.create(data.entry, trx);
 
@@ -644,10 +650,13 @@ export class AuthGuard implements CanActivate {
 @Injectable()
 export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler());
+    const requiredRoles = this.reflector.get<string[]>(
+      "roles",
+      context.getHandler(),
+    );
     const user = context.switchToHttp().getRequest().user;
 
-    return requiredRoles.some(role => user.roles?.includes(role));
+    return requiredRoles.some((role) => user.roles?.includes(role));
   }
 }
 ```
@@ -676,7 +685,11 @@ export class RolesGuard implements CanActivate {
 export class CacheService {
   private cache = new Map<string, { data: any; expiry: number }>();
 
-  async get<T>(key: string, factory: () => Promise<T>, ttl = 300000): Promise<T> {
+  async get<T>(
+    key: string,
+    factory: () => Promise<T>,
+    ttl = 300000,
+  ): Promise<T> {
     const cached = this.cache.get(key);
 
     if (cached && Date.now() < cached.expiry) {
@@ -798,18 +811,18 @@ graph TB
 
 ```typescript
 // Health check for rolling updates
-@Controller('health')
+@Controller("health")
 export class HealthController {
-  @Get('ready')
+  @Get("ready")
   async readinessCheck() {
     // Check if application is ready to serve traffic
     const dbHealth = await this.checkDatabase();
     const dependenciesHealth = await this.checkDependencies();
 
     if (dbHealth && dependenciesHealth) {
-      return { status: 'ready' };
+      return { status: "ready" };
     }
-    throw new ServiceUnavailableException('Not ready');
+    throw new ServiceUnavailableException("Not ready");
   }
 }
 ```
@@ -839,7 +852,7 @@ export class DeviceService {
   constructor(private metrics: MetricsService) {}
 
   async createDevice(data: CreateDeviceDto): Promise<Device> {
-    this.metrics.incrementCounter('devices.created');
+    this.metrics.incrementCounter("devices.created");
     // ... implementation
   }
 }

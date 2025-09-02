@@ -26,20 +26,15 @@ export class TelegramBotService {
     const device: Partial<Device> = {
       id: deviceData.id,
       model: 'Медицинское устройство',
-      serialNumber: deviceData.id,
+      serial: deviceData.id,
       status: DeviceStatus.IN_STOCK,
-      location: {
-        building: 'Главный корпус',
-        floor: '2',
-        room: '205',
-        description: deviceData.location
-      },
+      currentLocation: deviceData.location,
       lastSeenAt: new Date(),
-      maintenanceNotes: JSON.stringify({
+      maintenanceNotes: {
         registeredVia: 'telegram_bot',
         registeredBy: deviceData.registeredBy,
-        registrationDate: new Date().toISOString()
-      })
+        registrationDate: new Date().toISOString(),
+      },
     };
 
     return this.deviceService.createDevice(device);
@@ -59,10 +54,10 @@ export class TelegramBotService {
       description: ticketData.description,
       userId: ticketData.userId,
       userName: ticketData.userName,
-      deviceId: ticketData.deviceId,
+      ...(ticketData.deviceId ? { deviceId: ticketData.deviceId } : {}),
       status: 'open',
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     // Здесь будет сохранение в базу данных
@@ -93,9 +88,11 @@ export class TelegramBotService {
       `📊 Статус устройства ${device.id}:`,
       '',
       `🔧 Статус: ${device.status}`,
-      `📍 Местоположение: ${device.location?.description || 'Не указано'}`,
+      `📍 Местоположение: ${device.currentLocation || 'Не указано'}`,
       `📅 Последняя активность: ${device.lastSeenAt?.toLocaleString() || 'Неизвестно'}`,
-      device.status === DeviceStatus.IN_STOCK ? '✅ Все системы работают нормально' : '⚠️ Требует внимания'
+      device.status === DeviceStatus.IN_STOCK
+        ? '✅ Все системы работают нормально'
+        : '⚠️ Требует внимания',
     ].join('\n');
   }
 }

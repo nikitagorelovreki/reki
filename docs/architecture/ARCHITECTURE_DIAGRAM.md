@@ -97,6 +97,7 @@
 ## Маппинг данных между слоями:
 
 ### Client Flow:
+
 ```
 Frontend: CreateClientDto { firstName, lastName, middleName, dateOfBirth, phone, email, address, diagnosis }
     ↓
@@ -112,6 +113,7 @@ Frontend: Client { firstName, lastName, middleName, dob, contacts }
 ```
 
 ### Device Flow:
+
 ```
 Frontend: CreateDeviceDto { serial, model, status, currentLocation, clinicId }
     ↓

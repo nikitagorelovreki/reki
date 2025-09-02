@@ -47,23 +47,31 @@ export class ApiService {
 
     // Добавляем логирование запросов
     this.apiClient.interceptors.request.use(
-      (config) => {
-        console.log(`🌐 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+      config => {
+        console.log(
+          `🌐 API Request: ${config.method?.toUpperCase()} ${config.url}`
+        );
         return config;
       },
-      (error) => {
+      error => {
         console.error('❌ API Request Error:', error);
         return Promise.reject(error);
       }
     );
 
     this.apiClient.interceptors.response.use(
-      (response) => {
-        console.log(`✅ API Response: ${response.status} ${response.config.url}`);
+      response => {
+        console.log(
+          `✅ API Response: ${response.status} ${response.config.url}`
+        );
         return response;
       },
-      (error) => {
-        console.error('❌ API Response Error:', error.response?.status, error.response?.data);
+      error => {
+        console.error(
+          '❌ API Response Error:',
+          error.response?.status,
+          error.response?.data
+        );
         return Promise.reject(error);
       }
     );
@@ -74,7 +82,10 @@ export class ApiService {
    */
   async createDevice(deviceData: CreateDeviceRequest): Promise<Device> {
     try {
-      const response = await this.apiClient.post<Device>('/devices', deviceData);
+      const response = await this.apiClient.post<Device>(
+        '/devices',
+        deviceData
+      );
       return response.data;
     } catch (error) {
       console.error('Ошибка создания устройства:', error);
@@ -103,7 +114,9 @@ export class ApiService {
    */
   async getDeviceBySerial(serial: string): Promise<Device | null> {
     try {
-      const response = await this.apiClient.get<Device>(`/devices/serial/${serial}`);
+      const response = await this.apiClient.get<Device>(
+        `/devices/serial/${serial}`
+      );
       return response.data;
     } catch (error: any) {
       if (error.response?.status === 404) {
@@ -117,9 +130,14 @@ export class ApiService {
   /**
    * Обновляет статус устройства через API
    */
-  async updateDeviceStatus(deviceId: string, status: DeviceStatus): Promise<Device> {
+  async updateDeviceStatus(
+    deviceId: string,
+    status: DeviceStatus
+  ): Promise<Device> {
     try {
-      const response = await this.apiClient.patch<Device>(`/devices/${deviceId}/status/${status}`);
+      const response = await this.apiClient.patch<Device>(
+        `/devices/${deviceId}/status/${status}`
+      );
       return response.data;
     } catch (error) {
       console.error('Ошибка обновления статуса устройства:', error);
@@ -130,11 +148,17 @@ export class ApiService {
   /**
    * Получает все устройства с пагинацией через API
    */
-  async getAllDevices(page: number = 1, limit: number = 10): Promise<ApiResponse<Device[]>> {
+  async getAllDevices(
+    page: number = 1,
+    limit: number = 10
+  ): Promise<ApiResponse<Device[]>> {
     try {
-      const response = await this.apiClient.get<ApiResponse<Device[]>>('/devices', {
-        params: { page, limit }
-      });
+      const response = await this.apiClient.get<ApiResponse<Device[]>>(
+        '/devices',
+        {
+          params: { page, limit },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error('Ошибка получения списка устройств:', error);
@@ -145,11 +169,18 @@ export class ApiService {
   /**
    * Получает устройства по статусу через API
    */
-  async getDevicesByStatus(status: DeviceStatus, page: number = 1, limit: number = 10): Promise<ApiResponse<Device[]>> {
+  async getDevicesByStatus(
+    status: DeviceStatus,
+    page: number = 1,
+    limit: number = 10
+  ): Promise<ApiResponse<Device[]>> {
     try {
-      const response = await this.apiClient.get<ApiResponse<Device[]>>(`/devices/status/${status}`, {
-        params: { page, limit }
-      });
+      const response = await this.apiClient.get<ApiResponse<Device[]>>(
+        `/devices/status/${status}`,
+        {
+          params: { page, limit },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error('Ошибка получения устройств по статусу:', error);
@@ -173,10 +204,10 @@ export class ApiService {
       description: ticketData.description,
       userId: ticketData.userId,
       userName: ticketData.userName,
-      deviceId: ticketData.deviceId,
+      ...(ticketData.deviceId ? { deviceId: ticketData.deviceId } : {}),
       status: 'open',
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     console.log('📝 Создано обращение:', ticket);
