@@ -139,7 +139,7 @@ Pre-commit hook configuration:
 ```typescript
 // Interfaces and Types
 interface UserProfile {}
-type UserStatus = 'active' | 'inactive';
+type UserStatus = "active" | "inactive";
 
 // Classes
 class UserService {}
@@ -147,16 +147,16 @@ class UserModel {}
 
 // Enums
 enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
+  ADMIN = "admin",
+  USER = "user",
 }
 
 // Constants
-const API_BASE_URL = 'https://api.example.com';
+const API_BASE_URL = "https://api.example.com";
 
 // Functions and variables
 const getUserById = (id: string) => {};
-const userData = { name: 'John' };
+const userData = { name: "John" };
 ```
 
 #### Files and Directories
@@ -185,18 +185,18 @@ Always organize imports in this order:
 
 ```typescript
 // 1. External libraries
-import React, { useState } from 'react';
-import { Injectable } from '@nestjs/common';
-import { Button, Card } from 'antd';
+import React, { useState } from "react";
+import { Injectable } from "@nestjs/common";
+import { Button, Card } from "antd";
 
 // 2. Internal packages (monorepo)
-import { User, UserStatus } from '@reki/domain';
-import { UserService } from '@reki/use-cases';
+import { User, UserStatus } from "@cuis/domain";
+import { UserService } from "@cuis/use-cases";
 
 // 3. Relative imports
-import { UserCard } from './UserCard';
-import { formatDate } from '../utils/date';
-import type { UserProps } from '../types';
+import { UserCard } from "./UserCard";
+import { formatDate } from "../utils/date";
+import type { UserProps } from "../types";
 ```
 
 ## React Guidelines
@@ -206,7 +206,7 @@ import type { UserProps } from '../types';
 ```typescript
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'antd';
-import type { User } from '@reki/domain';
+import type { User } from '@cuis/domain';
 
 interface UserCardProps {
   user: User;
@@ -289,7 +289,7 @@ const [pagination, setPagination] = useState({
 export class UserService {
   constructor(
     private readonly userRepository: UserRepositoryPort,
-    private readonly logger: Logger
+    private readonly logger: Logger,
   ) {}
 
   async createUser(userData: CreateUserDto): Promise<User> {
@@ -297,8 +297,8 @@ export class UserService {
       const user = new User(userData);
       return await this.userRepository.save(user);
     } catch (error) {
-      this.logger.error('Failed to create user', error);
-      throw new BadRequestException('Failed to create user');
+      this.logger.error("Failed to create user", error);
+      throw new BadRequestException("Failed to create user");
     }
   }
 }
@@ -307,22 +307,22 @@ export class UserService {
 ### Controller Structure
 
 ```typescript
-@Controller('users')
-@ApiTags('users')
+@Controller("users")
+@ApiTags("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new user' })
+  @ApiOperation({ summary: "Create a new user" })
   @ApiResponse({ status: 201, type: UserDto })
   async createUser(@Body() userData: CreateUserDto): Promise<UserDto> {
     return this.userService.createUser(userData);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get user by ID' })
+  @Get(":id")
+  @ApiOperation({ summary: "Get user by ID" })
   @ApiResponse({ status: 200, type: UserDto })
-  async getUserById(@Param('id') id: string): Promise<UserDto> {
+  async getUserById(@Param("id") id: string): Promise<UserDto> {
     return this.userService.findById(id);
   }
 }
@@ -338,11 +338,11 @@ const handleSubmit = async (formData: FormData) => {
   try {
     setLoading(true);
     await userService.createUser(formData);
-    message.success('User created successfully');
+    message.success("User created successfully");
     onSuccess?.();
   } catch (error) {
-    console.error('Failed to create user:', error);
-    message.error('Failed to create user. Please try again.');
+    console.error("Failed to create user:", error);
+    message.error("Failed to create user. Please try again.");
   } finally {
     setLoading(false);
   }
@@ -413,7 +413,9 @@ export class UserRepository implements UserRepositoryPort {
   constructor(private readonly db: DatabaseService) {}
 
   async findById(id: string): Promise<User | null> {
-    const result = await this.db.query('SELECT * FROM users WHERE id = $1', [id]);
+    const result = await this.db.query("SELECT * FROM users WHERE id = $1", [
+      id,
+    ]);
 
     return result.rows[0] ? new User(result.rows[0]) : null;
   }
@@ -449,7 +451,7 @@ export class UserRepository implements UserRepositoryPort {
 ### Unit Tests
 
 ```typescript
-describe('UserService', () => {
+describe("UserService", () => {
   let service: UserService;
   let repository: jest.Mocked<UserRepositoryPort>;
 
@@ -463,9 +465,9 @@ describe('UserService', () => {
     repository = mockRepository as jest.Mocked<UserRepositoryPort>;
   });
 
-  it('should create user successfully', async () => {
+  it("should create user successfully", async () => {
     // Given
-    const userData = { email: 'test@example.com', fullName: 'Test User' };
+    const userData = { email: "test@example.com", fullName: "Test User" };
     const expectedUser = new User(userData);
     repository.save.mockResolvedValue(expectedUser);
 

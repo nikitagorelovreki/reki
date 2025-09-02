@@ -48,6 +48,6 @@ http://localhost:8080
 
 - Система: PostgreSQL
 - Сервер: db
-- Пользователь: reki
-- Пароль: reki
-- База данных: reki
+- Пользователь: cuis
+- Пароль: cuis
+- База данных: cuis

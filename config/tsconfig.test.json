@@ -15,6 +15,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["packages/**/__tests__/**/*", "packages/**/*.test.ts", "packages/**/*.spec.ts", "jest.setup.mjs"],
+  "include": ["../packages/**/__tests__/**/*", "../packages/**/*.test.ts", "../packages/**/*.spec.ts", "jest.setup.js"],
   "exclude": ["**/node_modules", "**/dist", "**/build"]
 }

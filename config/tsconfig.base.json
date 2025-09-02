@@ -45,23 +45,17 @@
     // Paths for monorepo packages
     "baseUrl": ".",
     "paths": {
-          "@reki/domain": ["./packages/domain/src"],
-    "@reki/domain/*": ["./packages/domain/src/*"],
-    "@reki/persistence": ["./packages/persistence/src"],
-    "@reki/persistence/*": ["./packages/persistence/src/*"],
-    "@reki/use-cases": ["./packages/use-cases/src"],
-    "@reki/use-cases/*": ["./packages/use-cases/src/*"],
-    "@reki/api": ["./packages/api/src"],
-    "@reki/api/*": ["./packages/api/src/*"],
-    "@reki/frontend": ["./packages/frontend/src"],
-    "@reki/frontend/*": ["./packages/frontend/src/*"]
+      "@reki/domain": ["./packages/domain/src"],
+      "@reki/domain/*": ["./packages/domain/src/*"],
+      "@reki/persistence": ["./packages/persistence/src"],
+      "@reki/persistence/*": ["./packages/persistence/src/*"],
+      "@reki/use-cases": ["./packages/use-cases/src"],
+      "@reki/use-cases/*": ["./packages/use-cases/src/*"],
+      "@reki/api": ["./packages/api/src"],
+      "@reki/api/*": ["./packages/api/src/*"],
+      "@reki/frontend": ["./packages/frontend/src"],
+      "@reki/frontend/*": ["./packages/frontend/src/*"]
     }
   },
-  "exclude": [
-    "**/node_modules",
-    "**/dist",
-    "**/build",
-    "**/coverage",
-    "**/.turbo"
-  ]
+  "exclude": ["**/node_modules", "**/dist", "**/build", "**/coverage", "**/.turbo"]
 }

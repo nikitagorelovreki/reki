@@ -5,17 +5,17 @@
     "lib": ["ES2021"],
     "module": "CommonJS",
     "moduleResolution": "node",
-    
+
     // Backend specific
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    
+
     // Emit configuration
     "declaration": true,
     "outDir": "./dist",
     "incremental": true,
-    
+
     // Type checking - stricter for backend
     "strict": true,
     "strictNullChecks": true,
@@ -31,14 +31,14 @@
     // Paths for backend packages
     "baseUrl": ".",
     "paths": {
-          "@reki/domain": ["./packages/domain/src"],
-    "@reki/domain/*": ["./packages/domain/src/*"],
-    "@reki/persistence": ["./packages/persistence/src"],
-    "@reki/persistence/*": ["./packages/persistence/src/*"],
-    "@reki/use-cases": ["./packages/use-cases/src"],
-    "@reki/use-cases/*": ["./packages/use-cases/src/*"],
-    "@reki/api": ["./packages/api/src"],
-    "@reki/api/*": ["./packages/api/src/*"]
+      "@reki/domain": ["./packages/domain/src"],
+      "@reki/domain/*": ["./packages/domain/src/*"],
+      "@reki/persistence": ["./packages/persistence/src"],
+      "@reki/persistence/*": ["./packages/persistence/src/*"],
+      "@reki/use-cases": ["./packages/use-cases/src"],
+      "@reki/use-cases/*": ["./packages/use-cases/src/*"],
+      "@reki/api": ["./packages/api/src"],
+      "@reki/api/*": ["./packages/api/src/*"]
     }
   },
   "include": [
@@ -48,11 +48,5 @@
     "packages/api/src/**/*",
     "packages/domain/src/**/*"
   ],
-  "exclude": [
-    "**/node_modules",
-    "**/dist",
-    "**/test",
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ]
+  "exclude": ["**/node_modules", "**/dist", "**/test", "**/*.spec.ts", "**/*.test.ts"]
 }

@@ -3,6 +3,7 @@
 ## Quick Setup
 
 ### 1. Clone and Install
+
 ```bash
 git clone https://github.com/nikitagorelovreki/reki.git
 cd reki
@@ -10,6 +11,7 @@ npm install
 ```
 
 ### 2. Setup Development Environment
+
 ```bash
 # Install git hooks
 npx husky install
@@ -21,6 +23,7 @@ npm run type-check
 ```
 
 ### 3. Start Development
+
 ```bash
 # Start all services
 npm run dev
@@ -33,7 +36,9 @@ npm run api:dev        # Backend only
 ## Code Style Integration
 
 ### Automatic Setup
+
 The project includes comprehensive code style configuration that works automatically with:
+
 - ✅ **Cursor** - Uses `.cursorrules` for AI-assisted development
 - ✅ **VS Code** - Uses `.vscode/settings.json` for editor configuration
 - ✅ **Git** - Pre-commit hooks ensure code quality
@@ -42,12 +47,14 @@ The project includes comprehensive code style configuration that works automatic
 ### Manual Configuration (if needed)
 
 #### Cursor Settings
+
 1. Open Cursor settings
 2. Ensure "Format on Save" is enabled
 3. Set Prettier as default formatter
 4. Enable ESLint auto-fix
 
 #### VS Code Settings
+
 1. Install recommended extensions from `.vscode/extensions.json`
 2. Settings are automatically applied from `.vscode/settings.json`
 3. Restart VS Code if needed
@@ -55,6 +62,7 @@ The project includes comprehensive code style configuration that works automatic
 ## Verification Commands
 
 ### Check Code Quality
+
 ```bash
 # Lint all code
 npm run lint
@@ -70,13 +78,14 @@ npm run test
 ```
 
 ### Package-Specific Commands
+
 ```bash
 # Frontend
 npm run frontend:lint
 npm run frontend:format
 
 # Backend
-npm run api:lint  
+npm run api:lint
 npm run api:format
 ```
 
@@ -117,6 +126,7 @@ The project follows **Clean Architecture** principles with **Domain-Driven Desig
 ## Development Workflow
 
 ### 1. Feature Development
+
 ```bash
 # Create feature branch
 git checkout -b feature/user-management
@@ -129,18 +139,20 @@ npm run dev
 ```
 
 ### 2. Code Quality Checks
+
 - ESLint runs automatically on save and pre-commit
 - Prettier formats code automatically
 - TypeScript type checking on save
 - Tests run before commits
 
 ### 3. Commit Process
+
 ```bash
 git add .
 git commit -m "feat: add user management functionality"
 # Pre-commit hooks run automatically:
 # ✅ ESLint auto-fix
-# ✅ Prettier formatting  
+# ✅ Prettier formatting
 # ✅ TypeScript type check
 # ✅ Tests (if configured)
 ```
@@ -150,10 +162,11 @@ git commit -m "feat: add user management functionality"
 ### Common Setup Issues
 
 1. **Node Version**
-   - Use Node.js 18+ 
+   - Use Node.js 18+
    - Consider using nvm: `nvm use`
 
 2. **Dependencies**
+
    ```bash
    # Clear caches if issues
    npm run clean
@@ -162,6 +175,7 @@ git commit -m "feat: add user management functionality"
    ```
 
 3. **Git Hooks Not Working**
+
    ```bash
    # Reinstall husky
    npx husky install
@@ -194,11 +208,13 @@ git commit -m "feat: add user management functionality"
 ## Performance Tips
 
 ### Development
+
 - Use `npm run frontend:dev` for frontend-only development
 - Use `npm run api:dev` for backend-only development
 - Use Turbo's `--filter` flag for specific packages
 
 ### Build Optimization
+
 - Turbo caching speeds up repeated builds
 - TypeScript incremental compilation
 - ESLint caching for faster linting
@@ -206,6 +222,7 @@ git commit -m "feat: add user management functionality"
 ## Support
 
 For development setup issues:
+
 1. Check this SETUP.md file
 2. Review CODE_STYLE_GUIDE.md
 3. Check `.cursorrules` for Cursor-specific guidelines

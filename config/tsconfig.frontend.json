@@ -28,17 +28,10 @@
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/hooks/*": ["./src/hooks/*"],
-          "@reki/domain": ["../domain/src"],
-    "@reki/domain/*": ["../domain/src/*"]
+      "@reki/domain": ["../domain/src"],
+      "@reki/domain/*": ["../domain/src/*"]
     }
   },
-  "include": [
-    "packages/frontend/src/**/*",
-    "packages/frontend/vite.config.ts"
-  ],
-  "exclude": [
-    "packages/frontend/node_modules",
-    "packages/frontend/dist",
-    "packages/frontend/build"
-  ]
+  "include": ["packages/frontend/src/**/*", "packages/frontend/vite.config.ts"],
+  "exclude": ["packages/frontend/node_modules", "packages/frontend/dist", "packages/frontend/build"]
 }
