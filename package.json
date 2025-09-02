@@ -37,6 +37,10 @@
     "packages:dev": "turbo run dev --filter=./packages/*",
     "packages:lint": "turbo run lint --filter=./packages/*",
     "packages:format": "turbo run format --filter=./packages/*",
+    "telegram:dev": "turbo run dev --filter=@reki/telegram-bot",
+    "telegram:build": "turbo run build --filter=@reki/telegram-bot",
+    "telegram:start": "turbo run start --filter=@reki/telegram-bot",
+    "telegram:start:dev": "BOT_PORT=3001 turbo run dev --filter=@reki/telegram-bot",
     "create:package": "node scripts/create-package.js",
     "prepare": "husky install || true"
   },

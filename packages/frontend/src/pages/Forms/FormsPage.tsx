@@ -45,23 +45,23 @@ const FormsPage: React.FC = () => {
   }, []);
 
   const fetchData = async () => {
-    try {
-      setLoading(true);
+      try {
+        setLoading(true);
       const [clientsData, formsData, entriesData] = await Promise.all([
         getAllClients({ limit: 100 }),
         getAllForms({ limit: 100 }),
         getAllFormEntries({ limit: 100 })
       ]);
       setClients(clientsData.data);
-      setForms(formsData.data);
+        setForms(formsData.data);
       setFormEntries(entriesData.data);
     } catch (error) {
       console.error('Error fetching data:', error);
       message.error('Ошибка загрузки данных');
-    } finally {
-      setLoading(false);
-    }
-  };
+      } finally {
+        setLoading(false);
+      }
+    };
 
   const handleCreateForm = () => {
     if (!selectedClient || !selectedForm) {
@@ -435,7 +435,7 @@ const FormsPage: React.FC = () => {
               </Button>
             </Space>
           </div>
-        </div>
+                </div>
       </Modal>
 
       {/* Модальное окно графика */}

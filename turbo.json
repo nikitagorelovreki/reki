@@ -46,11 +46,11 @@
     }
   },
   "globalDependencies": [
-    "eslint.config.js",
-    ".prettierrc.js",
-    ".prettierignore",
-    "tsconfig.base.json",
-    "tsconfig.frontend.json",
-    "tsconfig.backend.json"
+    "config/eslint.config.js",
+    "config/.prettierrc.js",
+    "config/.prettierignore",
+    "config/tsconfig.base.json",
+    "config/tsconfig.frontend.json",
+    "config/tsconfig.backend.json"
   ]
 }
