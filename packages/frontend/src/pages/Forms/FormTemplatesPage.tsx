@@ -15,7 +15,6 @@ import {
   Col,
   Statistic,
   Divider,
-  Collapse,
   InputNumber,
   Switch,
 } from 'antd';

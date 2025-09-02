@@ -125,22 +125,45 @@ const FormsPage: React.FC = () => {
     };
 
     // Извлекаем числовые данные для графика
-    const numericData: number[] = [];
+    const numericDataBefore: number[] = [];
+    const numericDataAfter: number[] = [];
     const labels: string[] = [];
 
-    schema.sections.forEach(section => {
-      section.fields.forEach(field => {
-        if (field.type === 'rating' || field.type === 'number') {
-          const value = data[field.name];
-          if (typeof value === 'number') {
-            labels.push(field.label);
-            numericData.push(value);
-          }
-        }
-      });
+    // Создаем карту полей для извлечения данных
+    const fieldMapping = [
+      { before: 'eatingScoreBefore', after: 'eatingScoreAfter', label: 'Прием пищи' },
+      { before: 'swallowingScoreBefore', after: 'swallowingScoreAfter', label: 'Глотание' },
+      { before: 'groomingScoreBefore', after: 'groomingScoreAfter', label: 'Уход за собой' },
+      { before: 'bathingScoreBefore', after: 'bathingScoreAfter', label: 'Купание' },
+      { before: 'dressUpperScoreBefore', after: 'dressUpperScoreAfter', label: 'Одевание (верх)' },
+      { before: 'dressLowerScoreBefore', after: 'dressLowerScoreAfter', label: 'Одевание (низ)' },
+      { before: 'toiletingScoreBefore', after: 'toiletingScoreAfter', label: 'Туалет' },
+      { before: 'bladderScoreBefore', after: 'bladderScoreAfter', label: 'Контроль мочеиспускания' },
+      { before: 'bowelScoreBefore', after: 'bowelScoreAfter', label: 'Контроль дефекации' },
+      { before: 'bedTransferScoreBefore', after: 'bedTransferScoreAfter', label: 'Перемещение' },
+      { before: 'emotionalStatusScoreBefore', after: 'emotionalStatusScoreAfter', label: 'Эмоциональное состояние' },
+      { before: 'adjustmentScoreBefore', after: 'adjustmentScoreAfter', label: 'Адаптация' },
+      { before: 'leisureActivitiesScoreBefore', after: 'leisureActivitiesScoreAfter', label: 'Досуговые занятия' },
+      { before: 'problemSolvingScoreBefore', after: 'problemSolvingScoreAfter', label: 'Решение проблем' },
+      { before: 'memoryScoreBefore', after: 'memoryScoreAfter', label: 'Память' },
+      { before: 'orientationScoreBefore', after: 'orientationScoreAfter', label: 'Ориентация' },
+      { before: 'concentrationScoreBefore', after: 'concentrationScoreAfter', label: 'Концентрация' },
+      { before: 'safetyAwarenessScoreBefore', after: 'safetyAwarenessScoreAfter', label: 'Осведомленность' }
+    ];
+
+    // Извлекаем данные по карте полей
+    fieldMapping.forEach(field => {
+      const beforeValue = data[field.before];
+      const afterValue = data[field.after];
+      
+      if (typeof beforeValue === 'number' && typeof afterValue === 'number') {
+        labels.push(field.label);
+        numericDataBefore.push(beforeValue);
+        numericDataAfter.push(afterValue);
+      }
     });
 
-    if (numericData.length === 0) {
+    if (numericDataBefore.length === 0) {
       // Если нет числовых данных, создаем график на основе чекбоксов
       const checkboxData: number[] = [];
       const checkboxLabels: string[] = [];
@@ -164,18 +187,41 @@ const FormsPage: React.FC = () => {
           data: checkboxData,
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
           borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
         }];
       }
     } else {
       chartData.labels = labels;
-      chartData.datasets = [{
-        label: 'Оценки',
-        data: numericData,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }];
+      
+      // Создаем два набора данных - "До" и "После"
+      chartData.datasets = [
+        {
+          label: 'При поступлении',
+          data: numericDataBefore,
+          backgroundColor: 'rgba(128, 128, 128, 0.3)',
+          borderColor: 'rgba(128, 128, 128, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(128, 128, 128, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(128, 128, 128, 1)',
+        },
+        {
+          label: 'При выписке',
+          data: numericDataAfter,
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          borderColor: 'rgba(0, 0, 0, 1)',
+          borderWidth: 3,
+          pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(0, 0, 0, 1)',
+        }
+      ];
     }
 
     return chartData;
@@ -397,11 +443,12 @@ const FormsPage: React.FC = () => {
         title="График результатов"
         open={chartModalVisible}
         onCancel={() => setChartModalVisible(false)}
-        width="80%"
+        width="90%"
+        style={{ top: 20 }}
         footer={null}
         destroyOnHidden
       >
-        {chartData && <RadarChart data={chartData} />}
+        {chartData && <RadarChart data={chartData} height={700} />}
       </Modal>
     </div>
   );
