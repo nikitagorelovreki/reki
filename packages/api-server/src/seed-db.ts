@@ -9,26 +9,18 @@ async function seed(): Promise<void> {
   const db = knex(knexConfig);
 
   try {
+    // Очищаем все таблицы в обратном порядке зависимостей
+    console.log('Clearing all tables...');
+    await db('form_entries').del();
+    await db('form_templates').del();
+    await db('devices').del();
+    await db('clients').del();
+    console.log('All tables cleared successfully');
+
     // Создаем клиентов
     console.log('Creating clients...');
     const clients = [];
     for (let i = 1; i <= 5; i++) {
-      // Проверяем, существует ли уже клиент с таким именем
-      const existingClient = await db('clients')
-        .where('first_name', `Иван${i}`)
-        .where('last_name', `Петров${i}`)
-        .first();
-      
-      if (existingClient) {
-        console.log(`Client Иван${i} Петров${i} already exists, skipping...`);
-        clients.push({
-          id: existingClient.id,
-          firstName: `Иван${i}`,
-          lastName: `Петров${i}`,
-        });
-        continue;
-      }
-
       const id = uuidv4();
       await db('clients').insert({
         id,
@@ -61,20 +53,6 @@ async function seed(): Promise<void> {
     console.log('Creating devices...');
     const devices = [];
     for (let i = 1; i <= 8; i++) {
-      // Проверяем, существует ли уже устройство с таким серийным номером
-      const existingDevice = await db('devices')
-        .where('serial', `SN${i}00${i}`)
-        .first();
-      
-      if (existingDevice) {
-        console.log(`Device with serial SN${i}00${i} already exists, skipping...`);
-        devices.push({
-          id: existingDevice.id,
-          model: `Устройство ${i}`,
-        });
-        continue;
-      }
-
       const id = uuidv4();
       await db('devices').insert({
         id,
@@ -103,7 +81,7 @@ async function seed(): Promise<void> {
       const existingForm = await db('form_templates')
         .where('type', formData.type)
         .first();
-      
+
       if (existingForm) {
         console.log(`Form ${formData.title} already exists, skipping...`);
         forms.push({
@@ -143,17 +121,6 @@ async function seed(): Promise<void> {
       if (lfkForm) {
         for (let i = 0; i < 3; i++) {
           const client = clients[i % clients.length];
-          
-          // Проверяем, существует ли уже form entry для этого клиента и формы
-          const existingEntry = await db('form_entries')
-            .where('form_id', lfkForm.id)
-            .where('patient_id', client.id)
-            .first();
-          
-          if (existingEntry) {
-            console.log(`LFK form entry for client ${client.firstName} ${client.lastName} already exists, skipping...`);
-            continue;
-          }
 
           const id = uuidv4();
           await db('form_entries').insert({
@@ -191,17 +158,6 @@ async function seed(): Promise<void> {
       if (fimForm) {
         for (let i = 0; i < 3; i++) {
           const client = clients[i % clients.length];
-          
-          // Проверяем, существует ли уже form entry для этого клиента и формы
-          const existingEntry = await db('form_entries')
-            .where('form_id', fimForm.id)
-            .where('patient_id', client.id)
-            .first();
-          
-          if (existingEntry) {
-            console.log(`FIM form entry for client ${client.firstName} ${client.lastName} already exists, skipping...`);
-            continue;
-          }
 
           const id = uuidv4();
           await db('form_entries').insert({
@@ -211,44 +167,74 @@ async function seed(): Promise<void> {
             status: 'completed',
             data: JSON.stringify({
               therapistName: 'Доктор Петров',
-              fim_date: new Date().toISOString().split('T')[0],
-              fim_eating_adm: '5',
-              fim_grooming_adm: '4',
-              fim_bathing_adm: '3',
-              fim_dress_upper_adm: '4',
-              fim_dress_lower_adm: '3',
-              fim_toileting_adm: '4',
-              fim_bladder_adm: '5',
-              fim_bowel_adm: '5',
-              fim_bed_transfer_adm: '4',
-              fim_toilet_transfer_adm: '4',
-              fim_bath_transfer_adm: '3',
-              fim_locomotion_adm: '4',
-              fim_stairs_adm: '3',
-              fim_comprehension_adm: '6',
-              fim_expression_adm: '5',
-              fim_social_interaction_adm: '6',
-              fim_problem_solving_adm: '5',
-              fim_memory_adm: '5',
-              fim_eating_dis: '6',
-              fim_grooming_dis: '5',
-              fim_bathing_dis: '4',
-              fim_dress_upper_dis: '5',
-              fim_dress_lower_dis: '4',
-              fim_toileting_dis: '5',
-              fim_bladder_dis: '6',
-              fim_bowel_dis: '6',
-              fim_bed_transfer_dis: '5',
-              fim_toilet_transfer_dis: '5',
-              fim_bath_transfer_dis: '4',
-              fim_locomotion_dis: '5',
-              fim_stairs_dis: '4',
-              fim_comprehension_dis: '7',
-              fim_expression_dis: '6',
-              fim_social_interaction_dis: '7',
-              fim_problem_solving_dis: '6',
-              fim_memory_dis: '6',
-              fim_notes: 'Тестовые заметки по FIM',
+              examinationDate: new Date().toISOString().split('T')[0],
+              // Самообслуживание (ADL)
+              eatingScoreBefore: 4,
+              eatingScoreAfter: 6,
+              swallowingScoreBefore: 5,
+              swallowingScoreAfter: 7,
+              groomingScoreBefore: 3,
+              groomingScoreAfter: 5,
+              bathingScoreBefore: 2,
+              bathingScoreAfter: 4,
+              dressUpperScoreBefore: 4,
+              dressUpperScoreAfter: 6,
+              dressLowerScoreBefore: 3,
+              dressLowerScoreAfter: 5,
+              toiletingScoreBefore: 4,
+              toiletingScoreAfter: 6,
+              bladderScoreBefore: 5,
+              bladderScoreAfter: 6,
+              bowelScoreBefore: 4,
+              bowelScoreAfter: 5,
+              // Перемещения и мобильность
+              bedTransferScoreBefore: 3,
+              bedTransferScoreAfter: 5,
+              toiletTransferScoreBefore: 2,
+              toiletTransferScoreAfter: 4,
+              bathTransferScoreBefore: 1,
+              bathTransferScoreAfter: 3,
+              carTransferScoreBefore: 2,
+              carTransferScoreAfter: 4,
+              locomotionScoreBefore: 2,
+              locomotionScoreAfter: 4,
+              stairsScoreBefore: 1,
+              stairsScoreAfter: 3,
+              mobilityScoreBefore: 2,
+              mobilityScoreAfter: 4,
+              // Коммуникация и когнитивные навыки
+              comprehensionScoreBefore: 6,
+              comprehensionScoreAfter: 7,
+              expressionScoreBefore: 5,
+              expressionScoreAfter: 6,
+              readingScoreBefore: 5,
+              readingScoreAfter: 6,
+              writingScoreBefore: 4,
+              writingScoreAfter: 5,
+              speechScoreBefore: 5,
+              speechScoreAfter: 6,
+              socialInteractionScoreBefore: 5,
+              socialInteractionScoreAfter: 6,
+              emotionalStatusScoreBefore: 4,
+              emotionalStatusScoreAfter: 5,
+              adjustmentScoreBefore: 4,
+              adjustmentScoreAfter: 5,
+              leisureActivitiesScoreBefore: 3,
+              leisureActivitiesScoreAfter: 4,
+              problemSolvingScoreBefore: 4,
+              problemSolvingScoreAfter: 5,
+              memoryScoreBefore: 5,
+              memoryScoreAfter: 6,
+              orientationScoreBefore: 5,
+              orientationScoreAfter: 6,
+              concentrationScoreBefore: 4,
+              concentrationScoreAfter: 5,
+              safetyAwarenessScoreBefore: 4,
+              safetyAwarenessScoreAfter: 5,
+              conclusion:
+                'Пациент демонстрирует значительное улучшение функциональной независимости',
+              recommendations:
+                'Продолжить реабилитационные мероприятия, уделить внимание координации движений',
             }),
             created_at: new Date(),
             updated_at: new Date(),
@@ -269,4 +255,10 @@ async function seed(): Promise<void> {
   }
 }
 
-seed();
+// Экспортируем функцию для использования в тестах
+export const seedDatabase = seed;
+
+// Запускаем сид только если файл запущен напрямую
+if (require.main === module) {
+  seed();
+}

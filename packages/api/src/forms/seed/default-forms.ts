@@ -1,4 +1,4 @@
-import { FormType, FormStatus, type Form } from '@reki/domain';
+import { type Form, FormStatus, FormType } from '@reki/domain';
 
 export const defaultForms: Form[] = [
   {
@@ -18,21 +18,21 @@ export const defaultForms: Form[] = [
               name: 'therapistName',
               type: 'text',
               label: 'ФИО специалиста',
-              required: true
+              required: true,
             },
             {
               name: 'examinationDate',
               type: 'date',
               label: 'Дата осмотра',
-              required: true
+              required: true,
             },
             {
               name: 'patientName',
               type: 'text',
               label: 'ФИО пациента',
-              required: true
-            }
-          ]
+              required: true,
+            },
+          ],
         },
         {
           title: 'Двигательные навыки',
@@ -46,8 +46,8 @@ export const defaultForms: Form[] = [
                 'Не удерживает',
                 'Удерживает несколько минут',
                 'С наклоном вправо',
-                'С наклоном влево'
-              ]
+                'С наклоном влево',
+              ],
             },
             {
               name: 'turns',
@@ -58,8 +58,8 @@ export const defaultForms: Form[] = [
                 'С живота на спину',
                 'Блоком',
                 'Вправо',
-                'Влево'
-              ]
+                'Влево',
+              ],
             },
             {
               name: 'lyingOnStomach',
@@ -71,8 +71,8 @@ export const defaultForms: Form[] = [
                 'Опирается на выпрямленные руки',
                 'Кисти сжаты в кулак',
                 'D',
-                'S'
-              ]
+                'S',
+              ],
             },
             {
               name: 'sittingOnHeels',
@@ -86,8 +86,8 @@ export const defaultForms: Form[] = [
                 'С опорой на выпрямленные руки',
                 'Кисти сжаты в кулак',
                 'D',
-                'S'
-              ]
+                'S',
+              ],
             },
             {
               name: 'crawling',
@@ -98,18 +98,14 @@ export const defaultForms: Form[] = [
                 'Согласованно',
                 'Подтягиваясь на предплечьях',
                 'Отталкиваясь ногами',
-                'Реципрокно'
-              ]
+                'Реципрокно',
+              ],
             },
             {
               name: 'standingOnAllFours',
               type: 'checkbox-group',
               label: 'Стояние на четвереньках',
-              options: [
-                'Отсутствует',
-                'Прыжками',
-                'Реципрокно'
-              ]
+              options: ['Отсутствует', 'Прыжками', 'Реципрокно'],
             },
             {
               name: 'kneelingTransition',
@@ -120,8 +116,8 @@ export const defaultForms: Form[] = [
                 'У опоры',
                 'Самостоятельно',
                 'Передвигается у опоры',
-                'Передвигается самостоятельно'
-              ]
+                'Передвигается самостоятельно',
+              ],
             },
             {
               name: 'sittingTransition',
@@ -134,8 +130,8 @@ export const defaultForms: Form[] = [
                 'С поворотом на бок',
                 'D',
                 'S',
-                'С поворотом на живот'
-              ]
+                'С поворотом на живот',
+              ],
             },
             {
               name: 'sitting',
@@ -150,8 +146,8 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Самостоятельно',
-                'С помощью взрослого'
-              ]
+                'С помощью взрослого',
+              ],
             },
             {
               name: 'standing',
@@ -163,8 +159,8 @@ export const defaultForms: Form[] = [
                 'С поддержкой за 1 руку',
                 'Несколько секунд',
                 'Несколько минут',
-                'Долго'
-              ]
+                'Долго',
+              ],
             },
             {
               name: 'walking',
@@ -194,10 +190,10 @@ export const defaultForms: Form[] = [
                 '10 метров',
                 '25 метров',
                 '50 метров',
-                'Более 50 метров'
-              ]
-            }
-          ]
+                'Более 50 метров',
+              ],
+            },
+          ],
         },
         {
           title: 'Походка',
@@ -252,8 +248,8 @@ export const defaultForms: Form[] = [
                 'Перекрест на уровне бедер',
                 'Перекрест на уровне колен',
                 'Перекрест на уровне нижней трети голени',
-                'Перекрест на уровне стоп'
-              ]
+                'Перекрест на уровне стоп',
+              ],
             },
             {
               name: 'lowerLimbAlignment',
@@ -264,8 +260,8 @@ export const defaultForms: Form[] = [
                 'О-образная',
                 'Рекурвация в коленных суставах',
                 'D',
-                'S'
-              ]
+                'S',
+              ],
             },
             {
               name: 'footAlignment',
@@ -293,10 +289,10 @@ export const defaultForms: Form[] = [
                 'S',
                 'С отведением переднего отдела стопы наружу',
                 'D',
-                'S'
-              ]
-            }
-          ]
+                'S',
+              ],
+            },
+          ],
         },
         {
           title: 'Наличие контрактур в суставах',
@@ -313,8 +309,8 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Динамическая',
-                'Фиксированная'
-              ]
+                'Фиксированная',
+              ],
             },
             {
               name: 'elbowContractures',
@@ -328,8 +324,8 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Динамическая',
-                'Фиксированная'
-              ]
+                'Фиксированная',
+              ],
             },
             {
               name: 'shoulderContractures',
@@ -346,8 +342,8 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Динамическая',
-                'Фиксированная'
-              ]
+                'Фиксированная',
+              ],
             },
             {
               name: 'ankleContractures',
@@ -361,8 +357,8 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Динамическая',
-                'Фиксированная'
-              ]
+                'Фиксированная',
+              ],
             },
             {
               name: 'kneeContractures',
@@ -373,8 +369,8 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Динамическая',
-                'Фиксированная'
-              ]
+                'Фиксированная',
+              ],
             },
             {
               name: 'hipContractures',
@@ -391,10 +387,10 @@ export const defaultForms: Form[] = [
                 'D',
                 'S',
                 'Динамическая',
-                'Фиксированная'
-              ]
-            }
-          ]
+                'Фиксированная',
+              ],
+            },
+          ],
         },
         {
           title: 'Наличие нестабильности в суставах',
@@ -421,10 +417,10 @@ export const defaultForms: Form[] = [
                 'S',
                 'Тазобедренном',
                 'D',
-                'S'
-              ]
-            }
-          ]
+                'S',
+              ],
+            },
+          ],
         },
         {
           title: 'Наличие патологических рефлексов новорожденных',
@@ -433,13 +429,9 @@ export const defaultForms: Form[] = [
               name: 'pathologicalReflexes',
               type: 'checkbox-group',
               label: 'Наличие патологических рефлексов новорожденных',
-              options: [
-                'ААСШТР',
-                'СШТР',
-                'ЛТР'
-              ]
-            }
-          ]
+              options: ['ААСШТР', 'СШТР', 'ЛТР'],
+            },
+          ],
         },
         {
           title: 'Измерение объема движений по суставам нижних конечностей',
@@ -449,72 +441,72 @@ export const defaultForms: Form[] = [
               type: 'number',
               label: 'Ректус (градусы)',
               min: 0,
-              max: 180
+              max: 180,
             },
             {
               name: 'externalHipRotation',
               type: 'number',
               label: 'Наружная ротация бедра (градусы)',
               min: 0,
-              max: 90
+              max: 90,
             },
             {
               name: 'hamstringMeasurement',
               type: 'number',
               label: 'Хамстринг (градусы)',
               min: 0,
-              max: 180
+              max: 180,
             },
             {
               name: 'hipFlexion',
               type: 'number',
               label: 'Тазобедренный сустав - сгибание (градусы)',
               min: 0,
-              max: 120
+              max: 120,
             },
             {
               name: 'hipExtension',
               type: 'number',
               label: 'Тазобедренный сустав - разгибание (градусы)',
               min: 0,
-              max: 30
+              max: 30,
             },
             {
               name: 'hipAbduction',
               type: 'number',
               label: 'Тазобедренный сустав - отведение (градусы)',
               min: 0,
-              max: 45
+              max: 45,
             },
             {
               name: 'kneeFlexion',
               type: 'number',
               label: 'Коленный сустав - сгибание (градусы)',
               min: 0,
-              max: 135
+              max: 135,
             },
             {
               name: 'kneeExtension',
               type: 'number',
               label: 'Коленный сустав - разгибание (градусы)',
               min: 0,
-              max: 10
+              max: 10,
             },
             {
               name: 'ankleDorsiflexion',
               type: 'number',
               label: 'Голеностопный сустав - тыльное сгибание (градусы)',
               min: 0,
-              max: 20
+              max: 20,
             },
             {
               name: 'anklePlantarflexion',
               type: 'number',
               label: 'Голеностопный сустав - разгибание (градусы)',
               min: 0,
-              max: 50
-            }
-          ]
+              max: 50,
+            },
+          ],
         },
         {
           title: 'Лечебная гимнастика направлена на',
@@ -543,10 +535,10 @@ export const defaultForms: Form[] = [
                 'Тыльное сгибание стопы',
                 'Постановка стопы на пятку',
                 'Перекат с пятки на носок',
-                'Передний толчок'
-              ]
-            }
-          ]
+                'Передний толчок',
+              ],
+            },
+          ],
         },
         {
           title: 'Коррекция двигательных навыков',
@@ -555,31 +547,31 @@ export const defaultForms: Form[] = [
               name: 'headHoldingCorrection',
               type: 'checkbox-group',
               label: 'Удержание головы',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'forearmSupportCorrection',
               type: 'checkbox-group',
               label: 'Опора на предплечья',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'straightArmSupportCorrection',
               type: 'checkbox-group',
               label: 'Опора на выпрямленные руки',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'backToStomachTurnCorrection',
               type: 'checkbox-group',
               label: 'Переворот со спины на живот',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'stomachToBackTurnCorrection',
               type: 'checkbox-group',
               label: 'Переворот с живота на спину',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'sittingTransitionCorrection',
@@ -588,57 +580,57 @@ export const defaultForms: Form[] = [
               options: [
                 'Через правую руку',
                 'Через левую руку',
-                'Без помощи рук'
-              ]
+                'Без помощи рук',
+              ],
             },
             {
               name: 'crawlingCorrection',
               type: 'checkbox-group',
               label: 'Ползание по-пластунски',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'allFoursCrawlingCorrection',
               type: 'checkbox-group',
               label: 'Ползание на четвереньках',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'kneelingMovementCorrection',
               type: 'checkbox-group',
               label: 'Передвижение стоя на коленях',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'kneelingStandingCorrection',
               type: 'checkbox-group',
               label: 'Вставание с колен',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'walkerWalkingCorrection',
               type: 'checkbox-group',
               label: 'Ходьба с ходунками',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'crutchWalkingCorrection',
               type: 'checkbox-group',
               label: 'Ходьба с канадскими палочками',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'caneWalkingCorrection',
               type: 'checkbox-group',
               label: 'Ходьба с тростью',
-              options: ['Развитие', 'Улучшение']
+              options: ['Развитие', 'Улучшение'],
             },
             {
               name: 'wheelchairTraining',
               type: 'checkbox',
-              label: 'Обучение передвижению на коляске'
-            }
-          ]
+              label: 'Обучение передвижению на коляске',
+            },
+          ],
         },
         {
           title: 'Укрепление мышц',
@@ -672,10 +664,10 @@ export const defaultForms: Form[] = [
                 'S',
                 'Икроножных мышц',
                 'D',
-                'S'
-              ]
-            }
-          ]
+                'S',
+              ],
+            },
+          ],
         },
         {
           title: 'Расслабление, растягивание мышц',
@@ -711,10 +703,10 @@ export const defaultForms: Form[] = [
                 'S',
                 'Ахиллова сухожилия',
                 'D',
-                'S'
-              ]
-            }
-          ]
+                'S',
+              ],
+            },
+          ],
         },
         {
           title: 'Коррекция установок, контрактур и деформаций',
@@ -730,8 +722,8 @@ export const defaultForms: Form[] = [
                 'Плоско-вальгусной установки стоп',
                 'Плоско-варусной установки стоп',
                 'Эквино-варусной установки стоп',
-                'Эквинуса'
-              ]
+                'Эквинуса',
+              ],
             },
             {
               name: 'orthopedicDevices',
@@ -740,10 +732,10 @@ export const defaultForms: Form[] = [
               options: [
                 'Вертикализация на всю ногу на две ноги с полукорсетом',
                 'Стоять, ходить в туторах на коленные суставы+аппараты на голеностопные суставы (ортопедическая обувь)+реклинирующая система',
-                'Использование динамического корригирующего устройства'
-              ]
-            }
-          ]
+                'Использование динамического корригирующего устройства',
+              ],
+            },
+          ],
         },
         {
           title: 'Дополнительные упражнения',
@@ -751,24 +743,20 @@ export const defaultForms: Form[] = [
             {
               name: 'passiveRangeIncrease',
               type: 'checkbox',
-              label: 'Увеличение пассивного объема движений в суставах'
+              label: 'Увеличение пассивного объема движений в суставах',
             },
             {
               name: 'generalExercises',
               type: 'checkbox',
-              label: 'Общеразвивающие упражнения'
+              label: 'Общеразвивающие упражнения',
             },
             {
               name: 'jumpingDevelopment',
               type: 'checkbox-group',
               label: 'Развитие прыжков',
-              options: [
-                'На правой ноге',
-                'На левой ноге',
-                'На двух ногах'
-              ]
-            }
-          ]
+              options: ['На правой ноге', 'На левой ноге', 'На двух ногах'],
+            },
+          ],
         },
         {
           title: 'Заключение',
@@ -777,18 +765,18 @@ export const defaultForms: Form[] = [
               name: 'conclusion',
               type: 'textarea',
               label: 'Заключение',
-              required: true
+              required: true,
             },
             {
               name: 'recommendations',
               type: 'textarea',
               label: 'Рекомендации',
-              required: true
-            }
-          ]
-        }
-      ]
-    }
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     id: 'b5340efc-e968-4112-a847-c84735ec32ef',
@@ -807,426 +795,453 @@ export const defaultForms: Form[] = [
               name: 'therapistName',
               type: 'text',
               label: 'ФИО специалиста',
-              required: true
+              required: true,
             },
             {
               name: 'examinationDate',
               type: 'date',
               label: 'Дата проведения',
-              required: true
+              required: true,
             },
             {
               name: 'patientName',
               type: 'text',
               label: 'ФИО пациента',
-              required: true
-            }
-          ]
+              required: true,
+            },
+          ],
         },
         {
           title: 'Самообслуживание (ADL)',
           fields: [
             {
-              name: 'eating',
-              type: 'checkbox-group',
-              label: 'Прием пищи',
-              options: ['До', 'После']
-            },
-            {
-              name: 'eatingScore',
+              name: 'eatingScoreBefore',
               type: 'rating',
-              label: 'Оценка приема пищи',
+              label: 'Прием пищи (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'swallowing',
-              type: 'checkbox-group',
-              label: 'Глотание',
-              options: ['До', 'После']
-            },
-            {
-              name: 'swallowingScore',
+              name: 'eatingScoreAfter',
               type: 'rating',
-              label: 'Оценка глотания',
+              label: 'Прием пищи (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'grooming',
-              type: 'checkbox-group',
-              label: 'Уход за собой',
-              options: ['До', 'После']
-            },
-            {
-              name: 'groomingScore',
+              name: 'swallowingScoreBefore',
               type: 'rating',
-              label: 'Оценка ухода за собой',
+              label: 'Глотание (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'bathing',
-              type: 'checkbox-group',
-              label: 'Купание',
-              options: ['До', 'После']
-            },
-            {
-              name: 'bathingScore',
+              name: 'swallowingScoreAfter',
               type: 'rating',
-              label: 'Оценка купания',
+              label: 'Глотание (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'dressUpper',
-              type: 'checkbox-group',
-              label: 'Одевание (верхняя часть тела)',
-              options: ['До', 'После']
-            },
-            {
-              name: 'dressUpperScore',
+              name: 'groomingScoreBefore',
               type: 'rating',
-              label: 'Оценка одевания (верхняя часть)',
+              label: 'Уход за собой (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'dressLower',
-              type: 'checkbox-group',
-              label: 'Одевание (нижняя часть тела)',
-              options: ['До', 'После']
-            },
-            {
-              name: 'dressLowerScore',
+              name: 'groomingScoreAfter',
               type: 'rating',
-              label: 'Оценка одевания (нижняя часть)',
+              label: 'Уход за собой (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'toileting',
-              type: 'checkbox-group',
-              label: 'Туалет',
-              options: ['До', 'После']
-            },
-            {
-              name: 'toiletingScore',
+              name: 'bathingScoreBefore',
               type: 'rating',
-              label: 'Оценка туалета',
+              label: 'Купание (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'bladder',
-              type: 'checkbox-group',
-              label: 'Контроль мочеиспускания',
-              options: ['До', 'После']
-            },
-            {
-              name: 'bladderScore',
+              name: 'bathingScoreAfter',
               type: 'rating',
-              label: 'Оценка контроля мочеиспускания',
+              label: 'Купание (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'bowel',
-              type: 'checkbox-group',
-              label: 'Контроль дефекации',
-              options: ['До', 'После']
-            },
-            {
-              name: 'bowelScore',
+              name: 'dressUpperScoreBefore',
               type: 'rating',
-              label: 'Оценка контроля дефекации',
+              label: 'Одевание верхней части (До)',
               min: 1,
-              max: 7
-            }
-          ]
+              max: 7,
+            },
+            {
+              name: 'dressUpperScoreAfter',
+              type: 'rating',
+              label: 'Одевание верхней части (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'dressLowerScoreBefore',
+              type: 'rating',
+              label: 'Одевание нижней части (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'dressLowerScoreAfter',
+              type: 'rating',
+              label: 'Одевание нижней части (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'toiletingScoreBefore',
+              type: 'rating',
+              label: 'Туалет (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'toiletingScoreAfter',
+              type: 'rating',
+              label: 'Туалет (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'bladderScoreBefore',
+              type: 'rating',
+              label: 'Контроль мочеиспускания (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'bladderScoreAfter',
+              type: 'rating',
+              label: 'Контроль мочеиспускания (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'bowelScoreBefore',
+              type: 'rating',
+              label: 'Контроль дефекации (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'bowelScoreAfter',
+              type: 'rating',
+              label: 'Контроль дефекации (После)',
+              min: 1,
+              max: 7,
+            },
+          ],
         },
         {
           title: 'Перемещения и мобильность',
           fields: [
             {
-              name: 'bedTransfer',
-              type: 'checkbox-group',
-              label: 'Перемещение: кровать/стул/коляска',
-              options: ['До', 'После']
-            },
-            {
-              name: 'bedTransferScore',
+              name: 'bedTransferScoreBefore',
               type: 'rating',
-              label: 'Оценка перемещения кровать/стул/коляска',
+              label: 'Перемещение кровать/стул/коляска (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'toiletTransfer',
-              type: 'checkbox-group',
-              label: 'Перемещение: туалет',
-              options: ['До', 'После']
-            },
-            {
-              name: 'toiletTransferScore',
+              name: 'bedTransferScoreAfter',
               type: 'rating',
-              label: 'Оценка перемещения туалет',
+              label: 'Перемещение кровать/стул/коляска (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'bathTransfer',
-              type: 'checkbox-group',
-              label: 'Перемещение: ванна/душ',
-              options: ['До', 'После']
-            },
-            {
-              name: 'bathTransferScore',
+              name: 'toiletTransferScoreBefore',
               type: 'rating',
-              label: 'Оценка перемещения ванна/душ',
+              label: 'Перемещение туалет (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'carTransfer',
-              type: 'checkbox-group',
-              label: 'Перемещение: автомобиль',
-              options: ['До', 'После']
-            },
-            {
-              name: 'carTransferScore',
+              name: 'toiletTransferScoreAfter',
               type: 'rating',
-              label: 'Оценка перемещения автомобиль',
+              label: 'Перемещение туалет (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'locomotion',
-              type: 'checkbox-group',
-              label: 'Передвижение',
-              options: ['До', 'После']
-            },
-            {
-              name: 'locomotionScore',
+              name: 'bathTransferScoreBefore',
               type: 'rating',
-              label: 'Оценка передвижения',
+              label: 'Перемещение ванна/душ (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'stairs',
-              type: 'checkbox-group',
-              label: 'Подъем по лестнице',
-              options: ['До', 'После']
-            },
-            {
-              name: 'stairsScore',
+              name: 'bathTransferScoreAfter',
               type: 'rating',
-              label: 'Оценка подъема по лестнице',
+              label: 'Перемещение ванна/душ (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'mobility',
-              type: 'checkbox-group',
-              label: 'Мобильность',
-              options: ['До', 'После']
-            },
-            {
-              name: 'mobilityScore',
+              name: 'carTransferScoreBefore',
               type: 'rating',
-              label: 'Оценка мобильности',
+              label: 'Перемещение автомобиль (До)',
               min: 1,
-              max: 7
-            }
-          ]
+              max: 7,
+            },
+            {
+              name: 'carTransferScoreAfter',
+              type: 'rating',
+              label: 'Перемещение автомобиль (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'locomotionScoreBefore',
+              type: 'rating',
+              label: 'Передвижение (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'locomotionScoreAfter',
+              type: 'rating',
+              label: 'Передвижение (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'stairsScoreBefore',
+              type: 'rating',
+              label: 'Подъем по лестнице (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'stairsScoreAfter',
+              type: 'rating',
+              label: 'Подъем по лестнице (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'mobilityScoreBefore',
+              type: 'rating',
+              label: 'Мобильность (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'mobilityScoreAfter',
+              type: 'rating',
+              label: 'Мобильность (После)',
+              min: 1,
+              max: 7,
+            },
+          ],
         },
         {
           title: 'Коммуникация и когнитивные/социальные навыки',
           fields: [
             {
-              name: 'comprehension',
-              type: 'checkbox-group',
-              label: 'Понимание',
-              options: ['До', 'После']
-            },
-            {
-              name: 'comprehensionScore',
+              name: 'comprehensionScoreBefore',
               type: 'rating',
-              label: 'Оценка понимания',
+              label: 'Понимание (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'expression',
-              type: 'checkbox-group',
-              label: 'Выражение',
-              options: ['До', 'После']
-            },
-            {
-              name: 'expressionScore',
+              name: 'comprehensionScoreAfter',
               type: 'rating',
-              label: 'Оценка выражения',
+              label: 'Понимание (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'reading',
-              type: 'checkbox-group',
-              label: 'Чтение',
-              options: ['До', 'После']
-            },
-            {
-              name: 'readingScore',
+              name: 'expressionScoreBefore',
               type: 'rating',
-              label: 'Оценка чтения',
+              label: 'Выражение (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'writing',
-              type: 'checkbox-group',
-              label: 'Письмо',
-              options: ['До', 'После']
-            },
-            {
-              name: 'writingScore',
+              name: 'expressionScoreAfter',
               type: 'rating',
-              label: 'Оценка письма',
+              label: 'Выражение (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'speech',
-              type: 'checkbox-group',
-              label: 'Речь',
-              options: ['До', 'После']
-            },
-            {
-              name: 'speechScore',
+              name: 'readingScoreBefore',
               type: 'rating',
-              label: 'Оценка речи',
+              label: 'Чтение (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'socialInteraction',
-              type: 'checkbox-group',
-              label: 'Социальное взаимодействие',
-              options: ['До', 'После']
-            },
-            {
-              name: 'socialInteractionScore',
+              name: 'readingScoreAfter',
               type: 'rating',
-              label: 'Оценка социального взаимодействия',
+              label: 'Чтение (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'emotionalStatus',
-              type: 'checkbox-group',
-              label: 'Эмоциональное состояние',
-              options: ['До', 'После']
-            },
-            {
-              name: 'emotionalStatusScore',
+              name: 'writingScoreBefore',
               type: 'rating',
-              label: 'Оценка эмоционального состояния',
+              label: 'Письмо (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'adjustment',
-              type: 'checkbox-group',
-              label: 'Адаптация',
-              options: ['До', 'После']
-            },
-            {
-              name: 'adjustmentScore',
+              name: 'writingScoreAfter',
               type: 'rating',
-              label: 'Оценка адаптации',
+              label: 'Письмо (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'leisureActivities',
-              type: 'checkbox-group',
-              label: 'Досуговые занятия',
-              options: ['До', 'После']
-            },
-            {
-              name: 'leisureActivitiesScore',
+              name: 'speechScoreBefore',
               type: 'rating',
-              label: 'Оценка досуговых занятий',
+              label: 'Речь (До)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'problemSolving',
-              type: 'checkbox-group',
-              label: 'Решение проблем',
-              options: ['До', 'После']
-            },
-            {
-              name: 'problemSolvingScore',
+              name: 'speechScoreAfter',
               type: 'rating',
-              label: 'Оценка решения проблем',
+              label: 'Речь (После)',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
-              name: 'memory',
-              type: 'checkbox-group',
-              label: 'Память',
-              options: ['До', 'После']
-            },
-            {
-              name: 'memoryScore',
+              name: 'socialInteractionScoreBefore',
               type: 'rating',
-              label: 'Оценка памяти',
+              label: 'Социальное взаимодействие (До)',
               min: 1,
-              max: 7
+              max: 7,
+            },
+            {
+              name: 'socialInteractionScoreAfter',
+              type: 'rating',
+              label: 'Социальное взаимодействие (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'emotionalStatusScoreBefore',
+              type: 'rating',
+              label: 'Эмоциональное состояние (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'emotionalStatusScoreAfter',
+              type: 'rating',
+              label: 'Эмоциональное состояние (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'adjustmentScoreBefore',
+              type: 'rating',
+              label: 'Адаптация (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'adjustmentScoreAfter',
+              type: 'rating',
+              label: 'Адаптация (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'leisureActivitiesScoreBefore',
+              type: 'rating',
+              label: 'Досуговые занятия (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'leisureActivitiesScoreAfter',
+              type: 'rating',
+              label: 'Досуговые занятия (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'problemSolvingScoreBefore',
+              type: 'rating',
+              label: 'Решение проблем (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'problemSolvingScoreAfter',
+              type: 'rating',
+              label: 'Решение проблем (После)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'memoryScoreBefore',
+              type: 'rating',
+              label: 'Память (До)',
+              min: 1,
+              max: 7,
+            },
+            {
+              name: 'memoryScoreAfter',
+              type: 'rating',
+              label: 'Память (После)',
+              min: 1,
+              max: 7,
             },
             {
               name: 'orientation',
               type: 'checkbox-group',
               label: 'Ориентация',
-              options: ['До', 'После']
+              options: ['До', 'После'],
             },
             {
               name: 'orientationScore',
               type: 'rating',
               label: 'Оценка ориентации',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
               name: 'concentration',
               type: 'checkbox-group',
               label: 'Концентрация',
-              options: ['До', 'После']
+              options: ['До', 'После'],
             },
             {
               name: 'concentrationScore',
               type: 'rating',
               label: 'Оценка концентрации',
               min: 1,
-              max: 7
+              max: 7,
             },
             {
               name: 'safetyAwareness',
               type: 'checkbox-group',
               label: 'Осведомленность о безопасности',
-              options: ['До', 'После']
+              options: ['До', 'После'],
             },
             {
               name: 'safetyAwarenessScore',
               type: 'rating',
               label: 'Оценка осведомленности о безопасности',
               min: 1,
-              max: 7
-            }
-          ]
+              max: 7,
+            },
+          ],
         },
         {
           title: 'Заключение',
@@ -1235,23 +1250,23 @@ export const defaultForms: Form[] = [
               name: 'totalScore',
               type: 'number',
               label: 'Общий балл',
-              readOnly: true
+              readOnly: true,
             },
             {
               name: 'conclusion',
               type: 'textarea',
               label: 'Заключение',
-              required: true
+              required: true,
             },
             {
               name: 'recommendations',
               type: 'textarea',
               label: 'Рекомендации',
-              required: true
-            }
-          ]
-        }
-      ]
-    }
-  }
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];
