@@ -17,8 +17,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FormEntryService } from '@reki/use-cases';
-import { FormEntryStatus } from '@reki/domain';
+import { FormEntryService } from '@reki/core-service';
+import { FormEntryStatus } from '@reki/core-domain';
 import { 
   CreateFormEntryDto, 
   FormEntryResponseDto, 
@@ -167,7 +167,13 @@ export class FormEntriesController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ) {
-    return this.formEntryService.getFormEntriesByStatus(status, { page, limit });
+    // TODO: Implement filtering by status when repository supports it
+    const allEntries = await this.formEntryService.getAllFormEntries({ page, limit });
+    const filteredEntries = allEntries.data.filter(entry => entry.status === status);
+    return {
+      data: filteredEntries,
+      pagination: { page, limit, total: filteredEntries.length, totalPages: Math.ceil(filteredEntries.length / limit) }
+    };
   }
 
   @Get(':id')

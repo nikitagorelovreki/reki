@@ -1,6 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsObject, IsOptional, IsUUID } from 'class-validator';
-import { FormEntryStatus } from '@reki/domain';
+
+// API layer types (should not import from domain)
+export enum FormEntryStatus {
+  DRAFT = 'draft',
+  IN_PROGRESS = 'in_progress',
+  SUBMITTED = 'submitted',
+  REVIEWED = 'reviewed',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  COMPLETED = 'completed',
+}
 
 /**
  * DTO для создания заполнения формы

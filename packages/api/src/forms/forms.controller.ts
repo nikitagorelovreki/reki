@@ -19,8 +19,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FormService } from '@reki/use-cases';
-import { FormStatus, FormType } from '@reki/domain';
+import { FormService } from '@reki/core-service';
+import { FormStatus, FormType } from './dto/form.dto';
 import { defaultForms } from './seed/default-forms';
 import { CreateFormDto, FormResponseDto, UpdateFormDto } from './dto/form.dto';
 import { convertDtoTypes } from '../common/dto-converter';
@@ -37,7 +37,7 @@ export class FormsController {
   @ApiResponse({ status: 400, description: 'Неверный запрос' })
   async create(@Body() createFormDto: CreateFormDto): Promise<FormResponseDto> {
     const convertedDto = convertDtoTypes(createFormDto);
-    const form = await this.formService.createForm(convertedDto as any);
+    const form = await this.formService.create(convertedDto as any);
     return form as unknown as FormResponseDto;
   }
 
@@ -72,43 +72,11 @@ export class FormsController {
     @Query('sortBy', new DefaultValuePipe('createdAt')) sortBy: string,
     @Query('sortOrder', new DefaultValuePipe('desc')) sortOrder: 'asc' | 'desc',
   ) {
-    return this.formService.getAllForms({ page, limit, sortBy, sortOrder });
-  }
-
-  @Get('type/:type')
-  @ApiOperation({ summary: 'Получить формы по типу' })
-  @ApiResponse({ status: 200, description: 'Формы успешно получены', type: [FormResponseDto] })
-  async findByType(@Param('type') type: FormType): Promise<FormResponseDto[]> {
-    const forms = await this.formService.getFormsByType(type as FormType);
-    return forms as unknown as FormResponseDto[];
-  }
-
-  @Get('status/:status')
-  @ApiOperation({ summary: 'Получить формы по статусу' })
-  @ApiResponse({ status: 200, description: 'Формы успешно получены', type: [FormResponseDto] })
-  async findByStatus(@Param('status') status: FormStatus): Promise<FormResponseDto[]> {
-    const forms = await this.formService.getFormsByStatus(status as FormStatus);
-    return forms as unknown as FormResponseDto[];
-  }
-
-  @Get('title/:title')
-  @ApiOperation({ summary: 'Получить формы по названию' })
-  @ApiResponse({ status: 200, description: 'Формы успешно получены', type: [FormResponseDto] })
-  async findByTitle(@Param('title') title: string): Promise<FormResponseDto[]> {
-    const forms = await this.formService.getFormsByTitle(title);
-    return forms as unknown as FormResponseDto[];
-  }
-
-  @Get('title/:title/latest')
-  @ApiOperation({ summary: 'Получить последнюю версию формы по названию' })
-  @ApiResponse({ status: 200, description: 'Форма успешно получена', type: FormResponseDto })
-  @ApiResponse({ status: 404, description: 'Форма не найдена' })
-  async findLatestByTitle(@Param('title') title: string): Promise<FormResponseDto> {
-    const form = await this.formService.getLatestVersionByTitle(title);
-    if (!form) {
-      throw new NotFoundException(`Форма с названием ${title} не найдена`);
-    }
-    return form as unknown as FormResponseDto;
+    const forms = await this.formService.findAll(page, limit);
+    return {
+      data: forms,
+      pagination: { page, limit, total: forms.length, totalPages: Math.ceil(forms.length / limit) }
+    };
   }
 
   @Get(':id')
@@ -116,7 +84,10 @@ export class FormsController {
   @ApiResponse({ status: 200, description: 'Форма успешно получена', type: FormResponseDto })
   @ApiResponse({ status: 404, description: 'Форма не найдена' })
   async findOne(@Param('id') id: string): Promise<FormResponseDto> {
-    const form = await this.formService.getFormById(id);
+    const form = await this.formService.findById(id);
+    if (!form) {
+      throw new NotFoundException(`Форма с ID ${id} не найдена`);
+    }
     return form as unknown as FormResponseDto;
   }
 
@@ -126,7 +97,10 @@ export class FormsController {
   @ApiResponse({ status: 404, description: 'Форма не найдена' })
   async update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto): Promise<FormResponseDto> {
     const convertedDto = convertDtoTypes(updateFormDto);
-    const form = await this.formService.updateForm(id, convertedDto as any);
+    const form = await this.formService.update(id, convertedDto as any);
+    if (!form) {
+      throw new NotFoundException(`Форма с ID ${id} не найдена`);
+    }
     return form as unknown as FormResponseDto;
   }
 
@@ -135,62 +109,7 @@ export class FormsController {
   @ApiResponse({ status: 200, description: 'Форма успешно удалена' })
   @ApiResponse({ status: 404, description: 'Форма не найдена' })
   async remove(@Param('id') id: string): Promise<{ message: string }> {
-    await this.formService.deleteForm(id);
+    await this.formService.delete(id);
     return { message: 'Форма успешно удалена' };
-  }
-
-  @Post(':id/new-version')
-  @ApiOperation({ summary: 'Создать новую версию формы' })
-  @ApiResponse({ status: 201, description: 'Новая версия формы успешно создана', type: FormResponseDto })
-  @ApiResponse({ status: 404, description: 'Форма не найдена' })
-  async createNewVersion(@Param('id') id: string): Promise<FormResponseDto> {
-    const form = await this.formService.createNewVersion(id);
-    return form as unknown as FormResponseDto;
-  }
-
-  @Patch(':id/publish')
-  @ApiOperation({ summary: 'Опубликовать форму' })
-  @ApiResponse({ status: 200, description: 'Форма успешно опубликована', type: FormResponseDto })
-  @ApiResponse({ status: 404, description: 'Форма не найдена' })
-  async publish(@Param('id') id: string): Promise<FormResponseDto> {
-    const form = await this.formService.publishForm(id);
-    return form as unknown as FormResponseDto;
-  }
-
-  @Patch(':id/archive')
-  @ApiOperation({ summary: 'Архивировать форму' })
-  @ApiResponse({ status: 200, description: 'Форма успешно архивирована', type: FormResponseDto })
-  @ApiResponse({ status: 404, description: 'Форма не найдена' })
-  async archive(@Param('id') id: string): Promise<FormResponseDto> {
-    const form = await this.formService.archiveForm(id);
-    return form as unknown as FormResponseDto;
-  }
-
-  @Post('/initialize')
-  @ApiOperation({ summary: 'Инициализировать формы по умолчанию' })
-  @ApiResponse({ status: 201, description: 'Формы успешно созданы' })
-  @HttpCode(201)
-  async initializeDefaultForms(): Promise<{ message: string; forms: FormResponseDto[] }> {
-    const forms = [];
-    
-    for (const formData of defaultForms) {
-      try {
-        const form = await this.formService.createForm({
-          title: formData.title,
-          type: formData.type,
-          description: formData.description,
-          status: FormStatus.ACTIVE,
-          schema: formData.schema,
-        });
-        forms.push(form);
-      } catch (error) {
-        console.error(`Error creating form ${formData.title}:`, error);
-      }
-    }
-
-    return { 
-      message: `Successfully initialized ${forms.length} default forms`, 
-      forms: forms as unknown as FormResponseDto[] 
-    };
   }
 }

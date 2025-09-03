@@ -3,6 +3,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import noDomainImports from './eslint-rules/no-domain-imports.js';
 
 export default tseslint.config([
   // Global ignores
@@ -127,7 +128,7 @@ export default tseslint.config([
   // Backend (NestJS) specific configuration
   {
     files: [
-      'packages/api-server/**/*.ts',
+      'packages/app-core-server/**/*.ts',
       'packages/use-cases/**/*.ts',
       'packages/persistence/**/*.ts',
       'packages/api/**/*.ts',
@@ -137,7 +138,13 @@ export default tseslint.config([
         ...globals.node,
       },
     },
+    plugins: {
+      'no-domain-imports': noDomainImports,
+    },
     rules: {
+      // Architecture rules
+      'no-domain-imports/no-domain-imports': 'error',
+
       // NestJS specific rules
       '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/explicit-function-return-type': 'warn',

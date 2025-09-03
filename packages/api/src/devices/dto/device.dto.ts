@@ -1,16 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 
+// API layer types (should not import from domain)
 export enum DeviceStatus {
-  REGISTERED = 'REGISTERED',
-  IN_STOCK = 'IN_STOCK',
-  AT_CLINIC = 'AT_CLINIC',
-  AT_PATIENT_HOME = 'AT_PATIENT_HOME',
-  UNDER_SERVICE = 'UNDER_SERVICE',
-  RMA = 'RMA',
-  DECOMMISSIONED = 'DECOMMISSIONED',
+  REGISTERED = 'registered',
+  ACTIVE = 'active',
+  MAINTENANCE = 'maintenance',
+  RETIRED = 'retired',
+  LOST = 'lost',
+  DAMAGED = 'damaged',
 }
 
+// API DTOs
 export class CreateDeviceDto {
   @ApiProperty({
     description: 'Device serial number',
@@ -270,4 +271,25 @@ export class DeviceResponseDto {
     example: '2023-06-15T10:30:00Z',
   })
   updatedAt!: Date;
+}
+
+export class PaginatedDevicesResponseDto {
+  @ApiProperty({ type: [DeviceResponseDto], description: 'List of devices' })
+  data!: DeviceResponseDto[];
+
+  @ApiProperty({
+    description: 'Pagination information',
+    example: {
+      page: 1,
+      limit: 10,
+      total: 100,
+      totalPages: 10,
+    },
+  })
+  pagination!: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }

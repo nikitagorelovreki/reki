@@ -1,56 +1,27 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**"],
-      "inputs": ["src/**", "!src/**/*.test.ts", "!src/**/*.spec.ts"]
+      "outputs": ["dist/**"]
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["^build"]
-    },
-    "lint": {
-      "outputs": [],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]
-    },
-    "lint:fix": {
-      "outputs": [],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]
-    },
-    "format": {
-      "outputs": [],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json", "src/**/*.md"]
-    },
-    "format:check": {
-      "outputs": [],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json", "src/**/*.md"]
-    },
-    "type-check": {
-      "outputs": [],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json", "tsconfig.*.json"]
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "__tests__/**/*.ts"]
-    },
-    "test:watch": {
-      "cache": false,
       "persistent": true
     },
+    "start": {
+      "dependsOn": ["build"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
     "clean": {
-      "cache": false,
-      "outputs": []
+      "cache": false
     }
-  },
-  "globalDependencies": [
-    "config/eslint.config.js",
-    "config/.prettierrc.js",
-    "config/.prettierignore",
-    "config/tsconfig.base.json",
-    "config/tsconfig.frontend.json",
-    "config/tsconfig.backend.json"
-  ]
+  }
 }

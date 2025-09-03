@@ -1,5 +1,0 @@
-// Токены для инъекции зависимостей
-export const DEVICE_REPOSITORY = 'DEVICE_REPOSITORY';
-export const CLIENT_REPOSITORY = 'CLIENT_REPOSITORY';
-export const FORM_REPOSITORY = 'FORM_REPOSITORY';
-export const FORM_ENTRY_REPOSITORY = 'FORM_ENTRY_REPOSITORY';

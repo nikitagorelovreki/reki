@@ -5,12 +5,18 @@ You are an AI assistant helping with the Reki Control Panel project, a comprehen
 ## Project Structure & Architecture
 
 This is a TypeScript monorepo with the following packages:
-- `packages/frontend/` - React + Vite + Ant Design + TypeScript frontend
-- `packages/api-server/` - NestJS backend application server
-- `packages/domain/` - Domain entities, value objects, and ports (DDD)
-- `packages/use-cases/` - Application business logic and services
-- `packages/persistence/` - Data access layer and repository implementations
+- `packages/app-control-panel/` - React + Vite + Ant Design + TypeScript frontend
+- `packages/app-core-server/` - Main NestJS backend application server
+- `packages/app-auth-server/` - Authentication server
+- `packages/app-telegram-bot/` - Telegram bot integration
+- `packages/core-domain/` - Core domain entities, value objects, and ports (DDD)
+- `packages/core-service/` - Core application business logic and services
+- `packages/core-persistence/` - Core data access layer and repository implementations
+- `packages/auth-domain/` - Authentication domain entities and ports
+- `packages/auth-service/` - Authentication business logic
+- `packages/auth-persistence/` - Authentication data access layer
 - `packages/api/` - API controllers and DTOs
+- `packages/persistence-commons/` - Shared persistence utilities
 
 ## Technology Stack
 
@@ -27,7 +33,7 @@ This is a TypeScript monorepo with the following packages:
 - TypeScript with decorators
 - Class-validator and class-transformer for validation
 - Swagger/OpenAPI for documentation
-- PostgreSQL with custom query builders
+- PostgreSQL with Knex.js query builder
 - Clean Architecture with DDD patterns
 
 ### Build & Development
@@ -35,6 +41,126 @@ This is a TypeScript monorepo with the following packages:
 - ESLint for linting
 - Prettier for code formatting
 - Jest for testing
+
+## Clean Architecture Layer Rules
+
+### Dependency Flow
+```
+API Layer
+    ↓ (injects)
+Service Layer  
+    ↓ (injects)
+Persistence Layer
+    ↓ (implements)
+Domain Layer (ports & entities)
+```
+
+### API Layer Restrictions
+- ❌ NEVER import from domain layers directly
+- ❌ NEVER import from persistence layers directly
+- ✅ ONLY import from service layers
+- ✅ Define DTOs locally or import from shared types
+- ✅ Use dependency injection for services
+
+### Service Layer Restrictions
+- ❌ NEVER import from API layer
+- ✅ MUST import from persistence layer (repositories)
+- ✅ MUST import from domain layer (entities, ports)
+- ✅ Export service models and interfaces
+- ✅ Handle business logic and orchestrate domain + persistence
+
+### Domain Layer Restrictions
+- ❌ NEVER import from any other layer
+- ✅ ONLY define entities, value objects, ports
+- ✅ NO external dependencies except utilities
+- ✅ Define repository interfaces (ports)
+
+### Persistence Layer Restrictions
+- ❌ NEVER import from API layer
+- ✅ ONLY import from domain layer
+- ✅ Implement repository ports from domain
+- ✅ Handle data mapping between domain and database
+
+## Model Layer Rules
+
+### API Layer Models (DTOs)
+```typescript
+// ✅ CORRECT - API DTOs
+export class CreateDeviceDto {
+  @IsString() serial!: string;
+  @IsString() model!: string;
+  @IsEnum(DeviceStatus) status?: DeviceStatus;
+}
+
+// ✅ CORRECT - API Response DTOs  
+export class DeviceResponseDto {
+  id: string;
+  serial: string;
+  model: string;
+  status: DeviceStatus;
+  createdAt: string; // ISO string for API
+  updatedAt: string;
+}
+
+// ✅ CORRECT - Local enums for API
+export enum DeviceStatus {
+  REGISTERED = 'registered',
+  ACTIVE = 'active',
+  MAINTENANCE = 'maintenance',
+}
+```
+
+### Service Layer Models
+```typescript
+// ✅ CORRECT - Service models
+export interface ServiceDevice {
+  id: string;
+  serial: string;
+  model: string;
+  status: string;
+  createdAt: string; // ISO string
+  updatedAt: string;
+}
+
+// ✅ CORRECT - Service DTOs
+export interface ServiceCreateDeviceDto {
+  serial: string;
+  model: string;
+  status?: string;
+}
+```
+
+### Domain Layer Models
+```typescript
+// ✅ CORRECT - Domain entities
+export class Device {
+  id: string;
+  serial: string;
+  model: string;
+  status: DeviceStatus;
+  createdAt: Date; // Date object
+  updatedAt: Date;
+}
+
+// ✅ CORRECT - Domain ports
+export interface DeviceRepositoryPort {
+  create(device: Device): Promise<Device>;
+  findById(id: string): Promise<Device | null>;
+  findAll(page: number, limit: number): Promise<Device[]>;
+}
+```
+
+### ❌ WRONG - Never do this:
+```typescript
+// ❌ DON'T import domain models in API
+import { Device } from '@reki/domain';
+
+// ❌ DON'T reuse domain models as DTOs
+export class CreateDeviceDto extends Device {}
+
+// ❌ DON'T import API DTOs in service
+import { CreateDeviceDto } from '@reki/api';
+```
 
 ## Code Style Guidelines
 
@@ -61,8 +187,8 @@ This is a TypeScript monorepo with the following packages:
    import { Injectable } from '@nestjs/common';
 
    // 2. Internal packages (from other workspace packages)
-   import { Device, DeviceStatus } from '@reki/domain';
-import { DeviceService } from '@reki/use-cases';
+   import { Device, DeviceRepositoryPort } from '@reki/core-domain';
+   import { DeviceService } from '@reki/core-service';
 
    // 3. Relative imports
    import { DeviceCard } from './DeviceCard';
@@ -130,7 +256,8 @@ import { DeviceService } from '@reki/use-cases';
        // External modules first
        ConfigModule,
        // Internal modules
-       DomainModule,
+       CoreServiceModule,
+       CorePersistenceModule,
      ],
      controllers: [ControllerName],
      providers: [ServiceName],
@@ -145,11 +272,18 @@ import { DeviceService } from '@reki/use-cases';
    export class ServiceName {
      constructor(
        private readonly repository: RepositoryPort,
-       private readonly otherService: OtherService,
+       private readonly mapper: Mapper,
      ) {}
 
-     async methodName(param: Type): Promise<ReturnType> {
-       // Method implementation
+     async methodName(param: ServiceDto): Promise<ServiceModel> {
+       // 1. Map service DTO to domain entity
+       const domainEntity = this.mapper.mapServiceToDomain(param);
+       
+       // 2. Use persistence layer
+       const result = await this.repository.create(domainEntity);
+       
+       // 3. Map domain entity back to service model
+       return this.mapper.mapDomainToService(result);
      }
    }
    ```
@@ -202,8 +336,9 @@ import { DeviceService } from '@reki/use-cases';
    ```typescript
    export interface EntityRepositoryPort {
      findById(id: string): Promise<Entity | null>;
-     findAll(options: PaginationOptions): Promise<PaginatedResult<Entity>>;
-     save(entity: Entity): Promise<Entity>;
+     findAll(page: number, limit: number): Promise<Entity[]>;
+     create(entity: Entity): Promise<Entity>;
+     update(id: string, entity: Partial<Entity>): Promise<Entity | null>;
      delete(id: string): Promise<void>;
    }
    ```
@@ -296,26 +431,14 @@ import { DeviceService } from '@reki/use-cases';
 3. Component tests for React components
 4. Use descriptive test names in Russian or English
 
-## Clean Architecture Principles
-
-1. **Dependency Direction**
-   - Domain layer has no dependencies
-   - Use-cases depend only on domain
-   - Infrastructure depends on use-cases and domain
-   - UI depends on use-cases
-
-2. **Ports and Adapters**
-   - Define ports in domain layer
-   - Implement adapters in infrastructure layer
-   - Use dependency injection for loose coupling
-
 ## Common Patterns to Follow
 
 1. **Repository Pattern**: Use for data access
-2. **Service Layer**: Business logic in use-cases
+2. **Service Layer**: Business logic in services
 3. **DTO Pattern**: For API data transfer
 4. **Entity Pattern**: Rich domain models
 5. **Factory Pattern**: For complex object creation
+6. **Mapper Pattern**: For converting between layers
 
 ## Code Quality Checklist
 
@@ -326,5 +449,7 @@ import { DeviceService } from '@reki/use-cases';
 - [ ] Swagger documentation is updated for API changes
 - [ ] Database migrations are created for schema changes
 - [ ] Performance implications are considered
+- [ ] Layer isolation rules are followed
+- [ ] No circular dependencies between layers
 
 When writing code, always consider the clean architecture principles and maintain consistency with the existing codebase patterns.

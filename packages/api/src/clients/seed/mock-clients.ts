@@ -1,4 +1,11 @@
-import { ClientStatus } from '@reki/domain';
+// Локальный enum для статусов клиентов в API слое
+export enum ClientStatus {
+  INTAKE = 'intake',
+  DIAGNOSTICS = 'diagnostics',
+  ACTIVE_THERAPY = 'active_therapy',
+  FOLLOWUP = 'followup',
+  DISCHARGED = 'discharged',
+}
 
 export const mockClients = [
   {

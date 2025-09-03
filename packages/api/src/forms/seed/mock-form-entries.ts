@@ -1,4 +1,4 @@
-import { FormEntryStatus } from '@reki/domain';
+import { FormEntryStatus } from '@reki/core-domain';
 
 export const mockFormEntries = [
   {

@@ -1,0 +1,21 @@
+{
+  "name": "@reki/core-persistence",
+  "version": "0.1.0",
+  "description": "Core persistence layer for Reki Control Panel",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@reki/core-domain": "file:../core-domain",
+    "@reki/persistence-commons": "file:../persistence-commons",
+    "knex": "^3.0.0",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.10.0",
+    "typescript": "^5.0.0"
+  }
+}

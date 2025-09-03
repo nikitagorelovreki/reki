@@ -1,4 +1,4 @@
-import { FormEntryService } from '@reki/use-cases';
+import { FormEntryService } from '@reki/core-service';
 import { mockFormEntries } from './mock-form-entries';
 
 export class FormEntriesSeedService {

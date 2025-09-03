@@ -1,52 +1,32 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import {
-  Client,
-  CLIENT_REPOSITORY,
-  ClientRepositoryPort,
-  ClientStatus,
-} from '@reki/domain';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   ClientResponseDto,
   CreateClientDto,
   PaginatedClientsResponseDto,
   UpdateClientDto,
+  ClientStatus,
 } from './dto';
+import { ClientService } from '@reki/core-service';
 
 @Injectable()
 export class ClientsService {
-  constructor(
-    @Inject(CLIENT_REPOSITORY)
-    private readonly clientRepository: ClientRepositoryPort
-  ) {}
+  constructor(private readonly clientService: ClientService) {}
 
   async create(createClientDto: CreateClientDto): Promise<ClientResponseDto> {
-    // Формируем fullName из firstName, lastName и middleName
-    const nameParts = [
-      createClientDto.lastName,
-      createClientDto.firstName,
-      createClientDto.middleName,
-    ].filter(Boolean);
-    const fullName = nameParts.join(' ');
-
-    const client = new Client({
-      fullName,
+    const serviceDto = {
       firstName: createClientDto.firstName,
       lastName: createClientDto.lastName,
       middleName: createClientDto.middleName,
-      dob: createClientDto.dateOfBirth
-        ? new Date(createClientDto.dateOfBirth)
-        : undefined,
+      dateOfBirth: createClientDto.dateOfBirth,
       diagnosis: createClientDto.diagnosis,
-      contacts: {
-        phone: createClientDto.phone,
-        email: createClientDto.email,
-        address: createClientDto.address,
-      },
+      phone: createClientDto.phone,
+      email: createClientDto.email,
+      address: createClientDto.address,
       status: createClientDto.status || ClientStatus.INTAKE,
       clinicId: createClientDto.clinicId,
-    });
+    };
 
-    const savedClient = await this.clientRepository.create(client);
+    const savedClient = await this.clientService.create(serviceDto);
     return this.mapToResponseDto(savedClient);
   }
 
@@ -59,20 +39,18 @@ export class ClientsService {
     const {
       page = 1,
       limit = 10,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
     } = params;
 
-    const result = await this.clientRepository.findAll({
-      page,
-      limit,
-      sortBy,
-      sortOrder,
-    });
+    const clients = await this.clientService.findAll(page, limit);
 
     return {
-      data: result.data.map((client: Client) => this.mapToResponseDto(client)),
-      pagination: result.pagination,
+      data: clients.map((client) => this.mapToResponseDto(client)),
+      pagination: {
+        page,
+        limit,
+        total: clients.length,
+        totalPages: Math.ceil(clients.length / limit),
+      },
     };
   }
 
@@ -82,27 +60,19 @@ export class ClientsService {
   ): Promise<PaginatedClientsResponseDto> {
     const { page = 1, limit = 10 } = params;
 
-    // Простой поиск по имени и фамилии
-    const result = await this.clientRepository.findAll({
-      page,
-      limit,
-      sortBy: 'createdAt',
-      sortOrder: 'desc',
-    });
+    // Получаем всех клиентов и фильтруем по поисковому запросу
+    const clients = await this.clientService.findAll(page, limit);
 
-    // Фильтруем результаты по поисковому запросу
-    const filteredData = result.data.filter(
-      (client: Client) =>
+    const filteredData = clients.filter(
+      (client) =>
         client.firstName?.toLowerCase().includes(query.toLowerCase()) ||
-        false ||
         client.lastName?.toLowerCase().includes(query.toLowerCase()) ||
-        false ||
         (client.middleName &&
           client.middleName.toLowerCase().includes(query.toLowerCase()))
     );
 
     return {
-      data: filteredData.map((client: Client) => this.mapToResponseDto(client)),
+      data: filteredData.map((client) => this.mapToResponseDto(client)),
       pagination: {
         page,
         limit,
@@ -121,27 +91,17 @@ export class ClientsService {
       sortOrder?: 'asc' | 'desc';
     }
   ): Promise<PaginatedClientsResponseDto> {
-    const {
-      page = 1,
-      limit = 10,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
-    } = params;
+    const { page = 1, limit = 10 } = params;
 
-    const result = await this.clientRepository.findAll({
-      page,
-      limit,
-      sortBy,
-      sortOrder,
-    });
+    const clients = await this.clientService.findAll(page, limit);
 
     // Фильтруем по клинике
-    const filteredData = result.data.filter(
-      (client: Client) => client.clinicId === clinicId
+    const filteredData = clients.filter(
+      (client) => client.clinicId === clinicId
     );
 
     return {
-      data: filteredData.map((client: Client) => this.mapToResponseDto(client)),
+      data: filteredData.map((client) => this.mapToResponseDto(client)),
       pagination: {
         page,
         limit,
@@ -160,27 +120,17 @@ export class ClientsService {
       sortOrder?: 'asc' | 'desc';
     }
   ): Promise<PaginatedClientsResponseDto> {
-    const {
-      page = 1,
-      limit = 10,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
-    } = params;
+    const { page = 1, limit = 10 } = params;
 
-    const result = await this.clientRepository.findAll({
-      page,
-      limit,
-      sortBy,
-      sortOrder,
-    });
+    const clients = await this.clientService.findAll(page, limit);
 
     // Фильтруем по статусу
-    const filteredData = result.data.filter(
-      (client: Client) => client.status === status
+    const filteredData = clients.filter(
+      (client) => client.status === status
     );
 
     return {
-      data: filteredData.map((client: Client) => this.mapToResponseDto(client)),
+      data: filteredData.map((client) => this.mapToResponseDto(client)),
       pagination: {
         page,
         limit,
@@ -191,7 +141,7 @@ export class ClientsService {
   }
 
   async findById(id: string): Promise<ClientResponseDto> {
-    const client = await this.clientRepository.findById(id);
+    const client = await this.clientService.findById(id);
     if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
     }
@@ -202,99 +152,60 @@ export class ClientsService {
     id: string,
     updateClientDto: UpdateClientDto
   ): Promise<ClientResponseDto> {
-    const client = await this.clientRepository.findById(id);
-    if (!client) {
+    const serviceDto = {
+      firstName: updateClientDto.firstName,
+      lastName: updateClientDto.lastName,
+      middleName: updateClientDto.middleName,
+      dateOfBirth: updateClientDto.dateOfBirth,
+      diagnosis: updateClientDto.diagnosis,
+      phone: updateClientDto.phone,
+      email: updateClientDto.email,
+      address: updateClientDto.address,
+      status: updateClientDto.status,
+      clinicId: updateClientDto.clinicId,
+    };
+
+    const updatedClient = await this.clientService.update(id, serviceDto);
+    if (!updatedClient) {
       throw new NotFoundException(`Client with ID ${id} not found`);
     }
-
-    // Подготавливаем данные для обновления
-    const updateData: Partial<Client> = {};
-
-    if (updateClientDto.firstName !== undefined)
-      updateData.firstName = updateClientDto.firstName;
-    if (updateClientDto.lastName !== undefined)
-      updateData.lastName = updateClientDto.lastName;
-    if (updateClientDto.middleName !== undefined)
-      updateData.middleName = updateClientDto.middleName;
-    if (updateClientDto.dateOfBirth !== undefined)
-      updateData.dob = new Date(updateClientDto.dateOfBirth);
-    if (updateClientDto.diagnosis !== undefined)
-      updateData.diagnosis = updateClientDto.diagnosis;
-    if (updateClientDto.status !== undefined)
-      updateData.status = updateClientDto.status;
-    if (updateClientDto.clinicId !== undefined)
-      updateData.clinicId = updateClientDto.clinicId;
-
-    // Формируем fullName из firstName, lastName и middleName
-    const firstName = updateData.firstName || client.firstName;
-    const lastName = updateData.lastName || client.lastName;
-    const middleName = updateData.middleName || client.middleName;
-
-    if (firstName || lastName || middleName) {
-      const nameParts = [lastName, firstName, middleName].filter(Boolean);
-      updateData.fullName = nameParts.join(' ');
-    }
-
-    // Обновляем контакты
-    if (
-      updateClientDto.phone !== undefined ||
-      updateClientDto.email !== undefined ||
-      updateClientDto.address !== undefined
-    ) {
-      updateData.contacts = {
-        ...client.contacts,
-        ...(updateClientDto.phone !== undefined && {
-          phone: updateClientDto.phone,
-        }),
-        ...(updateClientDto.email !== undefined && {
-          email: updateClientDto.email,
-        }),
-        ...(updateClientDto.address !== undefined && {
-          address: updateClientDto.address,
-        }),
-      };
-    }
-
-    const updatedClient = await this.clientRepository.update(id, updateData);
     return this.mapToResponseDto(updatedClient);
   }
 
   async updateStatus(id: string, status: string): Promise<ClientResponseDto> {
-    const client = await this.clientRepository.findById(id);
-    if (!client) {
-      throw new NotFoundException(`Client with ID ${id} not found`);
-    }
-
-    const updatedClient = await this.clientRepository.update(id, {
+    const updatedClient = await this.clientService.update(id, {
       status: status as ClientStatus,
     });
+    if (!updatedClient) {
+      throw new NotFoundException(`Client with ID ${id} not found`);
+    }
     return this.mapToResponseDto(updatedClient);
   }
 
   async delete(id: string): Promise<void> {
-    const client = await this.clientRepository.findById(id);
+    const client = await this.clientService.findById(id);
     if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
     }
 
-    await this.clientRepository.delete(id);
+    await this.clientService.delete(id);
   }
 
-  private mapToResponseDto(client: Client): ClientResponseDto {
+  private mapToResponseDto(client: any): ClientResponseDto {
     return {
       id: client.id,
       firstName: client.firstName || '',
       lastName: client.lastName || '',
       middleName: client.middleName,
-      dateOfBirth: client.dob?.toISOString().split('T')[0],
-      phone: client.contacts?.phone,
-      email: client.contacts?.email,
-      address: client.contacts?.address,
+      dateOfBirth: client.dob?.split('T')[0] || client.dateOfBirth?.split('T')[0],
+      phone: client.contacts?.phone || client.phone,
+      email: client.contacts?.email || client.email,
+      address: client.contacts?.address || client.address,
       diagnosis: client.diagnosis,
       status: client.status,
       clinicId: client.clinicId,
-      createdAt: client.createdAt.toISOString(),
-      updatedAt: client.updatedAt.toISOString(),
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
     };
   }
 }

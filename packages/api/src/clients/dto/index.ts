@@ -6,7 +6,14 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { ClientStatus } from '@reki/domain';
+
+// Определяем enum локально, чтобы не зависеть от домена
+export enum ClientStatus {
+  INTAKE = 'intake',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  DISCHARGED = 'discharged',
+}
 
 export class CreateClientDto {
   @ApiProperty({ description: 'Client first name' })

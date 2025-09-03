@@ -25,7 +25,7 @@ export default {
     'tsc --noEmit --project packages/frontend/tsconfig.app.json',
   ],
 
-  'packages/api-server/**/*.ts': () => [
-    'tsc --noEmit --project packages/api-server/tsconfig.json',
-  ],
+  'packages/app-core-server/**/*.ts': () => [
+  'tsc --noEmit --project packages/app-core-server/tsconfig.json',
+],
 };

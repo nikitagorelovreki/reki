@@ -3,10 +3,10 @@ import { FormsController } from './forms.controller';
 import { FormEntriesController } from './form-entries.controller';
 import { FormEntriesSeedController } from './form-entries-seed.controller';
 import { FormEntriesSeedService } from './seed/form-entries-seed.service';
-import { UseCasesModule } from '@reki/use-cases';
+import { CoreServiceModule } from '@reki/core-service';
 
 @Module({
-  imports: [UseCasesModule],
+  imports: [CoreServiceModule],
   controllers: [FormsController, FormEntriesController, FormEntriesSeedController],
   providers: [FormEntriesSeedService],
 })

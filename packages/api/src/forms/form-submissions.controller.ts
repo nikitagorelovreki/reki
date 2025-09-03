@@ -1,13 +1,43 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FormEntryService } from '@reki/use-cases';
+import { FormEntryService } from '@reki/core-service';
 import { 
   CreateFormSubmissionDto, 
   FormSubmissionResponseDto, 
   ImportFlowerFormDto,
   UpdateFormSubmissionDto
 } from './dto/form-submission.dto';
-import { FormEntryModel, PaginationOptions } from '@reki/domain';
+
+// Локальные интерфейсы для API слоя
+interface FormEntryModel {
+  id: string;
+  formId: string;
+  patientId?: string;
+  data: Record<string, any>;
+  createdBy?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status?: string;
+  score?: number;
+  completedAt?: Date;
+}
+
+interface PaginationOptions {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}
+
+interface PaginatedResult<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
 
 @ApiTags('form-submissions')
 @Controller('form-submissions')
@@ -148,12 +178,12 @@ export class FormSubmissionsController {
     @Param('id') id: string,
     @Body() updateSubmissionDto: UpdateFormSubmissionDto,
   ): Promise<FormEntryModel> {
-    const updateData: Partial<FormEntryModel> = {
+    const updateData: any = {
       ...updateSubmissionDto
     };
     
     const result = await this.submissionService.updateFormEntry(id, updateData);
-    return result;
+    return result as FormEntryModel;
   }
 
   @Delete(':id')

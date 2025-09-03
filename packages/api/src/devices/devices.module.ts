@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { DevicesController } from './devices.controller';
-import { UseCasesModule } from '@reki/use-cases';
+import { DevicesService } from './devices.service';
+import { CoreServiceModule } from '@reki/core-service';
 
 @Module({
-  imports: [UseCasesModule],
+  imports: [CoreServiceModule],
   controllers: [DevicesController],
+  providers: [DevicesService],
+  exports: [DevicesService],
 })
 export class DevicesModule {}

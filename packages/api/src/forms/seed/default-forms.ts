@@ -1,9 +1,23 @@
-import { type Form, FormStatus, FormType } from '@reki/domain';
+import { FormStatus, FormType } from '../dto/form.dto';
+
+// Определяем интерфейс Form локально
+interface Form {
+  id: string;
+  title: string;
+  description?: string;
+  type: FormType;
+  status: FormStatus;
+  version?: number;
+  schema?: any;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export const defaultForms: Form[] = [
   {
     id: '085c59c7-4345-4aae-85fb-6a2d14f13acd',
     title: 'Осмотр инструктора-методиста ЛФК',
+    description: 'Форма для осмотра пациента инструктором-методистом ЛФК',
     type: FormType.LFK,
     status: FormStatus.ACTIVE,
     version: 1,
@@ -781,6 +795,7 @@ export const defaultForms: Form[] = [
   {
     id: 'b5340efc-e968-4112-a847-c84735ec32ef',
     title: 'FIM — мера функциональной независимости',
+    description: 'Форма для оценки функциональной независимости пациента',
     type: FormType.FIM,
     status: FormStatus.ACTIVE,
     version: 1,
