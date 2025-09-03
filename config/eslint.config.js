@@ -129,8 +129,11 @@ export default tseslint.config([
   {
     files: [
       'packages/app-core-server/**/*.ts',
-во      'packages/use-cases/**/*.ts',
-      'packages/persistence/**/*.ts',
+      'packages/app-auth-server/**/*.ts',
+      'packages/core-service/**/*.ts',
+      'packages/core-persistence/**/*.ts',
+      'packages/auth-service/**/*.ts',
+      'packages/auth-persistence/**/*.ts',
       'packages/api/**/*.ts',
     ],
     languageOptions: {
