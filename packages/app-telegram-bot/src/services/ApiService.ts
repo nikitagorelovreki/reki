@@ -36,7 +36,7 @@ export class ApiService {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = process.env.API_BASE_URL || 'http://localhost:3001/api';
+    this.baseUrl = process.env.API_BASE_URL || 'http://localhost:3002/api';
     this.apiClient = axios.create({
       baseURL: this.baseUrl,
       timeout: 10000,

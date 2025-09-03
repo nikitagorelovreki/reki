@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "allowImportingTsExtensions": false,
+    "lib": ["ES2020"],
+    "baseUrl": ".",
+    "paths": {
+      "@reki/core-domain": ["packages/core-domain/src"],
+      "@reki/core-service": ["packages/core-service/src"],
+      "@reki/core-persistence": ["packages/core-persistence/src"],
+      "@reki/auth-domain": ["packages/auth-domain/src"],
+      "@reki/auth-service": ["packages/auth-service/src"],
+      "@reki/auth-persistence": ["packages/auth-persistence/src"],
+      "@reki/persistence-commons": ["packages/persistence-commons/src"],
+      "@reki/api": ["packages/api/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
+}

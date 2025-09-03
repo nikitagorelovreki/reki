@@ -256,9 +256,27 @@ async function handleLocationInput(
     delete state.location;
   } catch (error) {
     console.error('Ошибка регистрации устройства:', error);
-    await ctx.reply(
-      '❌ Ошибка при регистрации устройства. Попробуйте еще раз.'
-    );
+    
+    // Более детальная обработка ошибок
+    let errorMessage = '❌ Ошибка при регистрации устройства. ';
+    
+    if (error instanceof Error) {
+      if (error.message.includes('timeout')) {
+        errorMessage += 'Превышено время ожидания ответа от сервера. Проверьте подключение к интернету.';
+      } else if (error.message.includes('Network Error') || error.message.includes('ECONNREFUSED')) {
+        errorMessage += 'Сервер временно недоступен. Попробуйте позже.';
+      } else if (error.message.includes('400')) {
+        errorMessage += 'Некорректные данные устройства. Проверьте серийный номер и местоположение.';
+      } else if (error.message.includes('409')) {
+        errorMessage += 'Устройство с таким серийным номером уже существует.';
+      } else {
+        errorMessage += 'Попробуйте еще раз или обратитесь к администратору.';
+      }
+    } else {
+      errorMessage += 'Попробуйте еще раз.';
+    }
+    
+    await ctx.reply(errorMessage);
   }
 }
 
@@ -310,8 +328,8 @@ async function handleDeviceStatusCheck(ctx: Context, deviceId: string) {
     }
 
     const statusEmoji =
-      device.status === DeviceStatus.IN_STOCK ||
-      device.status === DeviceStatus.AT_CLINIC
+      device.status === DeviceStatus.ACTIVE ||
+      device.status === DeviceStatus.REGISTERED
         ? '✅'
         : '⚠️';
 
@@ -322,8 +340,8 @@ async function handleDeviceStatusCheck(ctx: Context, deviceId: string) {
         `📍 Местоположение: ${device.currentLocation || 'Не указано'}\n` +
         `📅 Последняя активность: ${device.lastSeenAt?.toLocaleString() || 'Неизвестно'}\n` +
         `${statusEmoji} ${
-          device.status === DeviceStatus.IN_STOCK ||
-          device.status === DeviceStatus.AT_CLINIC
+          device.status === DeviceStatus.ACTIVE ||
+          device.status === DeviceStatus.REGISTERED
             ? 'Все системы работают нормально'
             : 'Требует внимания'
         }`

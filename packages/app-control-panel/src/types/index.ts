@@ -234,6 +234,12 @@ export interface PaginatedResponse<T> {
   pagination: PaginationMeta;
 }
 
+// Frontend-specific type aliases for better UX
+export type Client = ClientResponseDto;
+export type Device = DeviceDto;
+export type Form = FormResponseDto;
+export type FormEntry = FormEntryResponseDto;
+
 // UI-specific form field types (not part of Swagger)
 export interface FormField {
   name: string;

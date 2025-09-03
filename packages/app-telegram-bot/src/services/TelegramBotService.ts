@@ -1,5 +1,5 @@
-import { DeviceService } from '@reki/core-service';
-import { ServiceDevice } from '@reki/core-service';
+import { ApiService } from './ApiService';
+import { Device, DeviceStatus } from '../types/device.types';
 
 export interface TelegramTicket {
   id: string;
@@ -13,7 +13,7 @@ export interface TelegramTicket {
 }
 
 export class TelegramBotService {
-  constructor(private readonly deviceService: DeviceService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   /**
    * Регистрирует новое устройство через Telegram бота
@@ -22,14 +22,12 @@ export class TelegramBotService {
     id: string;
     location: string;
     registeredBy: string;
-  }): Promise<ServiceDevice> {
-    const device: Partial<ServiceDevice> = {
-      id: deviceData.id,
-      model: 'Медицинское устройство',
+  }): Promise<Device> {
+    const createDeviceRequest = {
       serial: deviceData.id,
-      status: 'active',
+      model: 'Медицинское устройство',
+      status: DeviceStatus.REGISTERED,
       currentLocation: deviceData.location,
-      lastSeenAt: new Date().toISOString(),
       maintenanceNotes: {
         registeredVia: 'telegram_bot',
         registeredBy: deviceData.registeredBy,
@@ -37,7 +35,7 @@ export class TelegramBotService {
       },
     };
 
-    return this.deviceService.createDevice(device);
+    return this.apiService.createDevice(createDeviceRequest);
   }
 
   /**
@@ -69,8 +67,8 @@ export class TelegramBotService {
   /**
    * Получает статус устройства
    */
-  async getDeviceStatus(deviceId: string): Promise<ServiceDevice | null> {
-    return this.deviceService.getDeviceById(deviceId);
+  async getDeviceStatus(deviceId: string): Promise<Device | null> {
+    return this.apiService.getDeviceById(deviceId);
   }
 
   /**
@@ -83,14 +81,14 @@ export class TelegramBotService {
   /**
    * Форматирует информацию об устройстве для Telegram
    */
-  formatDeviceInfo(device: ServiceDevice): string {
+  formatDeviceInfo(device: Device): string {
     return [
       `📊 Статус устройства ${device.id}:`,
       '',
       `🔧 Статус: ${device.status}`,
       `📍 Местоположение: ${device.currentLocation || 'Не указано'}`,
       `📅 Последняя активность: ${device.lastSeenAt ? new Date(device.lastSeenAt).toLocaleString() : 'Неизвестно'}`,
-      device.status === 'active'
+      device.status === DeviceStatus.ACTIVE || device.status === DeviceStatus.REGISTERED
         ? '✅ Все системы работают нормально'
         : '⚠️ Требует внимания',
     ].join('\n');
