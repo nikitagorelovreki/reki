@@ -2,7 +2,7 @@
 
 ## 🗂️ Documentation Structure
 
-This directory contains comprehensive documentation for the Reki Medical Device Management System, organized by purpose and audience.
+This directory contains comprehensive documentation for the Reki Control Panel project, a comprehensive medical device management and patient assessment system built with TypeScript and following Clean Architecture principles.
 
 ### 📁 [ai-agents/](ai-agents/)
 
@@ -115,5 +115,5 @@ For questions about documentation:
 
 ---
 
-**Last Updated**: May 2024  
-**Version**: 1.3.0
+**Last Updated**: December 2024  
+**Version**: 2.0.0

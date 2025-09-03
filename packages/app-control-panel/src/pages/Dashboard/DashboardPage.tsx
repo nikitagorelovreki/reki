@@ -115,7 +115,7 @@ const DashboardPage: React.FC = () => {
       key: 'status',
       render: (status: DeviceStatus) => (
         <Tag color={status === DeviceStatus.AT_CLINIC ? 'green' : 'orange'}>
-          {status.replace('_', ' ')}
+          {status?.replace('_', ' ') || status}
         </Tag>
       ),
     },
@@ -144,7 +144,7 @@ const DashboardPage: React.FC = () => {
       key: 'status',
       render: (status: ClientStatus) => (
         <Tag color={status === ClientStatus.ACTIVE_THERAPY ? 'green' : 'blue'}>
-          {status.replace('_', ' ').toUpperCase()}
+          {status?.replace('_', ' ').toUpperCase() || status}
         </Tag>
       ),
     },

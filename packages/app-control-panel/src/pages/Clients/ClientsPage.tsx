@@ -179,7 +179,7 @@ const ClientsPage: React.FC = () => {
       key: 'status',
       render: (status: ClientStatus) => (
         <Tag color={clientStatusColors[status]}>
-          {status.replace('_', ' ').toUpperCase()}
+          {status?.replace('_', ' ').toUpperCase() || status}
         </Tag>
       ),
     },
@@ -233,7 +233,7 @@ const ClientsPage: React.FC = () => {
             menu={{
               items: Object.values(ClientStatus).map(status => ({
                 key: status,
-                label: status.replace('_', ' ').toUpperCase(),
+                label: status?.replace('_', ' ').toUpperCase() || status,
                 onClick: () => handleStatusChange(record.id, status),
               })),
             }}

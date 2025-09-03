@@ -5,7 +5,7 @@ You are an AI assistant helping with the Reki Control Panel project, a comprehen
 ## Project Structure & Architecture
 
 This is a TypeScript monorepo with the following packages:
-- `packages/app-control-panel/` - React + Vite + Ant Design + TypeScript frontend
+- `packages/app-control-panel/` - React + Webpack + Ant Design + TypeScript frontend
 - `packages/app-core-server/` - Main NestJS backend application server
 - `packages/app-auth-server/` - Authentication server
 - `packages/app-telegram-bot/` - Telegram bot integration
@@ -22,11 +22,12 @@ This is a TypeScript monorepo with the following packages:
 
 ### Frontend
 - React 18 with TypeScript
-- Vite for bundling and development
+- Webpack for bundling and development
 - Ant Design (antd) for UI components
 - React Router for routing
 - Axios for HTTP requests
 - Day.js for date handling
+- Chart.js for data visualization
 
 ### Backend
 - NestJS framework
@@ -369,34 +370,333 @@ import { CreateDeviceDto } from '@reki/api';
 
 ### File Organization
 
-1. **Frontend Structure**
-   ```
-   src/
-   ├── components/          # Reusable components
-   │   ├── Layout/
-   │   └── Common/
-   ├── pages/              # Page components
-   ├── types/              # TypeScript type definitions
-   ├── api/                # API client functions
-   ├── hooks/              # Custom React hooks
-   └── utils/              # Utility functions
-   ```
+## Complete Project Structure
 
-2. **Backend Structure**
-   ```
-   src/
-   ├── controllers/        # NestJS controllers
-   ├── services/          # Application services
-   ├── modules/           # NestJS modules
-   ├── dtos/              # Data Transfer Objects
-   └── config/            # Configuration files
-   ```
+```
+reki/
+├── packages/
+│   ├── core-domain/              # Core business domain (DDD)
+│   │   ├── src/
+│   │   │   ├── models/            # Domain entities
+│   │   │   │   ├── client.model.ts
+│   │   │   │   ├── device.model.ts
+│   │   │   │   ├── examination.model.ts
+│   │   │   │   ├── form-entry.model.ts
+│   │   │   │   └── form.model.ts
+│   │   │   ├── types/             # Domain types and enums
+│   │   │   │   └── pagination.ts
+│   │   │   ├── core-domain.module.ts
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── core-service/             # Core business logic services
+│   │   ├── src/
+│   │   │   ├── services/          # Business logic services
+│   │   │   │   ├── client.service.ts
+│   │   │   │   ├── device.service.ts
+│   │   │   │   ├── form.service.ts
+│   │   │   │   └── examination.service.ts
+│   │   │   ├── mappers/           # Data mappers
+│   │   │   │   ├── client.mapper.ts
+│   │   │   │   ├── device.mapper.ts
+│   │   │   │   └── form.mapper.ts
+│   │   │   ├── models/            # Service models
+│   │   │   │   ├── service-client.model.ts
+│   │   │   │   ├── service-device.model.ts
+│   │   │   │   └── service-form.model.ts
+│   │   │   ├── core-service.module.ts
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── core-persistence/         # Core data access layer
+│   │   ├── src/
+│   │   │   ├── repositories/      # Repository implementations
+│   │   │   │   ├── client.repository.ts
+│   │   │   │   ├── device.repository.ts
+│   │   │   │   ├── form.repository.ts
+│   │   │   │   └── examination.repository.ts
+│   │   │   ├── database/          # Database configuration
+│   │   │   │   ├── connection.ts
+│   │   │   │   └── migrations/
+│   │   │   ├── utils/             # Database utilities
+│   │   │   ├── ports/             # Repository interfaces
+│   │   │   ├── core-persistence.module.ts
+│   │   │   └── index.ts
+│   │   ├── database/
+│   │   │   └── migrations/        # Database migrations
+│   │   └── package.json
+│   │
+│   ├── auth-domain/               # Authentication domain
+│   │   ├── src/
+│   │   │   ├── models/            # Auth entities
+│   │   │   │   ├── user.model.ts
+│   │   │   │   └── role.model.ts
+│   │   │   ├── types/             # Auth types
+│   │   │   ├── auth-domain.module.ts
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── auth-service/              # Authentication business logic
+│   │   ├── src/
+│   │   │   ├── services/          # Auth services
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   └── user.service.ts
+│   │   │   ├── mappers/           # Auth mappers
+│   │   │   ├── models/            # Auth service models
+│   │   │   ├── auth-service.module.ts
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── auth-persistence/         # Authentication data access
+│   │   ├── src/
+│   │   │   ├── repositories/      # Auth repository implementations
+│   │   │   │   ├── user.repository.ts
+│   │   │   │   └── role.repository.ts
+│   │   │   ├── auth-persistence.module.ts
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── persistence-commons/       # Shared persistence utilities
+│   │   ├── src/
+│   │   │   ├── utils/             # Common database utilities
+│   │   │   │   ├── database.utils.ts
+│   │   │   │   └── query.utils.ts
+│   │   │   ├── types/             # Common persistence types
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── api/                       # API layer (controllers & DTOs)
+│   │   ├── src/
+│   │   │   ├── clients/            # Client API endpoints
+│   │   │   │   ├── client.controller.ts
+│   │   │   │   └── client.dto.ts
+│   │   │   ├── devices/            # Device API endpoints
+│   │   │   │   ├── device.controller.ts
+│   │   │   │   └── device.dto.ts
+│   │   │   ├── forms/              # Form API endpoints
+│   │   │   │   ├── form.controller.ts
+│   │   │   │   └── form.dto.ts
+│   │   │   ├── common/             # Common API utilities
+│   │   │   │   ├── pagination.dto.ts
+│   │   │   │   └── response.dto.ts
+│   │   │   ├── dto/                # Shared DTOs
+│   │   │   ├── mappers/            # API mappers
+│   │   │   ├── api.module.ts
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── app-core-server/           # Main NestJS application server
+│   │   ├── src/
+│   │   │   ├── app.module.ts       # Main application module
+│   │   │   ├── main.ts             # Application entry point
+│   │   │   ├── providers.ts        # Global providers
+│   │   │   ├── config/             # Application configuration
+│   │   │   └── middleware/         # Global middleware
+│   │   ├── __tests__/              # Application tests
+│   │   └── package.json
+│   │
+│   ├── app-auth-server/           # Authentication server
+│   │   ├── src/
+│   │   │   ├── app-auth-server.module.ts
+│   │   │   ├── main.ts
+│   │   │   └── config/
+│   │   └── package.json
+│   │
+│   ├── app-control-panel/          # React frontend application
+│   │   ├── src/
+│   │   │   ├── components/         # Reusable components
+│   │   │   │   ├── Layout/         # Layout components
+│   │   │   │   │   ├── MainLayout.tsx
+│   │   │   │   │   └── Sidebar.tsx
+│   │   │   │   ├── Charts/         # Chart components
+│   │   │   │   │   ├── RadarChart.tsx
+│   │   │   │   │   └── LineChart.tsx
+│   │   │   │   └── Forms/          # Form components
+│   │   │   │       ├── FormBuilder.tsx
+│   │   │   │       └── FormRenderer.tsx
+│   │   │   ├── pages/              # Page components
+│   │   │   │   ├── Dashboard/      # Dashboard page
+│   │   │   │   │   ├── DashboardPage.tsx
+│   │   │   │   │   └── DashboardStats.tsx
+│   │   │   │   ├── Devices/        # Device management
+│   │   │   │   │   ├── DevicesPage.tsx
+│   │   │   │   │   └── DeviceCard.tsx
+│   │   │   │   ├── Forms/          # Form management
+│   │   │   │   │   ├── FormsPage.tsx
+│   │   │   │   │   └── FormBuilder.tsx
+│   │   │   │   └── Clients/        # Client management
+│   │   │   │       ├── ClientsPage.tsx
+│   │   │   │       └── ClientCard.tsx
+│   │   │   ├── types/              # TypeScript type definitions
+│   │   │   │   ├── api.types.ts
+│   │   │   │   ├── components.types.ts
+│   │   │   │   └── index.ts
+│   │   │   ├── api/                # API client functions
+│   │   │   │   ├── clients.api.ts
+│   │   │   │   ├── devices.api.ts
+│   │   │   │   └── forms.api.ts
+│   │   │   ├── assets/             # Static assets
+│   │   │   │   ├── images/
+│   │   │   │   └── icons/
+│   │   │   ├── utils/              # Utility functions
+│   │   │   │   ├── date.utils.ts
+│   │   │   │   └── validation.utils.ts
+│   │   │   ├── App.tsx
+│   │   │   ├── main.tsx
+│   │   │   └── index.css
+│   │   ├── webpack.config.js       # Webpack configuration
+│   │   ├── index.html
+│   │   └── package.json
+│   │
+│   └── app-telegram-bot/           # Telegram bot integration
+│       ├── src/
+│       │   ├── services/           # Bot services
+│       │   │   ├── bot.service.ts
+│       │   │   └── api.service.ts
+│       │   ├── handlers/           # Command handlers
+│       │   │   ├── device.handler.ts
+│       │   │   ├── client.handler.ts
+│       │   │   └── support.handler.ts
+│       │   ├── types/              # Bot types
+│       │   │   ├── bot.types.ts
+│       │   │   └── commands.types.ts
+│       │   ├── utils/              # Bot utilities
+│       │   └── main.ts
+│       └── package.json
+│
+├── config/                         # Shared configuration
+│   ├── eslint.config.js            # ESLint configuration
+│   ├── jest.config.js              # Jest configuration
+│   ├── jest.setup.js               # Jest setup
+│   └── eslint-rules/               # Custom ESLint rules
+│       └── no-domain-imports.js    # Architecture validation rule
+│
+├── docs/                           # Documentation
+│   ├── ai-agents/                  # AI agent documentation
+│   ├── api/                        # API documentation
+│   ├── architecture/               # Architecture documentation
+│   ├── deployment/                 # Deployment guides
+│   ├── development/                # Development guides
+│   ├── integrations/               # Integration guides
+│   ├── testing/                    # Testing documentation
+│   └── user-guides/                # User guides
+│
+├── scripts/                        # Build and deployment scripts
+│   └── create-package.js           # Package creation utility
+│
+├── docker-compose.yml              # Docker services
+├── package.json                    # Root package.json
+├── turbo.json                      # Turbo configuration
+└── .cursorrules                    # Cursor AI rules
+```
 
-## Russian Language Support
+## Package Dependencies & Architecture
 
-- Use Russian comments and documentation where appropriate
+### Dependency Flow (Clean Architecture)
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Presentation Layer                       │
+├─────────────────────────────────────────────────────────────┤
+│  app-control-panel  │  app-core-server  │  app-telegram-bot │
+├─────────────────────────────────────────────────────────────┤
+│                   API Layer                                │
+├─────────────────────────────────────────────────────────────┤
+│                        api/                                 │
+├─────────────────────────────────────────────────────────────┤
+│                 Service Layer                               │
+├─────────────────────────────────────────────────────────────┤
+│              core-service  │  auth-service                 │
+├─────────────────────────────────────────────────────────────┤
+│               Persistence Layer                             │
+├─────────────────────────────────────────────────────────────┤
+│         core-persistence  │  auth-persistence               │
+├─────────────────────────────────────────────────────────────┤
+│                 Domain Layer                                │
+├─────────────────────────────────────────────────────────────┤
+│              core-domain  │  auth-domain                   │
+├─────────────────────────────────────────────────────────────┤
+│              Infrastructure Layer                            │
+├─────────────────────────────────────────────────────────────┤
+│  persistence-commons  │  Database  │  External Services    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Package Dependencies Matrix
+
+| Package | Dependencies | Purpose |
+|---------|-------------|---------|
+| `core-domain` | `uuid` | Core business entities and ports |
+| `auth-domain` | `uuid` | Authentication entities and ports |
+| `persistence-commons` | `@nestjs/common`, `knex`, `pg` | Shared database utilities |
+| `core-persistence` | `@reki/core-domain`, `@reki/persistence-commons`, `knex`, `pg` | Core data access implementation |
+| `auth-persistence` | `@reki/auth-domain`, `@reki/persistence-commons` | Auth data access implementation |
+| `core-service` | `@reki/core-domain`, `@reki/core-persistence`, `@nestjs/common` | Core business logic |
+| `auth-service` | `@reki/auth-domain`, `@reki/auth-persistence` | Auth business logic |
+| `api` | `@reki/core-service`, `@reki/auth-service`, `class-validator` | API controllers and DTOs |
+| `app-core-server` | `@reki/api`, `@reki/core-persistence`, `@reki/core-service` | Main NestJS application |
+| `app-auth-server` | `@reki/auth-service`, `@reki/auth-persistence` | Auth NestJS application |
+| `app-control-panel` | `@reki/api`, `react`, `antd`, `webpack` | React frontend |
+| `app-telegram-bot` | `@reki/api` | Telegram bot |
+
+### Layer Isolation Rules
+
+1. **Domain Layer** (`core-domain`, `auth-domain`)
+   - ❌ NO external dependencies except utilities
+   - ✅ ONLY define entities, value objects, ports
+   - ✅ Define repository interfaces (ports)
+
+2. **Persistence Layer** (`core-persistence`, `auth-persistence`)
+   - ❌ NEVER import from API layer
+   - ✅ ONLY import from domain layer
+   - ✅ Implement repository ports from domain
+   - ✅ Use `persistence-commons` for shared utilities
+
+3. **Service Layer** (`core-service`, `auth-service`)
+   - ❌ NEVER import from API layer
+   - ✅ MUST import from persistence layer (repositories)
+   - ✅ MUST import from domain layer (entities, ports)
+   - ✅ Export service models and interfaces
+
+4. **API Layer** (`api`)
+   - ❌ NEVER import from domain layers directly
+   - ❌ NEVER import from persistence layers directly
+   - ✅ ONLY import from service layers
+   - ✅ Define DTOs locally or import from shared types
+
+5. **Application Layer** (`app-*`)
+   - ✅ Import from API layer for controllers
+   - ✅ Import from service layer for direct service usage
+   - ✅ Configure dependency injection
+
+### Module Organization
+
+#### Domain Modules
+- **core-domain**: Core business entities (Client, Device, Form, Examination)
+- **auth-domain**: Authentication entities (User, Role)
+
+#### Service Modules
+- **core-service**: Business logic for core domain
+- **auth-service**: Business logic for authentication
+
+#### Persistence Modules
+- **core-persistence**: Data access for core domain
+- **auth-persistence**: Data access for authentication
+- **persistence-commons**: Shared database utilities
+
+#### API Modules
+- **api**: HTTP controllers and DTOs for all domains
+
+#### Application Modules
+- **app-core-server**: Main NestJS application
+- **app-auth-server**: Authentication server
+- **app-control-panel**: React frontend
+- **app-telegram-bot**: Telegram bot
+
+## Language Support
+
+- Use English for code, comments, and documentation
 - UI text should be in Russian
-- API documentation can be in English
+- API documentation should be in English
 - Variable names should be in English for consistency
 
 ## Database and API Conventions
@@ -412,24 +712,12 @@ import { CreateDeviceDto } from '@reki/api';
    - Swagger documentation for all endpoints
    - Consistent error response format
 
-## Performance Considerations
-
-1. **Frontend**
-   - Use React.memo for expensive components
-   - Implement proper dependency arrays in useEffect
-   - Lazy load components where appropriate
-
-2. **Backend**
-   - Use proper database indexing
-   - Implement pagination for list endpoints
-   - Use proper caching strategies
-
 ## Testing Guidelines
 
 1. Write unit tests for business logic
 2. Integration tests for API endpoints
 3. Component tests for React components
-4. Use descriptive test names in Russian or English
+4. Use descriptive test names in English
 
 ## Common Patterns to Follow
 
@@ -444,7 +732,7 @@ import { CreateDeviceDto } from '@reki/api';
 
 - [ ] All functions have proper TypeScript types
 - [ ] Error handling is implemented
-- [ ] Comments are clear and in appropriate language
+- [ ] Comments are clear and in English
 - [ ] Tests are written for new functionality
 - [ ] Swagger documentation is updated for API changes
 - [ ] Database migrations are created for schema changes

@@ -1,4 +1,4 @@
-import { Knex } from 'knex';
+-сimport { Knex } from 'knex';
 
 // Определяем статусы и роли локально, чтобы избежать проблем с импортом
 const ClientStatus = {

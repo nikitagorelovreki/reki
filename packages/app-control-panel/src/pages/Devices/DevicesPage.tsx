@@ -155,7 +155,7 @@ const DevicesPage: React.FC = () => {
       key: 'status',
       render: (status: DeviceStatus) => (
         <Tag color={deviceStatusColors[status]}>
-          {status.replace('_', ' ')}
+          {status?.replace('_', ' ') || status}
         </Tag>
       ),
     },
@@ -201,7 +201,7 @@ const DevicesPage: React.FC = () => {
             menu={{
               items: Object.values(DeviceStatus).map(status => ({
                 key: status,
-                label: status.replace('_', ' '),
+                label: status?.replace('_', ' ') || status,
                 onClick: () => handleStatusChange(record.id, status),
               })),
             }}
@@ -328,7 +328,7 @@ const DevicesPage: React.FC = () => {
             <Select>
               {Object.values(DeviceStatus).map(status => (
                 <Option key={status} value={status}>
-                  {status.replace('_', ' ')}
+                  {status?.replace('_', ' ') || status}
                 </Option>
               ))}
             </Select>

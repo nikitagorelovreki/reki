@@ -156,6 +156,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     if (trx) query.transacting(trx);
 
     const countQuery = this.db.knex(this.tableName)
+
       .where({ form_template_id: formId })
       .count('* as count');
     

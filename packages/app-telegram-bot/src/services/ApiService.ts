@@ -36,7 +36,7 @@ export class ApiService {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api';
+    this.baseUrl = process.env.API_BASE_URL || 'http://localhost:3001/api';
     this.apiClient = axios.create({
       baseURL: this.baseUrl,
       timeout: 10000,
@@ -219,7 +219,7 @@ export class ApiService {
    */
   async healthCheck(): Promise<boolean> {
     try {
-      await this.apiClient.get('/health');
+      await this.apiClient.get('/devices');
       return true;
     } catch (error) {
       console.error('❌ API сервер недоступен:', error);

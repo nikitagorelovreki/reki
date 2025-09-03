@@ -129,7 +129,7 @@ export default tseslint.config([
   {
     files: [
       'packages/app-core-server/**/*.ts',
-      'packages/use-cases/**/*.ts',
+во      'packages/use-cases/**/*.ts',
       'packages/persistence/**/*.ts',
       'packages/api/**/*.ts',
     ],

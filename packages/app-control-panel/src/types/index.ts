@@ -1,7 +1,6 @@
-// Re-export all types from core-domain
-export * from './core';
+// Swagger DTOs from API module (pure TypeScript, no NestJS decorators)
 
-// Legacy types for backward compatibility (will be removed later)
+// Device DTOs
 export enum DeviceStatus {
   REGISTERED = 'REGISTERED',
   IN_STOCK = 'IN_STOCK',
@@ -12,23 +11,48 @@ export enum DeviceStatus {
   DECOMMISSIONED = 'DECOMMISSIONED',
 }
 
-export enum ClientStatus {
-  INTAKE = 'intake',
-  DIAGNOSTICS = 'diagnostics',
-  ACTIVE_THERAPY = 'active_therapy',
-  PAUSED = 'paused',
-  DISCHARGED = 'discharged',
-  FOLLOWUP = 'followup',
-  ARCHIVED = 'archived',
+export interface CreateDeviceDto {
+  serial: string;
+  qrCode?: string;
+  externalIds?: Record<string, string>;
+  model: string;
+  hardwareRevision?: string;
+  firmwareVersion?: string;
+  status?: DeviceStatus;
+  currentLocation?: string;
+  clinicId?: string;
+  ownerId?: string;
+  assignedPatientId?: string;
+  responsibleUserId?: string;
+  warrantyUntil?: string;
+  purchaseOrder?: string;
+  telemetryEndpoint?: string;
+  maintenanceNotes?: Record<string, any>;
 }
 
-// Note: These interfaces are now imported from @reki/core-domain
-// Keeping them here temporarily for backward compatibility
-export interface Device {
+export interface UpdateDeviceDto {
+  qrCode?: string;
+  externalIds?: Record<string, string>;
+  model?: string;
+  hardwareRevision?: string;
+  firmwareVersion?: string;
+  status?: DeviceStatus;
+  currentLocation?: string;
+  clinicId?: string;
+  ownerId?: string;
+  assignedPatientId?: string;
+  responsibleUserId?: string;
+  warrantyUntil?: string;
+  purchaseOrder?: string;
+  telemetryEndpoint?: string;
+  maintenanceNotes?: Record<string, any>;
+}
+
+export interface DeviceDto {
   id: string;
   serial: string;
   qrCode?: string;
-  externalIds?: any;
+  externalIds?: Record<string, string>;
   model: string;
   hardwareRevision?: string;
   firmwareVersion?: string;
@@ -43,43 +67,17 @@ export interface Device {
   lastSeenAt?: string;
   lastSyncAt?: string;
   telemetryEndpoint?: string;
-  maintenanceNotes?: any;
+  maintenanceNotes?: Record<string, any>;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface Client {
-  id: string;
-  fullName: string;
-  firstName?: string;
-  lastName?: string;
-  middleName?: string;
-  dob?: string;
-  diagnosis?: string;
-  contacts?: any;
-  status: ClientStatus;
-  clinicId?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CreateDeviceDto {
-  serial: string;
-  qrCode?: string;
-  externalIds?: any;
-  model: string;
-  hardwareRevision?: string;
-  firmwareVersion?: string;
-  status?: DeviceStatus;
-  currentLocation?: string;
-  clinicId?: string;
-  ownerId?: string;
-  assignedPatientId?: string;
-  responsibleUserId?: string;
-  warrantyUntil?: string;
-  purchaseOrder?: string;
-  telemetryEndpoint?: string;
-  maintenanceNotes?: any;
+// Client DTOs
+export enum ClientStatus {
+  INTAKE = 'intake',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  DISCHARGED = 'discharged',
 }
 
 export interface CreateClientDto {
@@ -95,6 +93,135 @@ export interface CreateClientDto {
   clinicId?: string;
 }
 
+export interface UpdateClientDto {
+  firstName?: string;
+  lastName?: string;
+  middleName?: string;
+  dateOfBirth?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  diagnosis?: string;
+  status?: ClientStatus;
+  clinicId?: string;
+}
+
+export interface ClientResponseDto {
+  id: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  dateOfBirth?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  diagnosis?: string;
+  status: ClientStatus;
+  clinicId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedClientsResponseDto {
+  data: ClientResponseDto[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+// Form DTOs
+export enum FormStatus {
+  DRAFT = 'draft',
+  ACTIVE = 'active',
+  ARCHIVED = 'archived',
+}
+
+export enum FormType {
+  ASSESSMENT = 'assessment',
+  QUESTIONNAIRE = 'questionnaire',
+  SURVEY = 'survey',
+  LFK = 'lfk',
+  FIM = 'fim',
+}
+
+export interface CreateFormDto {
+  title: string;
+  description?: string;
+  type: FormType;
+  status?: FormStatus;
+  version?: number;
+  schema: Record<string, any>;
+}
+
+export interface UpdateFormDto extends CreateFormDto {
+  // All fields from CreateFormDto become optional
+}
+
+export interface FormResponseDto {
+  id: string;
+  title: string;
+  description?: string;
+  type: FormType;
+  status: FormStatus;
+  version: number;
+  schema: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+// Form Entry DTOs
+export enum FormEntryStatus {
+  DRAFT = 'draft',
+  IN_PROGRESS = 'in_progress',
+  SUBMITTED = 'submitted',
+  REVIEWED = 'reviewed',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  COMPLETED = 'completed',
+}
+
+export interface CreateFormEntryDto {
+  formId: string;
+  patientId?: string;
+  deviceId?: string;
+  clinicId?: string;
+  status?: FormEntryStatus;
+  data?: Record<string, unknown>;
+  score?: number;
+}
+
+export interface UpdateFormEntryDto {
+  status?: FormEntryStatus;
+  data?: Record<string, unknown>;
+  score?: number;
+}
+
+export interface SaveFormDataDto {
+  data: Record<string, unknown>;
+}
+
+export interface FormEntryResponseDto {
+  id: string;
+  formId: string;
+  patientId?: string;
+  deviceId?: string;
+  clinicId?: string;
+  status: FormEntryStatus;
+  data: Record<string, unknown>;
+  score?: number;
+  completedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+// Frontend-specific UI types (not part of Swagger)
 export interface PaginationMeta {
   page: number;
   limit: number;
@@ -107,6 +234,7 @@ export interface PaginatedResponse<T> {
   pagination: PaginationMeta;
 }
 
+// UI-specific form field types (not part of Swagger)
 export interface FormField {
   name: string;
   type: 'text' | 'date' | 'select' | 'rating' | 'number' | 'textarea' | 'checkbox' | 'checkbox-group';
@@ -126,31 +254,3 @@ export interface FormSection {
 export interface FormSchema {
   sections: FormSection[];
 }
-
-export interface FormTemplate {
-  id: string;
-  title: string;
-  type: string;
-  description: string;
-  schema: FormSchema;
-}
-
-export interface FormEntry {
-  id: string;
-  formId: string;
-  patientId: string;
-  deviceId?: string | null;
-  clinicId?: string | null;
-  status: FormEntryStatus;
-  data: Record<string, any>;
-  score?: number | null;
-  completedAt?: string | null;
-  createdAt: string;
-  updatedAt: string;
-  createdBy?: string | null;
-  updatedBy?: string | null;
-  patient?: Client;
-  form?: FormTemplate;
-}
-
-export type FormEntryStatus = 'in_progress' | 'completed' | 'cancelled';
