@@ -5,7 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { CorePersistenceModule } from '@reki/core-persistence';
 import { CoreServiceModule } from '@reki/core-service';
-import { ApiModule } from '@reki/api';
+import { CoreApiModule } from '@reki/core-api';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { ApiModule } from '@reki/api';
     // Core modules
     CorePersistenceModule,
     CoreServiceModule,
-    ApiModule,
+    CoreApiModule,
   ],
 })
 export class AppModule {}

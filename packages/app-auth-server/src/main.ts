@@ -1,35 +1,46 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AppAuthServerModule } from './app-auth-server.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppAuthServerModule);
-  
-  // Получаем конфигурацию
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  
-  // Настройка CORS
-  app.enableCors({
-    origin: configService.get('CORS_ORIGIN', '*'),
-    credentials: true,
-  });
 
-  // Глобальная валидация
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    transform: true,
-  }));
+  // Validation
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    })
+  );
 
-  // Префикс для API
+  // CORS
+  app.enableCors();
+
+  // API prefix
   app.setGlobalPrefix('api');
 
-  const port = configService.get('PORT', 3003);
+  // Swagger setup
+  const config = new DocumentBuilder()
+    .setTitle('Reki Auth API')
+    .setDescription('Reki Authentication System API Documentation')
+    .setVersion('0.9.0')
+    .addBearerAuth()
+    .addTag('auth', 'Authentication management')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
+  // Start server
+  const port = configService.get('PORT', 3001);
   await app.listen(port);
-  
-  console.log(`🚀 Auth server is running on: http://localhost:${port}`);
-  console.log(`📚 Swagger documentation: http://localhost:${port}/api/docs`);
+
+  console.log(`🚀 Reki Auth Server is running on: http://localhost:${port}`);
+  console.log(`📚 API Documentation: http://localhost:${port}/api/docs`);
 }
 
 bootstrap();
