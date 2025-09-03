@@ -9,17 +9,17 @@ export enum ClientStatus {
 }
 
 export class Client {
-  id: string;
+  id!: string;
   firstName?: string;
   lastName?: string;
   middleName?: string;
   dob?: Date;
   diagnosis?: string;
   contacts?: Record<string, any>;
-  status: ClientStatus;
+  status!: ClientStatus;
   clinicId?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt!: Date;
+  updatedAt!: Date;
 
   constructor(data: Partial<Client>) {
     Object.assign(this, data);

@@ -27,4 +27,5 @@ import { PermissionService } from './permission.service';
     PermissionService,
   ],
 })
+// This export will be used by other modules
 export class AuthServiceModule {}

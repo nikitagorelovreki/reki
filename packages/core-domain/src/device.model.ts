@@ -9,14 +9,14 @@ export enum DeviceStatus {
 }
 
 export class Device {
-  id: string;
-  serial: string;
+  id!: string;
+  serial!: string;
   qrCode?: string;
   externalIds?: Record<string, string>;
-  model: string;
+  model!: string;
   hardwareRevision?: string;
   firmwareVersion?: string;
-  status: DeviceStatus;
+  status!: DeviceStatus;
   currentLocation?: string;
   clinicId?: string;
   ownerId?: string;

@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { CreateDeviceDto, Device, DeviceStatus, PaginatedResponse } from '../types';
+import { CreateDeviceDto, Device, DeviceStatus, DevicesPaginatedResponse } from '../types';
 
 export const devicesApi = {
   // Get all devices with pagination
@@ -8,7 +8,7 @@ export const devicesApi = {
     limit?: number;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
-  }): Promise<PaginatedResponse<Device>> => {
+  }): Promise<DevicesPaginatedResponse> => {
     const response = await apiClient.get('/devices', { params });
     return response.data;
   },
@@ -31,7 +31,7 @@ export const devicesApi = {
     limit?: number;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
-  }): Promise<PaginatedResponse<Device>> => {
+  }): Promise<DevicesPaginatedResponse> => {
     const response = await apiClient.get(`/devices/clinic/${clinicId}`, { params });
     return response.data;
   },
@@ -42,7 +42,7 @@ export const devicesApi = {
     limit?: number;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
-  }): Promise<PaginatedResponse<Device>> => {
+  }): Promise<DevicesPaginatedResponse> => {
     const response = await apiClient.get(`/devices/status/${status}`, { params });
     return response.data;
   },

@@ -16,7 +16,8 @@
     "app:dev": "turbo run dev --filter=@reki/app-control-panel",
     "telegram:dev": "turbo run dev --filter=@reki/app-telegram-bot",
     "auth:dev": "turbo run dev --filter=@reki/app-auth-server",
-    "auth:build": "turbo run build --filter=@reki/app-auth-server",
+    "core-api:build": "turbo run build --filter=@reki/core-api",
+    "auth-api:build": "turbo run build --filter=@reki/auth-api",
     "auth:start": "turbo run start --filter=@reki/app-auth-server",
     "auth-domain:build": "turbo run build --filter=@reki/auth-domain",
     "auth-persistence:build": "turbo run build --filter=@reki/auth-persistence",
@@ -46,7 +47,9 @@
     "test:all": "./scripts/test-all.sh",
     "lint:fix": "./scripts/lint-fix.sh",
     "build:all": "./scripts/build-all.sh",
-    "ci:test": "./scripts/ci-test.sh"
+    "ci:test": "./scripts/ci-test.sh",
+    "mcp:git": "./scripts/start-git-mcp.sh",
+    "test:mcp": "./scripts/test-git-mcp.sh"
   },
   "devDependencies": {
     "@types/jest": "^29.5.8",
@@ -67,6 +70,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@cyanheads/git-mcp-server": "^2.3.2",
     "better-sqlite3": "^12.2.0",
     "chart.js": "^4.5.0",
     "class-transformer": "^0.5.1",

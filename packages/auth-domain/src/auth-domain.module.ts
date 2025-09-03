@@ -5,4 +5,5 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
+// This export will be used by other modules
 export class AuthDomainModule {}

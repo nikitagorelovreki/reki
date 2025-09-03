@@ -23,15 +23,15 @@ export class ExaminationFormModel {
     updatedAt: 'updated_at',
   };
 
-  id: string;
-  title: string;
-  type: ExaminationFormType;
-  version: number;
-  status: ExaminationFormStatus;
+  id!: string;
+  title!: string;
+  type!: ExaminationFormType;
+  version!: number;
+  status!: ExaminationFormStatus;
   schema?: Record<string, any>;
   description?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt!: Date;
+  updatedAt!: Date;
 
   constructor(data: Partial<ExaminationFormModel>) {
     Object.assign(this, data);
@@ -72,15 +72,15 @@ export class ExaminationFormEntryModel {
     updatedAt: 'updated_at',
   };
 
-  id: string;
-  formId: string;
-  clientId: string;
+  id!: string;
+  formId!: string;
+  clientId!: string;
   therapistId?: string;
   therapistName?: string;
-  submissionDate: Date;
-  data: Record<string, any>; // JSON данные формы
-  createdAt: Date;
-  updatedAt: Date;
+  submissionDate!: Date;
+  data!: Record<string, any>; // JSON данные формы
+  createdAt!: Date;
+  updatedAt!: Date;
 
   constructor(data: Partial<ExaminationFormEntryModel>) {
     Object.assign(this, data);

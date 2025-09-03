@@ -234,6 +234,14 @@ export interface PaginatedResponse<T> {
   pagination: PaginationMeta;
 }
 
+// API response format from backend
+export interface DevicesPaginatedResponse {
+  devices: Device[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 // Frontend-specific type aliases for better UX
 export type Client = ClientResponseDto;
 export type Device = DeviceDto;

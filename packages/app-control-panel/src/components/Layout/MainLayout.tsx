@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, Button, Layout, Menu, Space, theme, Typography } from 'antd';
+import { Avatar, Button, Layout, Menu, Space, theme, Typography, Dropdown } from 'antd';
 import {
   DashboardOutlined,
   FormOutlined,
@@ -13,6 +13,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
@@ -25,6 +26,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -63,8 +65,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
+    logout();
+    // Navigation will be handled by ProtectedRoute when user becomes unauthenticated
   };
 
   return (
@@ -134,26 +136,43 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           />
 
           <Space size='middle'>
-            <Button
-              type='text'
-              icon={<UserOutlined />}
-              onClick={() => navigate('/profile')}
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 'profile',
+                    icon: <UserOutlined />,
+                    label: 'Профиль',
+                    onClick: () => navigate('/profile'),
+                  },
+                  {
+                    type: 'divider',
+                  },
+                  {
+                    key: 'logout',
+                    icon: <LogoutOutlined />,
+                    label: 'Выйти',
+                    onClick: handleLogout,
+                    danger: true,
+                  },
+                ],
+              }}
+              trigger={['click']}
             >
-              Profile
-            </Button>
-            <Avatar
-              size='default'
-              icon={<UserOutlined />}
-              style={{ backgroundColor: '#1890ff' }}
-            />
-            <Button
-              type='text'
-              icon={<LogoutOutlined />}
-              onClick={handleLogout}
-              danger
-            >
-              Logout
-            </Button>
+              <Space style={{ cursor: 'pointer' }}>
+                <Avatar
+                  size='default'
+                  icon={<UserOutlined />}
+                  style={{ backgroundColor: '#1890ff' }}
+                />
+                <span style={{ color: '#1890ff', fontWeight: 500 }}>
+                  {user?.firstName && user?.lastName 
+                    ? `${user.firstName} ${user.lastName}`
+                    : user?.username || 'Пользователь'
+                  }
+                </span>
+              </Space>
+            </Dropdown>
           </Space>
         </Header>
 

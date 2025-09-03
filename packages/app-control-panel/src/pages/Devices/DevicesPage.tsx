@@ -64,11 +64,11 @@ const DevicesPage: React.FC = () => {
         sortBy: 'createdAt',
         sortOrder: 'desc',
       });
-      setDevices(response.data);
+      setDevices(response.devices);
       setPagination({
         current: page,
         pageSize,
-        total: response.pagination.total,
+        total: response.total,
       });
     } catch (error) {
       message.error('Ошибка загрузки устройств');

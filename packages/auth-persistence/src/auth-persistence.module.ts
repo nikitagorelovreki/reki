@@ -31,4 +31,10 @@ export const PERMISSION_REPOSITORY = 'PERMISSION_REPOSITORY';
     PERMISSION_REPOSITORY,
   ],
 })
+// This export will be used by other modules
 export class AuthPersistenceModule {}
+
+// Export repositories for direct use if needed
+export { UserRepository } from './user.repository';
+export { RoleRepository } from './role.repository';
+export { PermissionRepository } from './permission.repository';
