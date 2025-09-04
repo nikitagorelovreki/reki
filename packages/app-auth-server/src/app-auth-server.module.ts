@@ -5,7 +5,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthDomainModule } from '@reki/auth-domain';
 import { AuthServiceModule } from '@reki/auth-service';
 import { AuthPersistenceModule } from '@reki/auth-persistence';
-import { AuthController, UserController } from '@reki/api';
+import { AuthController, UserController } from '@reki/auth-api';
 
 @Module({
   imports: [
