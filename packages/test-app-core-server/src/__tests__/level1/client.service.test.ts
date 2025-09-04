@@ -15,33 +15,40 @@ describe('ClientService - Level 1 Functional Tests', () => {
       const clientData = global.testUtils.generateTestClient({
         firstName: 'Иван',
         lastName: 'Петров',
-        email: 'ivan.petrov@test.com'
+        full_name: 'Иван Петров',
+        contacts: {
+          email: 'ivan.petrov@test.com',
+          phone: '+7900123456',
+        },
+        status: 'active',
       });
 
       // Mock external HTTP calls
       global.httpMocks.mockEmailService({ sent: true });
 
       // Import and test service directly
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
-      
+
       const result = await service.create(clientData);
 
       // Verify service response
       expect(result.id).toBeDefined();
       expect(result.firstName).toBe('Иван');
       expect(result.lastName).toBe('Петров');
-      expect(result.email).toBe('ivan.petrov@test.com');
+      expect(result.contacts?.email).toBe('ivan.petrov@test.com');
 
       // Verify data persisted in database
       const savedClient = await db('clients').where('id', result.id).first();
       expect(savedClient).toBeDefined();
       expect(savedClient.first_name).toBe('Иван');
-      expect(savedClient.email).toBe('ivan.petrov@test.com');
+      expect(savedClient.contacts.email).toBe('ivan.petrov@test.com');
 
       // Verify email notification was attempted
       global.httpMocks.expectCalled('emailService');
@@ -51,18 +58,19 @@ describe('ClientService - Level 1 Functional Tests', () => {
       const invalidClient = {
         firstName: '',
         lastName: 'Тест',
-        email: 'invalid-email'
+        email: 'invalid-email',
       };
 
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
-      await expect(service.create(invalidClient))
-        .rejects.toThrow();
+      await expect(service.create(invalidClient)).rejects.toThrow();
 
       // Verify no data was saved
       const clientCount = await db('clients').count('* as count').first();
@@ -71,12 +79,14 @@ describe('ClientService - Level 1 Functional Tests', () => {
 
     it('should prevent duplicate email registration', async () => {
       const clientData = global.testUtils.generateTestClient({
-        email: 'duplicate@test.com'
+        email: 'duplicate@test.com',
       });
 
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
@@ -85,8 +95,7 @@ describe('ClientService - Level 1 Functional Tests', () => {
       await service.create(clientData);
 
       // Try to create duplicate
-      await expect(service.create(clientData))
-        .rejects.toThrow();
+      await expect(service.create(clientData)).rejects.toThrow();
     });
   });
 
@@ -94,13 +103,15 @@ describe('ClientService - Level 1 Functional Tests', () => {
     let existingClient: any;
 
     beforeEach(async () => {
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
-      
+
       existingClient = await service.create(
         global.testUtils.generateTestClient()
       );
@@ -109,56 +120,72 @@ describe('ClientService - Level 1 Functional Tests', () => {
     it('should update client data and save changes', async () => {
       global.httpMocks.mockEmailService({ sent: true });
 
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
       const updateData = {
         firstName: 'Обновленный',
-        status: 'completed_therapy'
+        status: 'discharged',
       };
 
       const result = await service.update(existingClient.id, updateData);
 
       expect(result).toBeDefined();
       expect(result!.firstName).toBe('Обновленный');
-      expect(result!.status).toBe('completed_therapy');
+      expect(result!.status).toBe('discharged');
 
       // Verify database changes
-      const updatedClient = await db('clients').where('id', existingClient.id).first();
+      const updatedClient = await db('clients')
+        .where('id', existingClient.id)
+        .first();
       expect(updatedClient.first_name).toBe('Обновленный');
-      expect(updatedClient.status).toBe('completed_therapy');
+      expect(updatedClient.status).toBe('discharged');
     });
 
     it('should handle non-existent client update', async () => {
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
-      const result = await service.update('non-existent-id', { firstName: 'Test' });
+      const nonExistentId = '550e8400-e29b-41d4-a716-446655440000';
+      const result = await service.update(nonExistentId, { firstName: 'Test' });
       expect(result).toBeNull();
     });
   });
 
   describe('Client Queries', () => {
     beforeEach(async () => {
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
+      const clientData2 = global.testUtils.generateTestClient({
+        status: 'active',
+      });
+      const clientData3 = global.testUtils.generateTestClient({
+        status: 'discharged',
+      });
       const clients = [
-        global.testUtils.generateTestClient({ status: 'active_therapy' }),
-        global.testUtils.generateTestClient({ status: 'completed_therapy' }),
-        global.testUtils.generateTestClient({ status: 'on_hold' })
+        global.testUtils.generateTestClient({ status: 'active' }),
+        clientData2,
+        clientData3,
+        global.testUtils.generateTestClient({ status: 'archived' }),
       ];
 
       for (const client of clients) {
@@ -167,28 +194,32 @@ describe('ClientService - Level 1 Functional Tests', () => {
     });
 
     it('should get clients with pagination', async () => {
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
       const result = await service.findAll(1, 2);
-      
+
       expect(result.length).toBeGreaterThanOrEqual(2);
     });
 
     it('should filter clients by status', async () => {
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
       const allClients = await service.findAll(1, 10);
-      
+
       expect(allClients.length).toBeGreaterThanOrEqual(3);
     });
   });
@@ -197,15 +228,17 @@ describe('ClientService - Level 1 Functional Tests', () => {
     it('should handle email service failures gracefully', async () => {
       global.httpMocks.mockEmailService(null, new Error('Email service down'));
 
-      const { ClientService, ClientMapper } = await import('@reki/core-service');
+      const { ClientService, ClientMapper } = await import(
+        '@reki/core-service'
+      );
       const { ClientRepository } = await import('@reki/core-persistence');
-      
+
       const repository = new ClientRepository(db);
       const mapper = new ClientMapper();
       const service = new ClientService(repository, mapper);
 
       const clientData = global.testUtils.generateTestClient();
-      
+
       // Should still create client despite email failure
       const result = await service.create(clientData);
       expect(result.id).toBeDefined();

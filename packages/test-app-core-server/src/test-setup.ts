@@ -29,37 +29,40 @@ global.httpMocks = new TestHttpMocks();
 
 global.testUtils = {
   generateTestClient: (overrides = {}) => ({
+    full_name: 'Тестовый Пациент',
     firstName: 'Тестовый',
     lastName: 'Пациент',
-    email: `test.patient.${Date.now()}@example.com`,
-    phone: '+7900123456',
+    contacts: {
+      email: `test.patient.${Date.now()}@example.com`,
+      phone: '+7900123456',
+    },
     dateOfBirth: '1990-01-01',
-    status: 'active_therapy',
-    ...overrides
+    status: 'intake',
+    ...overrides,
   }),
 
   generateTestDevice: (overrides = {}) => ({
     model: 'Тестовое устройство',
-    serialNumber: `TEST-${Date.now()}`,
+    serial: `TEST-${Date.now()}`,
     status: 'IN_STOCK',
     manufactureDate: '2023-01-01',
-    ...overrides
+    ...overrides,
   }),
 
   generateTestForm: (overrides = {}) => ({
     name: 'Test Form',
     description: 'Test form description',
     fields: [
-      { name: 'test_field', type: 'text', label: 'Test Field', required: true }
+      { name: 'test_field', type: 'text', label: 'Test Field', required: true },
     ],
-    ...overrides
+    ...overrides,
   }),
 
   wait: (ms: number) => new Promise(resolve => setTimeout(resolve, ms)),
 
   cleanupTestData: async () => {
     await global.testDb.cleanup();
-  }
+  },
 };
 
 // Setup hooks
