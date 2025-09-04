@@ -1,151 +1,114 @@
-import Knex from 'knex';
+import * as Knex from 'knex';
 
-// Определяем статусы и роли локально, чтобы избежать проблем с импортом
-const ClientStatus = {
-  INTAKE: 'intake',
-  ACTIVE: 'active',
-  DISCHARGED: 'discharged',
-  ARCHIVED: 'archived',
-} as const;
-
-const DeviceStatus = {
-  REGISTERED: 'REGISTERED',
-  IN_STOCK: 'IN_STOCK',
-  AT_CLINIC: 'AT_CLINIC',
-  AT_PATIENT_HOME: 'AT_PATIENT_HOME',
-  UNDER_SERVICE: 'UNDER_SERVICE',
-  RMA: 'RMA',
-  DECOMMISSIONED: 'DECOMMISSIONED',
-} as const;
-
-const SystemRoles = {
-  ADMIN: 'admin',
-  USER: 'user',
-} as const;
-
-/**
- * Объединенная миграция для создания полной схемы базы данных
- */
-export async function up(knex: Knex.Knex): Promise<void> {
-  // Создаем расширение для генерации UUID
+export async function up(knex: Knex): Promise<void> {
+  // Включаем расширение для UUID
   await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
 
   // Создаем таблицу клиник
   await knex.schema.createTable('clinics', (table) => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('name').notNullable();
-    table.string('code').unique();
-    table.jsonb('address').defaultTo('{}');
-    table.jsonb('contacts').defaultTo('{}');
-    table.boolean('is_active').defaultTo(true);
+    table.string('address');
+    table.string('phone');
+    table.string('email');
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
 
     // Индексы
     table.index('name');
-    table.index('code');
-    table.index('is_active');
   });
 
   // Создаем таблицу клиентов
   await knex.schema.createTable('clients', (table) => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-    table.string('full_name').notNullable();
-    table.string('first_name');
-    table.string('last_name');
+    table.string('first_name').notNullable();
+    table.string('last_name').notNullable();
     table.string('middle_name');
-    table.date('dob');
-    table.text('diagnosis');
-    table.jsonb('contacts').defaultTo('{}');
-    table.enum('status', Object.values(ClientStatus)).notNullable().defaultTo(ClientStatus.INTAKE);
-    table.uuid('clinic_id');
+    table.date('birth_date');
+    table.string('phone');
+    table.string('email');
+    table.text('address');
+    table.text('medical_history');
+    table.uuid('clinic_id').references('id').inTable('clinics').onDelete('SET NULL');
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
 
     // Индексы
-    table.index('full_name');
+    table.index('first_name');
     table.index('last_name');
-    table.index('status');
     table.index('clinic_id');
   });
 
   // Создаем таблицу устройств
   await knex.schema.createTable('devices', (table) => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-    table.string('serial').notNullable().unique();
-    table.string('qr_code');
-    table.jsonb('external_ids').defaultTo('{}');
-    table.string('model').notNullable();
-    table.string('hardware_revision');
-    table.string('firmware_version');
-    table.enum('status', Object.values(DeviceStatus)).notNullable().defaultTo(DeviceStatus.REGISTERED);
-    table.string('current_location');
-    table.uuid('clinic_id');
-    table.uuid('owner_id');
-    table.uuid('assigned_patient_id');
-    table.uuid('responsible_user_id');
-    table.date('warranty_until');
-    table.string('purchase_order');
-    table.timestamp('last_seen_at');
-    table.timestamp('last_sync_at');
-    table.string('telemetry_endpoint');
-    table.jsonb('maintenance_notes').defaultTo('{}');
+    table.string('name').notNullable();
+    table.string('model');
+    table.string('serial_number').unique();
+    table.enum('status', [
+      'REGISTERED',
+      'IN_STOCK',
+      'AT_CLINIC',
+      'AT_PATIENT_HOME',
+      'UNDER_SERVICE',
+      'RMA',
+      'DECOMMISSIONED'
+    ]).notNullable().defaultTo('REGISTERED');
+    table.uuid('clinic_id').references('id').inTable('clinics').onDelete('SET NULL');
+    table.uuid('patient_id').references('id').inTable('clients').onDelete('SET NULL');
+    table.timestamp('last_sync');
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
 
     // Индексы
-    table.index('serial');
-    table.index('model');
+    table.index('name');
+    table.index('serial_number');
     table.index('status');
     table.index('clinic_id');
-    table.index('assigned_patient_id');
+    table.index('patient_id');
   });
 
   // Создаем таблицу разрешений
   await knex.schema.createTable('permissions', (table) => {
-    table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('name').notNullable().unique();
     table.string('description');
-    table.string('resource').notNullable();
-    table.string('action').notNullable();
-    table.boolean('is_system').notNullable().defaultTo(false);
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
+
+    // Индексы
+    table.index('name');
   });
 
   // Создаем таблицу ролей
   await knex.schema.createTable('roles', (table) => {
-    table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('name').notNullable().unique();
     table.string('description');
-    table.boolean('is_system').notNullable().defaultTo(false);
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
+
+    // Индексы
+    table.index('name');
   });
 
   // Создаем таблицу пользователей
   await knex.schema.createTable('users', (table) => {
-    table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('username').notNullable().unique();
     table.string('email').notNullable().unique();
-    table.string('password_hash').notNullable();
     table.string('first_name');
     table.string('last_name');
-    table.string('full_name');
-    table.string('role').notNullable();
-    table.jsonb('roles').defaultTo('[]'); // Additional roles array for auth tests
-    table.jsonb('permissions').defaultTo('[]'); // Additional permissions array for auth tests
-    table.uuid('clinic_id');
-    table.boolean('is_active').notNullable().defaultTo(true);
+    table.boolean('is_active').defaultTo(true);
+    table.uuid('clinic_id').references('id').inTable('clinics').onDelete('SET NULL');
     table.timestamp('last_login');
-    table.timestamp('last_login_at');
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
 
     // Индексы
     table.index('username');
     table.index('email');
-    table.index('role');
+    table.index('is_active');
     table.index('clinic_id');
   });
 
@@ -196,6 +159,7 @@ export async function up(knex: Knex.Knex): Promise<void> {
     table.uuid('client_id').references('id').inTable('clients').onDelete('CASCADE');
     table.uuid('form_template_id').references('id').inTable('form_templates').onDelete('CASCADE');
     table.jsonb('data').notNullable();
+    table.jsonb('template_schema').nullable(); // Схема шаблона на момент сабмишена
     table.enum('status', ['draft', 'completed', 'cancelled']).notNullable().defaultTo('draft');
     table.uuid('created_by');
     table.uuid('completed_by');
@@ -207,42 +171,29 @@ export async function up(knex: Knex.Knex): Promise<void> {
     table.index('client_id');
     table.index('form_template_id');
     table.index('status');
-    table.index('created_by');
+    table.index('created_at');
   });
 
-  // Создаем системные роли
-  const adminRole = await knex('roles').insert({
-    name: SystemRoles.ADMIN,
-    description: 'Администратор системы',
-    is_system: true,
-  }).returning('id');
+  // Создаем таблицу для отложенной аналитики
+  await knex.schema.createTable('pending_analytics', (table) => {
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+    table.uuid('entity_id').notNullable();
+    table.string('entity_type').notNullable();
+    table.jsonb('data').notNullable();
+    table.integer('retry_count').defaultTo(0);
+    table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
+    table.timestamp('next_retry').notNullable().defaultTo(knex.fn.now());
 
-  const userRole = await knex('roles').insert({
-    name: SystemRoles.USER,
-    description: 'Обычный пользователь',
-    is_system: true,
-  }).returning('id');
-
-  // Создаем системного администратора
-  const adminUser = await knex('users').insert({
-    username: 'admin',
-    email: 'admin@reki.local',
-    password_hash: 'temporary_hash',
-    first_name: 'System',
-    last_name: 'Administrator',
-    full_name: 'System Administrator',
-    role: 'admin',
-    is_active: true,
-  }).returning('id');
-
-  // Назначаем роль администратора
-  await knex('user_roles').insert({
-    user_id: adminUser[0].id,
-    role_id: adminRole[0].id,
+    // Индексы
+    table.index('entity_id');
+    table.index('entity_type');
+    table.index('next_retry');
   });
 }
 
-export async function down(knex: Knex.Knex): Promise<void> {
+export async function down(knex: Knex): Promise<void> {
+  // Удаляем таблицы в обратном порядке
+  await knex.schema.dropTableIfExists('pending_analytics');
   await knex.schema.dropTableIfExists('form_entries');
   await knex.schema.dropTableIfExists('form_templates');
   await knex.schema.dropTableIfExists('user_credentials');
@@ -254,4 +205,7 @@ export async function down(knex: Knex.Knex): Promise<void> {
   await knex.schema.dropTableIfExists('devices');
   await knex.schema.dropTableIfExists('clients');
   await knex.schema.dropTableIfExists('clinics');
+
+  // Удаляем расширение
+  await knex.raw('DROP EXTENSION IF EXISTS "uuid-ossp"');
 }

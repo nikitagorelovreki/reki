@@ -20,6 +20,7 @@ export interface FormEntry {
   clinicId?: string;
   status: FormEntryStatus;
   data: Record<string, any>; // JSON с результатами заполнения формы
+  templateSchema?: Record<string, any>; // JSON схема шаблона на момент сабмишена
   score?: number; // Опциональное поле для оценки/баллов
   completedAt?: Date;
   createdAt: Date;
@@ -41,6 +42,7 @@ export class FormEntryModel implements FormEntry {
     clinicId: 'clinic_id',
     status: 'status',
     data: 'data',
+    templateSchema: 'template_schema',
     score: 'score',
     completedAt: 'completed_at',
     createdAt: 'created_at',
@@ -56,6 +58,7 @@ export class FormEntryModel implements FormEntry {
   clinicId?: string;
   status: FormEntryStatus;
   data: Record<string, any>;
+  templateSchema?: Record<string, any>;
   score?: number;
   completedAt?: Date;
   createdAt: Date;
@@ -71,6 +74,7 @@ export class FormEntryModel implements FormEntry {
     this.clinicId = data.clinicId;
     this.status = data.status || FormEntryStatus.IN_PROGRESS;
     this.data = data.data || {};
+    this.templateSchema = data.templateSchema;
     this.score = data.score;
     this.completedAt = data.completedAt;
     this.createdAt = data.createdAt || new Date();

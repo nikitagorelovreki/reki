@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FormEntryModel, FormEntryStatus, PaginatedResult, PaginationOptions } from '@reki/core-domain';
 import { FormEntryRepositoryPort } from '../ports/form-entry-repository.port';
-import { DatabaseService } from '../database/database.service';
+import { InjectKnex } from '@reki/persistence-commons';
 import { objectCamelToSnake, objectSnakeToCamel } from '../utils/case-converter';
 import { Knex } from 'knex';
 
@@ -11,29 +11,37 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
   private readonly fieldMappings: Record<string, string> = {
     formId: 'form_template_id',
     patientId: 'client_id',
-    deviceId: 'device_id',
-    clinicId: 'clinic_id',
     status: 'status',
     data: 'data',
-    score: 'score',
+    templateSchema: 'template_schema',
     completedAt: 'completed_at',
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     createdBy: 'created_by',
-    updatedBy: 'updated_by',
+    completedBy: 'completed_by',
   };
 
-  constructor(private readonly db: DatabaseService) {}
+  constructor(@InjectKnex() private readonly knex: Knex) {}
 
   async create(formEntry: FormEntryModel, trx?: Knex.Transaction): Promise<FormEntryModel> {
-    const dbData = objectCamelToSnake(formEntry, this.fieldMappings);
-    
-    // Ensure data is properly serialized as JSON
-    if (dbData.data && typeof dbData.data === 'object') {
-      dbData.data = JSON.stringify(dbData.data);
+    // Manually create dbData with only fields that exist in the database schema
+    const dbData: any = {
+      id: formEntry.id,
+      form_template_id: formEntry.formId,
+      client_id: formEntry.patientId,
+      status: formEntry.status,
+      data: typeof formEntry.data === 'object' ? JSON.stringify(formEntry.data) : formEntry.data,
+      created_by: formEntry.createdBy,
+      created_at: formEntry.createdAt,
+      updated_at: formEntry.updatedAt,
+    };
+
+    // Add optional fields if they exist
+    if (formEntry.completedAt) {
+      dbData.completed_at = formEntry.completedAt;
     }
     
-    const query = this.db.knex(this.tableName).insert(dbData).returning('*');
+    const query = this.knex(this.tableName).insert(dbData).returning('*');
     if (trx) query.transacting(trx);
     
     const [result] = await query;
@@ -41,7 +49,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
   }
 
   async findById(id: string, trx?: Knex.Transaction): Promise<FormEntryModel | null> {
-    const query = this.db.knex(this.tableName).where({ id }).first();
+    const query = this.knex(this.tableName).where({ id }).first();
     if (trx) query.transacting(trx);
     
     const result = await query;
@@ -54,7 +62,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .select('*')
       .orderBy(dbSortField, sortOrder)
       .limit(limit)
@@ -62,7 +70,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     if (trx) query.transacting(trx);
 
-    const countQuery = this.db.knex(this.tableName).count('* as count');
+    const countQuery = this.knex(this.tableName).count('* as count');
     if (trx) countQuery.transacting(trx);
 
     const [records, [{ count }]] = await Promise.all([query, countQuery]);
@@ -84,7 +92,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
       dbData.data = JSON.stringify(dbData.data);
     }
     
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .where({ id })
       .update({ ...dbData, updated_at: new Date() })
       .returning('*');
@@ -101,7 +109,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
   }
 
   async delete(id: string, trx?: Knex.Transaction): Promise<boolean> {
-    const query = this.db.knex(this.tableName).where({ id }).del();
+    const query = this.knex(this.tableName).where({ id }).del();
     if (trx) query.transacting(trx);
     
     const result = await query;
@@ -114,7 +122,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .where({ client_id: patientId })
       .select('*')
       .orderBy(dbSortField, sortOrder)
@@ -123,7 +131,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     if (trx) query.transacting(trx);
 
-    const countQuery = this.db.knex(this.tableName)
+    const countQuery = this.knex(this.tableName)
       .where({ client_id: patientId })
       .count('* as count');
     
@@ -146,7 +154,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .where({ form_template_id: formId })
       .select('*')
       .orderBy(dbSortField, sortOrder)
@@ -155,7 +163,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     if (trx) query.transacting(trx);
 
-    const countQuery = this.db.knex(this.tableName)
+    const countQuery = this.knex(this.tableName)
 
       .where({ form_template_id: formId })
       .count('* as count');
@@ -179,7 +187,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .where({ device_id: deviceId })
       .select('*')
       .orderBy(dbSortField, sortOrder)
@@ -188,7 +196,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     if (trx) query.transacting(trx);
 
-    const countQuery = this.db.knex(this.tableName)
+    const countQuery = this.knex(this.tableName)
       .where({ device_id: deviceId })
       .count('* as count');
     
@@ -211,7 +219,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .where({ clinic_id: clinicId })
       .select('*')
       .orderBy(dbSortField, sortOrder)
@@ -220,7 +228,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     if (trx) query.transacting(trx);
 
-    const countQuery = this.db.knex(this.tableName)
+    const countQuery = this.knex(this.tableName)
       .where({ clinic_id: clinicId })
       .count('* as count');
     
@@ -243,7 +251,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     const dbSortField = this.fieldMappings[sortBy] || sortBy;
 
-    const query = this.db.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .where({ status })
       .select('*')
       .orderBy(dbSortField, sortOrder)
@@ -252,7 +260,7 @@ export class FormSubmissionRepository implements FormEntryRepositoryPort {
     
     if (trx) query.transacting(trx);
 
-    const countQuery = this.db.knex(this.tableName)
+    const countQuery = this.knex(this.tableName)
       .where({ status })
       .count('* as count');
     

@@ -10,6 +10,7 @@ export enum DeviceStatus {
 
 export class Device {
   id!: string;
+  name!: string;
   serial!: string;
   qrCode?: string;
   externalIds?: Record<string, string>;
@@ -60,6 +61,7 @@ export class Device {
 }
 
 export interface CreateDeviceDto {
+  name?: string;
   serial: string;
   qrCode?: string;
   externalIds?: Record<string, string>;
@@ -79,6 +81,7 @@ export interface CreateDeviceDto {
 }
 
 export interface UpdateDeviceDto {
+  name?: string;
   serial?: string;
   qrCode?: string;
   externalIds?: Record<string, string>;

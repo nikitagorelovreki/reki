@@ -6,6 +6,7 @@ export * from './repositories/device.repository';
 export * from './repositories/client.repository';
 export * from './repositories/form.repository';
 export * from './repositories/form-entry.repository';
+export * from './repositories/form-submission.repository';
 
 // Ports
 export * from './ports/device-repository.port';

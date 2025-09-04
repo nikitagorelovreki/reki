@@ -11,6 +11,7 @@ export class DeviceRepository implements DeviceRepositoryPort {
   async create(data: CreateDeviceDto): Promise<Device> {
     const [device] = await this.knex('devices')
       .insert({
+        name: data.name || data.model || 'Device', // Use name, fallback to model or default
         serial: data.serial,
         qr_code: data.qrCode,
         external_ids: data.externalIds,
@@ -107,6 +108,7 @@ export class DeviceRepository implements DeviceRepositoryPort {
   private mapToDevice(result: any): Device {
     return new Device({
       id: result.id,
+      name: result.name,
       serial: result.serial,
       qrCode: result.qr_code,
       externalIds: result.external_ids,

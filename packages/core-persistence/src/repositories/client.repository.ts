@@ -58,6 +58,16 @@ export class ClientRepository implements ClientRepositoryPort {
     return this.mapToClient(result);
   }
 
+  async findByEmail(email: string): Promise<Client | null> {
+    const result = await this.knex('clients')
+      .whereRaw("contacts->>'email' = ?", [email])
+      .first();
+
+    if (!result) return null;
+
+    return this.mapToClient(result);
+  }
+
   async findAll(page: number = 1, limit: number = 10): Promise<Client[]> {
     const offset = (page - 1) * limit;
 
