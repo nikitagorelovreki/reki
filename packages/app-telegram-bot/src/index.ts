@@ -328,7 +328,7 @@ async function handleDeviceStatusCheck(ctx: Context, deviceId: string) {
     }
 
     const statusEmoji =
-      device.status === DeviceStatus.ACTIVE ||
+      device.status === DeviceStatus.AT_CLINIC ||
       device.status === DeviceStatus.REGISTERED
         ? '✅'
         : '⚠️';
@@ -340,7 +340,7 @@ async function handleDeviceStatusCheck(ctx: Context, deviceId: string) {
         `📍 Местоположение: ${device.currentLocation || 'Не указано'}\n` +
         `📅 Последняя активность: ${device.lastSeenAt?.toLocaleString() || 'Неизвестно'}\n` +
         `${statusEmoji} ${
-          device.status === DeviceStatus.ACTIVE ||
+          device.status === DeviceStatus.AT_CLINIC ||
           device.status === DeviceStatus.REGISTERED
             ? 'Все системы работают нормально'
             : 'Требует внимания'

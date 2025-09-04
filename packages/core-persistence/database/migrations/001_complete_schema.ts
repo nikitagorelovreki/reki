@@ -1,4 +1,4 @@
--сimport { Knex } from 'knex';
+import Knex from 'knex';
 
 // Определяем статусы и роли локально, чтобы избежать проблем с импортом
 const ClientStatus = {
@@ -9,10 +9,13 @@ const ClientStatus = {
 } as const;
 
 const DeviceStatus = {
-  REGISTERED: 'registered',
-  ACTIVE: 'active',
-  MAINTENANCE: 'maintenance',
-  RETIRED: 'retired',
+  REGISTERED: 'REGISTERED',
+  IN_STOCK: 'IN_STOCK',
+  AT_CLINIC: 'AT_CLINIC',
+  AT_PATIENT_HOME: 'AT_PATIENT_HOME',
+  UNDER_SERVICE: 'UNDER_SERVICE',
+  RMA: 'RMA',
+  DECOMMISSIONED: 'DECOMMISSIONED',
 } as const;
 
 const SystemRoles = {
@@ -23,7 +26,7 @@ const SystemRoles = {
 /**
  * Объединенная миграция для создания полной схемы базы данных
  */
-export async function up(knex: Knex): Promise<void> {
+export async function up(knex: Knex.Knex): Promise<void> {
   // Создаем расширение для генерации UUID
   await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
 
@@ -130,6 +133,8 @@ export async function up(knex: Knex): Promise<void> {
     table.string('last_name');
     table.string('full_name');
     table.string('role').notNullable();
+    table.jsonb('roles').defaultTo('[]'); // Additional roles array for auth tests
+    table.jsonb('permissions').defaultTo('[]'); // Additional permissions array for auth tests
     table.uuid('clinic_id');
     table.boolean('is_active').notNullable().defaultTo(true);
     table.timestamp('last_login');
@@ -156,6 +161,14 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE');
     table.uuid('role_id').references('id').inTable('roles').onDelete('CASCADE');
     table.primary(['user_id', 'role_id']);
+  });
+
+  // Создаем таблицу учетных данных пользователей (для тестов)
+  await knex.schema.createTable('user_credentials', (table) => {
+    table.uuid('user_id').primary().references('id').inTable('users').onDelete('CASCADE');
+    table.string('password_hash').notNullable();
+    table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
+    table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now());
   });
 
   // Создаем таблицу шаблонов форм
@@ -229,9 +242,10 @@ export async function up(knex: Knex): Promise<void> {
   });
 }
 
-export async function down(knex: Knex): Promise<void> {
+export async function down(knex: Knex.Knex): Promise<void> {
   await knex.schema.dropTableIfExists('form_entries');
   await knex.schema.dropTableIfExists('form_templates');
+  await knex.schema.dropTableIfExists('user_credentials');
   await knex.schema.dropTableIfExists('user_roles');
   await knex.schema.dropTableIfExists('role_permissions');
   await knex.schema.dropTableIfExists('users');

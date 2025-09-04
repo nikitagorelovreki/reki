@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --passWithNoTests",
+    "migrate:test": "knex migrate:latest --env test"
   },
   "dependencies": {
     "@reki/core-domain": "file:../core-domain",

@@ -154,12 +154,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     label: 'Выйти',
                     onClick: handleLogout,
                     danger: true,
+                    'data-testid': 'logout-button',
                   },
                 ],
               }}
               trigger={['click']}
             >
-              <Space style={{ cursor: 'pointer' }}>
+              <Space style={{ cursor: 'pointer' }} data-testid="user-dropdown">
                 <Avatar
                   size='default'
                   icon={<UserOutlined />}

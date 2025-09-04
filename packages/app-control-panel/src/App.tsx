@@ -2,8 +2,9 @@ import React from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import ruRU from 'antd/locale/ru_RU';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import LoginForm from './components/Auth/LoginForm';
 import MainLayout from './components/Layout/MainLayout';
 import { useAuthenticatedAPI } from './hooks/useAuthenticatedAPI';
 import DashboardPage from './pages/Dashboard/DashboardPage';
@@ -14,7 +15,25 @@ import ProfilePage from './pages/Profile/ProfilePage';
 import './App.css';
 
 const AppContent: React.FC = () => {
+  const { user, token, isLoading } = useAuth();
   useAuthenticatedAPI();
+
+  if (isLoading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh' 
+      }}>
+        Loading...
+      </div>
+    );
+  }
+
+  if (!token || !user) {
+    return <LoginForm />;
+  }
   
   return (
     <Router>

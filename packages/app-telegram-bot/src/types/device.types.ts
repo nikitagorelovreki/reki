@@ -1,11 +1,12 @@
 // Типы для устройств (аналогично API слою)
 export enum DeviceStatus {
-  REGISTERED = 'registered',
-  ACTIVE = 'active',
-  MAINTENANCE = 'maintenance',
-  RETIRED = 'retired',
-  LOST = 'lost',
-  DAMAGED = 'damaged',
+  REGISTERED = 'REGISTERED',
+  IN_STOCK = 'IN_STOCK',
+  AT_CLINIC = 'AT_CLINIC',
+  AT_PATIENT_HOME = 'AT_PATIENT_HOME',
+  UNDER_SERVICE = 'UNDER_SERVICE',
+  RMA = 'RMA',
+  DECOMMISSIONED = 'DECOMMISSIONED',
 }
 
 export interface Device {

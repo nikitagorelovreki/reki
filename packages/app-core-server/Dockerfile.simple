@@ -1,0 +1,45 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install basic dependencies
+RUN apk add --no-cache curl
+
+# Create a simple Express server
+RUN npm init -y && npm install express cors dotenv
+
+# Create simple health server
+COPY <<EOF app.js
+const express = require('express');
+const app = express();
+const port = 3002;
+
+app.use(express.json());
+app.use(require('cors')());
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', service: 'reki-core-server', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/devices', (req, res) => {
+  res.json({ devices: [], message: 'Core server running' });
+});
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(\`🚀 Reki Core Server running on port \${port}\`);
+});
+EOF
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S reki -u 1001
+
+RUN chown -R reki:nodejs /app
+USER reki
+
+EXPOSE 3002
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3002/health || exit 1
+
+CMD ["node", "app.js"]

@@ -1,0 +1,50 @@
+{
+  "name": "@reki/test-app-core-server",
+  "version": "0.1.0",
+  "description": "Test package for Core Server - Backend functional, API integration, and E2E tests",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests",
+    "test:level1": "jest --testPathPattern=level1",
+    "test:level2": "jest --testPathPattern=level2", 
+    "test:level3": "jest --testPathPattern=level3",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@reki/app-core-server": "workspace:*",
+    "@reki/core-api": "workspace:*",
+    "@reki/core-service": "workspace:*",
+    "@reki/core-persistence": "workspace:*",
+    "@reki/core-domain": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "@types/supertest": "^2.0.16",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.8.3",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src"],
+    "testMatch": [
+      "**/__tests__/**/*.test.ts"
+    ],
+    "setupFilesAfterEnv": ["<rootDir>/src/test-setup.ts"],
+    "testTimeout": 30000,
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@reki)/)"
+    ],
+    "moduleNameMapper": {
+      "^@reki/(.*)$": "<rootDir>/../$1/src"
+    }
+  }
+}

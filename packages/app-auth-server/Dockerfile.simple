@@ -1,0 +1,59 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install basic dependencies
+RUN apk add --no-cache curl
+
+# Create a simple Express server
+RUN npm init -y && npm install express cors dotenv jsonwebtoken bcrypt
+
+# Create simple auth server
+COPY <<EOF app.js
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const app = express();
+const port = 3001;
+
+app.use(express.json());
+app.use(require('cors')());
+
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key';
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', service: 'reki-auth-server', timestamp: new Date().toISOString() });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  // Simple mock auth
+  if (username === 'admin' && password === 'admin') {
+    const token = jwt.sign({ userId: 1, username: 'admin', role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ token, user: { id: 1, username: 'admin', role: 'ADMIN' } });
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
+
+app.get('/api/auth/profile', (req, res) => {
+  res.json({ id: 1, username: 'admin', role: 'ADMIN' });
+});
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(\`🚀 Reki Auth Server running on port \${port}\`);
+});
+EOF
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S reki -u 1001
+
+RUN chown -R reki:nodejs /app
+USER reki
+
+EXPOSE 3001
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3001/health || exit 1
+
+CMD ["node", "app.js"]

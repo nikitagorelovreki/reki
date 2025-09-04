@@ -187,15 +187,15 @@ export class UserRepository implements UserRepositoryPort {
 
   async validateCredentials(username: string, password: string): Promise<boolean> {
     const user = await this.knex('users')
-      .select('password')
+      .select('password_hash')
       .where('username', username)
       .first();
 
     if (!user) return false;
 
-    // В реальном приложении здесь должна быть проверка хеша пароля
-    // Например: return bcrypt.compare(password, user.password);
-    return user.password === password;
+    // Используем bcrypt для проверки хеша пароля
+    const bcrypt = await import('bcrypt');
+    return bcrypt.compare(password, user.password_hash);
   }
 
   async findByIds(ids: string[]): Promise<User[]> {

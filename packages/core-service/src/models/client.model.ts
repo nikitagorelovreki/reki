@@ -7,6 +7,9 @@ export interface ServiceClient {
   dob?: string;
   diagnosis?: string;
   contacts?: Record<string, any>;
+  email?: string;
+  phone?: string;
+  address?: string;
   status: string;
   clinicId?: string;
   createdAt: string;

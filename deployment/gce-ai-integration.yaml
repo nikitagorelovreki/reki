@@ -1,0 +1,72 @@
+# Google Cloud AI Platform integration for Reki
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-config
+  namespace: reki-production
+data:
+  vertex-ai-config: |
+    project_id: "reki-medical-platform"
+    location: "us-central1"
+    models:
+      - name: "text-bison"
+        endpoint: "text-bison@001"
+      - name: "chat-bison"
+        endpoint: "chat-bison@001"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reki-ai-service
+  namespace: reki-production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reki-ai
+  template:
+    metadata:
+      labels:
+        app: reki-ai
+    spec:
+      serviceAccountName: vertex-ai-service-account
+      containers:
+      - name: ai-service
+        image: gcr.io/PROJECT_ID/reki-ai:latest
+        ports:
+        - containerPort: 3005
+        env:
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "reki-medical-platform"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/var/secrets/google/key.json"
+        - name: VERTEX_AI_LOCATION
+          value: "us-central1"
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-cloud-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reki-ai-service
+  namespace: reki-production
+spec:
+  selector:
+    app: reki-ai
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3005
+  type: ClusterIP

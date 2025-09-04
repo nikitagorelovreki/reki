@@ -88,7 +88,7 @@ export class TelegramBotService {
       `🔧 Статус: ${device.status}`,
       `📍 Местоположение: ${device.currentLocation || 'Не указано'}`,
       `📅 Последняя активность: ${device.lastSeenAt ? new Date(device.lastSeenAt).toLocaleString() : 'Неизвестно'}`,
-      device.status === DeviceStatus.ACTIVE || device.status === DeviceStatus.REGISTERED
+      device.status === DeviceStatus.AT_CLINIC || device.status === DeviceStatus.REGISTERED
         ? '✅ Все системы работают нормально'
         : '⚠️ Требует внимания',
     ].join('\n');

@@ -34,7 +34,7 @@ async function seed(): Promise<void> {
           address: `Улица Примерная, дом ${i}`,
         }),
         dob: new Date(1980 + i, 0, i),
-        status: i % 2 === 0 ? 'active_therapy' : 'intake',
+        status: i % 2 === 0 ? 'active' : 'intake',
         diagnosis: `Тестовый диагноз #${i}`,
         created_at: new Date(),
         updated_at: new Date(),
@@ -58,7 +58,7 @@ async function seed(): Promise<void> {
         id,
         serial: `SN${i}00${i}`,
         model: `Устройство ${i}`,
-        status: i % 2 === 0 ? 'AT_CLINIC' : 'IN_STOCK',
+        status: i % 2 === 0 ? 'AT_CLINIC' : 'REGISTERED',
         last_seen_at: new Date(),
         maintenance_notes: JSON.stringify({
           notes: `Тестовое устройство #${i}`,
@@ -98,8 +98,7 @@ async function seed(): Promise<void> {
         title: formData.title,
         type: formData.type,
         description: formData.description,
-        status: 'active',
-        version: 1,
+        is_active: true,
         schema: JSON.stringify(formData.schema),
         created_at: new Date(),
         updated_at: new Date(),
@@ -125,8 +124,8 @@ async function seed(): Promise<void> {
           const id = uuidv4();
           await db('form_entries').insert({
             id,
-            form_id: lfkForm.id,
-            patient_id: client.id,
+            form_template_id: lfkForm.id,
+            client_id: client.id,
             status: 'completed',
             data: JSON.stringify({
               therapistName: 'Доктор Иванов',
@@ -162,8 +161,8 @@ async function seed(): Promise<void> {
           const id = uuidv4();
           await db('form_entries').insert({
             id,
-            form_id: fimForm.id,
-            patient_id: client.id,
+            form_template_id: fimForm.id,
+            client_id: client.id,
             status: 'completed',
             data: JSON.stringify({
               therapistName: 'Доктор Петров',

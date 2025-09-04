@@ -7,7 +7,9 @@
     "dev": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js --mode production",
     "lint": "echo 'TypeScript checking skipped for app-control-panel'",
-    "preview": "webpack serve --config webpack.config.js --mode production"
+    "preview": "webpack serve --config webpack.config.js --mode production",
+    "test:e2e": "playwright test __tests__/e2e/login.test.js",
+    "test:e2e:headed": "playwright test __tests__/e2e/login.test.js --headed"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
@@ -28,6 +30,7 @@
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.40.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^5.0.0",
@@ -40,6 +43,7 @@
     "globals": "^16.3.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.4",
+    "playwright": "^1.40.0",
     "style-loader": "^4.0.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
